@@ -56,6 +56,11 @@ const OrderSchema = new Schema({
     required: true,
     default: Date.now(),
   },
+  status: {
+    type: String,
+    enum: ['notDistributed', 'distributed', 'acceptedForExecution'],
+    default: 'notDistributed',
+  },
   isDelivered: {
     type: Boolean,
     default: false,
