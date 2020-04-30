@@ -4,10 +4,10 @@ import AnonymousMenu from "./AnonymousMenu";
 
 const Toolbar = () => {
   return (
-    <nav className="navbar navbar-expand navbar-dark bg-dark">
-      <NavLink className="navbar-brand" to="/"><h3>Delivery</h3></NavLink>
+    <nav className="navbar navbar-expand navbar-dark">
+      <NavLink className="navbar-brand" to="/"><h3 className="text-dark">Delivery</h3></NavLink>
 
-      <div className="collapse navbar-collapse ">
+      <div className="collapse navbar-collapse d-flex justify-content-end">
         <AnonymousMenu />
 
       </div>

@@ -3,14 +3,16 @@ import {NavLink} from "react-router-dom";
 
 const AnonymousMenu = () => (
 	<>
-		<ul className="navbar-nav ml-auto">
-			<li className="nav-item h5">
-				<NavLink className="nav-link" to="register">Sign up</NavLink>
-			</li>
-			<li className="nav-item h5">
-				<NavLink className="nav-link" to="login">Login</NavLink>
-			</li>
-		</ul>
+
+		<div className="btn-group" role="group">
+			<button type="button" className="btn bg-warning">
+				<NavLink className="nav-link text-white" to="register">Регистрация</NavLink>
+			</button>
+
+			<button type="button" className="btn btn-secondary">
+				<NavLink className="nav-link text-white" to="login">Войти</NavLink>
+			</button>
+		</div>
 	</>
 );
 
