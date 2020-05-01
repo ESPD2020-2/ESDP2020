@@ -1,12 +1,11 @@
 import React from 'react';
-import MainRoute from "../../../MainRoute";
+import FormOrder from "../../../containers/FormOrder/FormOrder";
 
 
 const MainSection = () => {
   return (
     <div className="container ">
-      <MainRoute/>
-
+      <FormOrder/>
     </div>
   );
 };
