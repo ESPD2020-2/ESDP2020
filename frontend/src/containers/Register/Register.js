@@ -24,15 +24,16 @@ class Register extends Component {
     };
 
     render() {
+        console.log(this.props.error);
         return (
             <div className="Register">
                 {this.props.loading ? <Spinner/> :
                     <>
                         <h1>Register</h1>
                         < form onSubmit={this.onSubmitHandler}>
-                            {this.props.error && <div className="alert alert-danger" role="alert">
-                                {this.props.error}
-                            </div>}
+                            {/*{this.props.error && <div className="alert alert-danger" role="alert">*/}
+                            {/*    {this.props.error}*/}
+                            {/*</div>}*/}
                             <FormElement
                                 propertyName="username"
                                 title="Username"
