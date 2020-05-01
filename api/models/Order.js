@@ -6,6 +6,7 @@ const OrderSchema = new Schema({
   orderNumber: {
     type: String,
     required: true,
+    default: () => nanoid(8),
   },
   customer: {
     type: Schema.Types.ObjectId,
@@ -17,18 +18,31 @@ const OrderSchema = new Schema({
     ref: 'User',
     default: null,
   },
-  deliveryAddress: {
-    type: [String],
+  pickupEntityName: { //имя человека или название организации, у которых нужно забрать доставку
+    type: String,
+  },
+  pickupEntityPhone: {
+    type: String,
+    validate: {
+      validator: function(v) {
+        return /\+996\(\d{3}\)\d{2}-\d{2}-\d{2}/.text(v);
+      },
+      message: props => `${props.value} is not a valid phone number!`
+    },
     required: true,
   },
   pickupAddress: {
     type: [String],
     required: true,
   },
-  pickupEntityName: { //имя человека или название организации, у которых нужно забрать доставку
+  deliveryEntityName: { //имя человека или название организации, которому осуществляется доставка
     type: String,
   },
-  phoneNumber: { //показывать только для неавторизованного пользователя
+  deliveryEntityAddress: {
+    type: [String],
+    required: true,
+  },
+  deliveryEntityPhone: {
     type: String,
     validate: {
       validator: function(v) {
@@ -58,13 +72,20 @@ const OrderSchema = new Schema({
   },
   status: {
     type: String,
-    enum: ['notDistributed', 'distributed', 'acceptedForExecution'],
-    default: 'notDistributed',
+    enum: [
+      'created', //создание
+      'transferred', //передача курьеру
+      'accepted', //принятием курьером
+      'rejected', //отказ от выполнения заказа курьером после принятия этого заказа
+      'canceled', //отказ от выполнения заказа клиентом после принятия этого заказа
+      'delivered', //доставлено курьером
+    ],
+    default: 'created',
   },
-  isDelivered: {
-    type: Boolean,
-    default: false,
-  }
+  additionalInfo: {
+    type: String,
+    default: null,
+  },
 });
 
 const Order = mongoose.model('Order', OrderSchema);

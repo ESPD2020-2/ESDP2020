@@ -7,7 +7,7 @@ const SALT_WORK_FACTOR = 10;
 const Schema = mongoose.Schema;
 
 const UserSchema = new Schema({
-  username: { //валидация, но если не введено имя пользователя, ставить анонимный
+  username: {
     type: String,
     required: true,
     unique: true,
@@ -29,24 +29,34 @@ const UserSchema = new Schema({
   },
   phone: {
     type: String,
-    required: true,
-  },
-  ordersHistory: [
-    {
-      type: Schema.Types.ObjectId,
-      ref: 'Order',
-    }
-  ],
-  activeOrder: {
-    type: Schema.Types.ObjectId,
-    ref: 'Order',
-  },
-  totalAmount: {
-    type: String,
+    validate: {
+      validator: function(v) {
+        return /\+996\(\d{3}\)\d{2}-\d{2}-\d{2}/.text(v);
+      },
+      message: props => `${props.value} is not a valid phone number!`
+    },
     required: true,
   },
   email: {
     type: String,
+    trim: true,
+    lowercase: true,
+    unique: true,
+    validate: { //проверить валидацию
+      validator: function(email) {
+        const phoneRegex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,4})+$/;
+        return phoneRegex.test(email);
+      },
+    },
+    match: [/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,4})+$/, 'Please fill a valid email address'],
+  },
+  addedToWhiteList: { //редактирование доступно только операторам, админам и супер-админу, не отображается у пользователя
+    type: Boolean,
+    default: null,
+  },
+  addedToBlackList: { //то же самое
+    type: Boolean,
+    default: null,
   },
   token: {
     type: String,
@@ -55,11 +65,9 @@ const UserSchema = new Schema({
   role: {
     type: String,
     required: true,
-    default: 'unauthorized_user',
-    enum: ['unauthorized_user', 'user', 'courier', 'operator', 'admin', 'super_admin'],
+    default: 'user',
+    enum: ['user', 'courier', 'operator', 'admin', 'super_admin'],
   },
-  facebookId: String,
-  googleId: String,
 });
 
 UserSchema.methods.generateToken = function() {
