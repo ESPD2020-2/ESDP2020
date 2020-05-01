@@ -1,65 +1,71 @@
 import React from 'react';
-import LocationForm from "../../components/UI/OrderFormCategory/LocationForm";
-import GruzForm from "../../components/UI/OrderFormCategory/GruzForm";
-import ClientForm from "../../components/UI/OrderFormCategory/ClientForm";
 import './FormOrder.css';
 
 class FormOrder extends React.Component {
-  state ={
+  state = {
     formType: 'pass'
   }
 
-  formTypeChangeHandler = event => {
-    this.setState({
-      formType: event.target.name
-    })
-  }
 
-  onSubmitHandler = event => {
-    event.preventDefault();
-    const types = ['pass', 'weight', 'clientData'];
-    for (let i = 0; i < types.length; i++) {
-      if (this.state.formType === types[i]) {
-        this.setState({formType: types[i + 1]})
-      }
-    }
-  }
-
-
-  activeChangeHandler = event => {
-    if (event.target.name === this.state.formType) {
-      return "active"
-    } else return ''
-  }
   render() {
-    let form;
-
-    if (this.state.formType === 'pass') {
-      form = <LocationForm onSubmit={this.onSubmitHandler}/>
-    } else if (this.state.formType === 'weight') {
-      form = <GruzForm onSubmit={this.onSubmitHandler}/>
-    } else if (this.state.formType === 'clientData') {
-      form = <ClientForm/>
-    }
     return (
-      <>
-        <div style={{marginTop: '30%'}}/>
-        <h3 className='text-light font-weight-bolder text-uppercase ml-3'>Расчитайте стоимость доставки</h3>
-        <ul className="list-group list-group-horizontal ">
-          <li className="list-group-item bg-transparent border-0">
-            <a onClick={this.formTypeChangeHandler} name='pass' href='#' className='text-light text-uppercase' >маршрут</a>
-          </li>
-          <li className="list-group-item bg-transparent border-0">
-            <a onClick={this.formTypeChangeHandler} name='weight' href='#' className='text-light text-uppercase'>грузе</a>
-          </li>
-          <li className="list-group-item bg-transparent border-0">
-            <a onClick={this.formTypeChangeHandler} name='clientData' href='#' className='text-light text-uppercase'>контакты</a>
-          </li>
-        </ul>
-        {form}
-      </>
-    );
-  }
-}
+      <div className="row" style={{marginTop: '10%'}}>
+        <form className='w-100'>
 
-export default FormOrder;
+          <div className="form-group">
+            <label htmlFor="inputAddress font-weight-bold">Адрес отправителя</label>
+            <input type="text" className="form-control" id="inputAddress"
+                   placeholder="Начните вводить улицу отправителя, номер дома через пробел"/>
+          </div>
+          <div className="form-group">
+            <label htmlFor="inputAddress2 font-weight-bold">Адрес получателя</label>
+            <input type="text" className="form-control" id="inputAddress2"
+                   placeholder="Начните вводить улицу отправителя, номер дома через пробел"/>
+          </div>
+
+          <div className='pt-4 pb-4'>
+          <p className='font-weight-bold'>Вес груза:</p>
+          <div className="form-check form-check-inline">
+
+            <input className="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1"
+                   value="option1"/>
+              <label className="form-check-label" htmlFor="inlineRadio1">до 2.5кг</label>
+          </div>
+          <div className="form-check form-check-inline pl-5 pr-5">
+            <input className="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2"
+                   value="option2"/>
+              <label className="form-check-label" htmlFor="inlineRadio2">до 5кг</label>
+          </div>
+            <div className="form-check form-check-inline">
+              <input className="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2"
+                     value="option2"/>
+              <label className="form-check-label" htmlFor="inlineRadio2">до 10кг</label>
+            </div>
+          </div>
+
+          <div className="form-row">
+            <div className="form-group col-md-12">
+              <label htmlFor="inputEmail4" className='font-weight-bold'>Номер телефона отправителя</label>
+              <input type="tel" className="form-control" id="inputEmail4" placeholder='+996(___)__-__-__'/>
+              <label htmlFor="exampleFormControlTextarea1" >Дополнительная информация</label>
+              <textarea className="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+            </div>
+
+            <div className="form-group col-md-12">
+              <label htmlFor="inputEmail5" className='font-weight-bold'>Номер телефона получателя</label>
+              <input type="tel" className="form-control" id="inputEmail5" placeholder='+996(___)__-__-__'/>
+              <label htmlFor="exampleFormControlTextarea2" >Дополнительная информация</label>
+              <textarea className="form-control" id="exampleFormControlTextarea2" rows="3"></textarea>
+            </div>
+
+
+          </div>
+
+          <button type="submit" className="btn btn-primary">Оформить заказ</button>
+        </form>
+      </div>
+  );
+  }
+  }
+
+  export default FormOrder;

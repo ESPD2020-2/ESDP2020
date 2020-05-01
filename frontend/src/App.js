@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import Toolbar from "./components/UI/Toolbar/Toolbar";
-import Routes from "./Routes";
+import RoutesAuthorization from "./RoutesAuthorization";
 import MainSection from "./components/UI/MainSection/MainSection";
 import BlueBlock from "./components/UI/BlueBlock/BlueBlock";
 

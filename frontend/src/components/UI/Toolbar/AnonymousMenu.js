@@ -10,7 +10,7 @@ const AnonymousMenu = () => (
 			</button>
 
 			<button type="button" className="btn btn-secondary">
-				<NavLink className="nav-link text-white" to="login">Войти</NavLink>
+				<NavLink className="nav-link text-white" to="/">Войти</NavLink>
 			</button>
 		</div>
 	</>

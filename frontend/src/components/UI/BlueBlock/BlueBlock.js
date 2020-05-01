@@ -1,5 +1,5 @@
 import React from 'react';
-import Routes from "../../../Routes";
+import RoutesAuthorization from "../../../RoutesAuthorization";
 
 const BlueBlock = () => {
   return (
@@ -12,7 +12,7 @@ const BlueBlock = () => {
       </p>
       </div>
 
-      <Routes/>
+      <RoutesAuthorization/>
 
     </>
   );
