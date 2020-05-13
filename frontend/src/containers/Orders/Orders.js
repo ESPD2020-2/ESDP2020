@@ -4,12 +4,17 @@ import OrderRow from "../../components/OrderRow/OrderRow";
 import {
   removeOrder,
   transferToCourier,
+  getOrders
 } from "../../store/actions/ordersActions";
 import { initialState } from "../../constants";
 import "./Orders.css";
 
 class Orders extends Component {
   state = initialState;
+
+  componentDidMount() {
+    this.props.getOrders()
+  }
 
   // componentDidMount() {
   //   if (this.props.user) {
@@ -49,9 +54,6 @@ class Orders extends Component {
   //   this.websocket.send(JSON.stringify(message));
   //   this.setState({open: false});
   // };
-
-  // scrollToBottom = () => {
-  //   this.el.scrollIntoView({ block: "end", behavior: "smooth" });
   // };
 
   selectCourierHandler = (e, id) => {
@@ -72,10 +74,9 @@ class Orders extends Component {
   };
 
   render = () => {
+    console.log(this.props.orders)
     return (
-      <div className="container">
-        <h2>Список заказов</h2>
-        <table className="orders">
+        <table className="orders pt-2">
           <thead>
             <tr>
               <th>№ заказа</th>
@@ -89,27 +90,23 @@ class Orders extends Component {
             </tr>
           </thead>
           <tbody>
-            {this.state.orders.map(
+            {this.props.orders.map(
               (ord) =>
-                ord.status === "notDistributed" && (
+                ord.status === "created" && (
                   <OrderRow
                     key={ord._id}
                     id={ord._id}
                     ordNum={ord.orderNumber}
                     createdAt={ord.createdAt}
-                    customerName={
-                      ord.customer
-                        ? ord.customer.displayName
-                        : ord.pickupEntityName
-                    }
-                    customerPhone={
-                      ord.customer ? ord.customer.phone : ord.phoneNumber
-                    }
+                    surname={ord.customer.surname }
+                    name={ord.customer.name}
+                    patronymic={ord.customer.patronymic}
+                    phone={ord.customer.phone}
                     couriers={this.state.couriers}
                     selectedCourier={ord.courier}
                     pickupTime={ord.pickupTime}
-                    amount={ord.paymentAmount}
-                    status={ord.isDelivered}
+                    amount={ord.totalAmount}
+                    status={ord.status}
                     removeOrder={() => this.props.removeOrder(ord.courier)}
                     transferToCourier={() =>
                       this.transferToCourierHandler(ord.courier)
@@ -120,18 +117,19 @@ class Orders extends Component {
             )}
           </tbody>
         </table>
-      </div>
     );
   };
 }
 
 const mapStateToProps = (state) => ({
   user: state.users.user,
+  orders: state.ord.orders
 });
 
 const mapDispatchToProps = (dispatch) => ({
   removeOrder: (orderId) => dispatch(removeOrder(orderId)),
   transferToCourier: (data) => dispatch(transferToCourier(data)),
+  getOrders: () => dispatch(getOrders()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Orders);

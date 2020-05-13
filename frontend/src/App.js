@@ -1,16 +1,16 @@
-import React, { Component } from "react";
+import React from "react";
 import Toolbar from "./components/UI/Toolbar/Toolbar";
-import Routes from "./Routes";
+import Routes from "./routes/Routes";
+import {ToastContainer} from "react-toastify";
 
-class App extends Component {
-  render() {
-    return (
-      <>
-        <Toolbar />
-        <Routes />
-      </>
-    );
-  }
-}
+const App = () => {
+	return (
+		<>
+			<ToastContainer autoClose={3000} />
+			<Toolbar />
+			<Routes />
+		</>
+	);
+};
 
 export default App;

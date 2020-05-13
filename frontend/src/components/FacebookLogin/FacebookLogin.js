@@ -2,7 +2,8 @@ import React from 'react';
 import FacebookLoginButton from 'react-facebook-login/dist/facebook-login-render-props';
 import {useDispatch} from "react-redux";
 import {loginWithFacebook} from "../../store/actions/usersActions";
-import './FacebookLogin.css';
+import Button from "@material-ui/core/Button";
+import FacebookIcon from '@material-ui/icons/Facebook';
 
 const FacebookLogin = props => {
     const dispatch = useDispatch();
@@ -19,12 +20,15 @@ const FacebookLogin = props => {
             callback={callback}
             fields="name,email,picture"
             render={renderProps => (
-                <button
-                    className="facebookButton"
+                <Button 
+                    color="primary" 
+                    variant="contained"
+                    startIcon={<FacebookIcon />}
                     onClick={renderProps.onClick}
+                    fullWidth
                 >
-                    Login with Facebook
-                </button>
+                    Войти через Facebook
+                </Button>
             )}
         />
     );

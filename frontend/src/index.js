@@ -6,6 +6,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import store, {history} from './store/configureStore';
 
 import App from './App';
+import 'react-toastify/dist/ReactToastify.css';
 
 
 

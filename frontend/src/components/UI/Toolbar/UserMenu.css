@@ -1,0 +1,16 @@
+.dropdown-title{
+  background: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+.dropdown-item.active {
+  color: #16181b !important;
+  text-decoration: none;
+  background-color: rgba(0,0,0,.075) !important;
+}
+
+.dropdown-item:focus {
+  color: #16181b !important;
+  background-color: rgba(0,0,0,.075) !important;
+}

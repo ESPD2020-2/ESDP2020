@@ -7,8 +7,8 @@ const Order = require('../models/Order');
 
 const router = express.Router();
 
-router.get('/', [auth, permit('operator', 'admin', 'super_admin')], async (req, res) => {
-  const orders = await Order.find();
+router.get('/',  async (req, res) => {
+  const orders = await Order.find().populate('customer');
   res.send(orders);
 });
 
@@ -26,23 +26,20 @@ router.get('/:id', [auth, permit('courier', 'operator', 'admin', 'super_admin')]
   }
 });
 
-router.post('/', [auth, permit('user', 'client', 'operator', 'admin', 'super_admin')], async (req, res) => {
+router.post('/', async (req, res) => {
   try {
     const orderData = {
       deliveryAddress: req.body.deliveryAddress,
       pickupAddress: req.body.pickupAddress,
-      pickupEntityName: req.body.pickupEntityName,
-      phoneNumber: req.body.phoneNumber,
+      customer: req.body.customerId,
       paymentAmount: req.body.paymentAmount,
-      status: req.body.status,
-      comments: req.body.comments,
     };
 
     const order = new Order(orderData);
     await order.save();
-
-    return res.send(order);
+    return res.send(order._id);
   } catch (error) {
+    console.log(error)
     return res.send(error);
   }
 });

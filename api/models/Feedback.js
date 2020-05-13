@@ -1,24 +1,29 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
 const Schema = mongoose.Schema;
 
-const FeedbackSchema = new Schema({
-  client: {
-    type: Schema.Types.ObjectId,
-    ref: 'User',
-    default: null,
+const FeedbackSchema = new Schema(
+  {
+    client: {
+      type: Schema.Types.ObjectId,
+      ref: "User",
+      default: null,
+    },
+    feedbackText: {
+      type: String,
+      required: true,
+    },
+    postedAt: {
+      type: Date,
+      required: true,
+      default: Date.now(),
+    },
   },
-  feedbackText: {
-    type: String,
-    required: true,
-  },
-  postedAt: {
-    type: Date,
-    required: true,
-    default: Date.now(),
-  },
-});
+  {
+    versionKey: false,
+  }
+);
 
-const Feedback = mongoose.model('Feedback', FeedbackSchema);
+const Feedback = mongoose.model("Feedback", FeedbackSchema);
 
 module.exports = Feedback;

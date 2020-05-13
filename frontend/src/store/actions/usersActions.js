@@ -24,6 +24,7 @@ export const logoutUserSuccess = () => ({type: LOGOUT_USER_SUCCESS});
 export const registerUser = userData => {
     return async dispatch => {
         try {
+            console.log('Внутри юзер')
             dispatch(registerUserRequest());
             await axiosApi.post('/users', userData);
             dispatch(registerUserSuccess());

@@ -12,6 +12,7 @@ router.post('/', async (req, res) => {
   const user = new User({
     username: req.body.username,
     password: req.body.password,
+    customer: req.body.customer
   });
 
   try {
@@ -24,7 +25,7 @@ router.post('/', async (req, res) => {
 });
 
 router.post('/sessions', async (req, res) => {
-  const user = await User.findOne({username: req.body.username});
+  const user = await User.findOne({username: req.body.username}).populate('customer');
 
   if (!user) {
     return res.status(400).send({error: 'Username or password not correct!'});

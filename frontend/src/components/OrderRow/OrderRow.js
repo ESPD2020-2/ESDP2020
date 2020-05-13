@@ -8,8 +8,8 @@ const OrderRow = (props) => {
         <NavLink to={`/orders/${props.id}`}>{props.ordNum}</NavLink>
       </td>
       <td>{props.createdAt}</td>
-      <td>{props.customerName}</td>
-      <td>{props.customerPhone}</td>
+      <td>{`${props.surname} ${props.name} ${props.patronymic}`}</td>
+      <td>{props.phone}</td>
       <td>{props.amount}</td>
       <td>
         <select onChange={props.selectCourier} className="form-control">
