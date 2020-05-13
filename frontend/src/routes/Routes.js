@@ -4,7 +4,8 @@ import Register from "../containers/Register/Register";
 import Login from "../containers/Login/Login";
 import AdminLayout from "../components/AdminLayout/AdminLayout";
 import NewOrder from "../containers/NewOrder/NewOrder";
-// import Home from "../containers/Home/Home";
+import FAQ from "../containers/FAQ/FAQ";
+import Contacts from "../containers/Contacts/Contacts";
 
 const Routes = () => {
 
@@ -14,6 +15,8 @@ const Routes = () => {
         <Route path="/login" exact component={Login} />
         <Route path="/adm" component={AdminLayout} />
         <Route path="/add-order" component={NewOrder} />
+        <Route path="/faq" component={FAQ} />
+        <Route path="/contacts" component={ Contacts} />
     </Switch>
   );
 };
