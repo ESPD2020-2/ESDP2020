@@ -2,14 +2,13 @@ const mongoose = require("mongoose");
 
 const Schema = mongoose.Schema;
 
-const FeedbackSchema = new Schema(
-  {
-    client: {
+const ReviewSchema = new Schema({
+    author: {
       type: Schema.Types.ObjectId,
       ref: "User",
       default: null,
     },
-    feedbackText: {
+    reviewText: {
       type: String,
       required: true,
     },
@@ -18,12 +17,15 @@ const FeedbackSchema = new Schema(
       required: true,
       default: Date.now(),
     },
+    rating: {
+      type: [mongoose.Schema.Types.Mixed],
+    },
   },
   {
     versionKey: false,
   }
 );
 
-const Feedback = mongoose.model("Feedback", FeedbackSchema);
+const Review = mongoose.model("Review", ReviewSchema);
 
-module.exports = Feedback;
+module.exports = Review;
