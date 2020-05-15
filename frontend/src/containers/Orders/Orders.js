@@ -35,7 +35,7 @@ class Orders extends Component {
   //           //   this.setState({connectedUsers: data.users});
   //           //   break;
   //           // case 'AUTHENTICATION_ERROR':
-  //           //   this.setState({error: data.error, show: !this.state.show});
+  //           //   this.setState({Error1: data.Error1, show: !this.state.show});
   //           //   break;
   //           default:
   //             console.log('default')

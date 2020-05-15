@@ -25,7 +25,7 @@ export const createCustomer = customerData => {
                 toast.warn(error.response.data);
                 dispatch(createCustomerFailure(error.response.data));
             } else {
-                dispatch(createCustomerFailure({global: 'Network error or no internet'}));
+                dispatch(createCustomerFailure({global: 'Network Error1 or no internet'}));
             }
         }
     }

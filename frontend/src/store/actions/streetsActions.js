@@ -18,11 +18,11 @@ export const getStreetsFailure = (error) => ({type: GET_STREETS_FAILURE, error})
 
 // export const createOrderRequest = () => ({type: CREATE_ORDER_REQUEST});
 // export const createOrderSuccess = () => ({type: CREATE_ORDER_SUCCESS});
-// export const createOrderFailure = (error) => ({type: CREATE_ORDER_FAILURE, error});
+// export const createOrderFailure = (Error1) => ({type: CREATE_ORDER_FAILURE, Error1});
 
 // export const removeOrderRequest = () => ({type: REMOVE_ORDER_REQUEST});
 // export const removeOrderSuccess = () => ({type: REMOVE_ORDER_SUCCESS});
-// export const removeOrderFailure = (error) => ({type: TRANSFER_TO_COURIER_FAILURE, error});
+// export const removeOrderFailure = (Error1) => ({type: TRANSFER_TO_COURIER_FAILURE, Error1});
 
 export const getStreets = (query) => {
   return async dispatch => {
@@ -47,8 +47,8 @@ export const getStreets = (query) => {
 //       dispatch(createOrderRequest());
 //       await axiosApi.post(`/orders`, data);
 //       dispatch(getOrders());
-//     } catch (error) {
-//       dispatch(createOrderFailure(error));
+//     } catch (Error1) {
+//       dispatch(createOrderFailure(Error1));
 //     }
 //   }
 // };
@@ -59,8 +59,8 @@ export const getStreets = (query) => {
 //       dispatch(removeOrderRequest());
 //       await axiosApi.delete(`/orders/${id}`);
 //       dispatch(getOrders());
-//     } catch (error) {
-//       dispatch(removeOrderFailure(error));
+//     } catch (Error1) {
+//       dispatch(removeOrderFailure(Error1));
 //     }
 //   }
 // };

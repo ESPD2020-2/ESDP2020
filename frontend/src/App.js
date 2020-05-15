@@ -9,7 +9,7 @@ const App = () => {
 		<>
 			<ToastContainer autoClose={3000} />
 			<Toolbar />
-			<CarouselReviews/>
+			{/*<CarouselReviews/>*/}
 			<Routes />
 		</>
 	);

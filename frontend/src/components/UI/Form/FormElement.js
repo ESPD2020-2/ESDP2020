@@ -34,7 +34,7 @@ const FormElement = (props) => {
   //       label={props.title}
   //       name={props.propertyName}
   //       onChange={props.onChange}
-  //       error={!!props.error}
+  //       Error1={!!props.Error1}
   //     />
   //   );
   // }
