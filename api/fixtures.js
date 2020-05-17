@@ -20,19 +20,19 @@ const run = async () => {
     name: 'John',
     surname: 'Connor',
     patronymic: 'Sarovich',
-    phone: '+996(555)89-89-89',
+    phone: '0555 89-89-89',
     email: 'j.connor@skynet.com'
   }, {
     name: 'Sarrah',
     surname: 'Connor',
     patronymic: 'Kyleovna',
-    phone: '+996(555)65-65-65',
+    phone: '0555 65-65-65',
     email: 's.connor@skynet.com'
   }, {
     name: 'Петр',
     surname: 'Иванов',
     patronymic: 'Сергеевич',
-    phone: '+996(555)45-45-45',
+    phone: '0555 45-45-45',
     email: 'p.ivanov@test.com',
     addedToBlackList: true
   });
