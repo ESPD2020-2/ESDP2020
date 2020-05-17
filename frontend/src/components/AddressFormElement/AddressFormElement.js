@@ -23,7 +23,7 @@ import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
 import Typography from '@material-ui/core/Typography';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import Badge from '@material-ui/core/Badge';
-import { withStyles } from '@material-ui/core/styles';
+import { makeStyles, withStyles } from '@material-ui/core/styles';
 
 const StyledBadge = withStyles((theme) => ({
   badge: {
@@ -34,16 +34,42 @@ const StyledBadge = withStyles((theme) => ({
   },
 }))(Badge);
 
+const useStyles = makeStyles(() => ({
+  ripple: {
+    width: '134.11px',
+    height: '134.11px',
+    top: '-49.0549px',
+    left: '13.9451px',
+    animationDuration: '200ms',
+    opacity: '0.3',
+    animation: 'MuiTouchRipple-keyframes-enter 550ms cubic-bezier(0.4, 0, 0.2, 1)',
+    transform: 'scale(1)',
+    position: 'absolute',
+  },
+  childRipple: {
+    top: '0',
+    left: '0',
+    position: 'absolute',
+    animation: 'MuiTouchRipple-keyframes-pulsate 2500ms cubic-bezier(0.4, 0, 0.2, 1) 200ms infinite',
+    width: '100%',
+    height: '100%',
+    display: 'block',
+    opacity: '1',
+    borderRadius: '50%',
+    backgroundColor: 'currentColor',
+  }
+}));
 
 const AddressFormElement = ({ addressChange, inputChangeHandler, addAddress, removeAdress, address, street, house, building, apartment, error, kind}) => {
-
   const streets = useSelector(state => state.street.streets);
   const dispatch = useDispatch();
+  const classes = useStyles();
   const searchHandler = (event) => {
     if (event.target.value.length > 2) {
       dispatch(getStreets(event.target.value));
     }
   };
+
   return (
     <Grid item container xs>
       <Box p={3} >
@@ -167,7 +193,6 @@ const AddressFormElement = ({ addressChange, inputChangeHandler, addAddress, rem
             <FormElement
               type="text"
               size='small'
-              required
               propertyName={kind ==='pickup' ? 'pickupApartment' : 'deliveryApartment'}
               title="Квартира"
               onChange={(e) => inputChangeHandler(e)}
@@ -175,11 +200,17 @@ const AddressFormElement = ({ addressChange, inputChangeHandler, addAddress, rem
             />
           </Grid>
           <Grid item xs={12}>
-            <Button
+          <Button
               onClick={addAddress}
               color="primary"
               variant="contained"
+              style={{outline: 'none', overflow: 'hidden'}}
             >
+             {street && house && (
+                <span className={classes.ripple}>
+                  <span className={classes.childRipple}/>
+                </span>
+              )}
               Добавить точку
             </Button>
           </Grid>

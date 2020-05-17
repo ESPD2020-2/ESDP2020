@@ -16,6 +16,10 @@ export const REMOVE_ORDER_REQUEST = 'REMOVE_ORDER_REQUEST';
 export const REMOVE_ORDER_SUCCESS = 'REMOVE_ORDER_SUCCESS';
 export const REMOVE_ORDER_FAILURE = 'REMOVE_ORDER_FAILURE';
 
+export const PUBLISH_ORDER_REQUEST = 'PUBLISH_ORDER_REQUEST';
+export const PUBLISH_ORDER_SUCCESS = 'PUBLISH_ORDER_SUCCESS';
+export const PUBLISH_ORDER_FAILURE = 'PUBLISH_ORDER_FAILURE';
+
 export const getOrdersRequest = () => ({type: GET_ORDERS_REQUEST});
 export const getOrdersSuccess = (orders) => ({type: GET_ORDERS_SUCCESS, orders});
 export const getOrdersFailure = (error) => ({type: GET_ORDERS_FAILURE, error});
@@ -30,7 +34,11 @@ export const transferToCourierFailure = (error) => ({type: TRANSFER_TO_COURIER_F
 
 export const removeOrderRequest = () => ({type: REMOVE_ORDER_REQUEST});
 export const removeOrderSuccess = () => ({type: REMOVE_ORDER_SUCCESS});
-export const removeOrderFailure = (error) => ({type: TRANSFER_TO_COURIER_FAILURE, error});
+export const removeOrderFailure = (error) => ({type: REMOVE_ORDER_FAILURE, error});
+
+export const publishOrderRequest = () => ({type: PUBLISH_ORDER_REQUEST});
+export const publishOrderSuccess = () => ({type: PUBLISH_ORDER_SUCCESS});
+export const publishOrderFailure = (error) => ({type: PUBLISH_ORDER_FAILURE, error});
 
 export const getOrders = () => {
   return async dispatch => {
@@ -52,6 +60,18 @@ export const createOrder = data => {
       // dispatch(getOrders());
     } catch (error) {
       dispatch(createOrderFailure(error));
+    }
+  }
+};
+
+export const publishOrder = id=> {
+  return async dispatch => {
+    try {
+      dispatch(publishOrderRequest());
+      await axiosApi.patch(`/orders/${id}/publish`);
+      dispatch(getOrders());
+    } catch (error) {
+      dispatch(publishOrderFailure(error));
     }
   }
 };

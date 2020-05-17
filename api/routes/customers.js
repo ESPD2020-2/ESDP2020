@@ -9,7 +9,6 @@ const router = express.Router();
 
 router.post('/', async (req, res) => {
   try {
-    console.log(req.body.phone)
     const findCustomer = await Customer.findOne({'phone': req.body.phone});
     if (!findCustomer) {
       const customer = new Customer(req.body);

@@ -17,6 +17,7 @@ import {toggleDrawer} from "../../../store/actions/mainActions";
 const useStyles = makeStyles(theme => ({
   appBar: {
     zIndex: theme.zIndex.drawer + 1,
+    marginBottom: '30px',
   },
   menuButton: {
     marginRight: theme.spacing(2),

@@ -8,7 +8,7 @@ import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import ShowTo from '../../hoc/ShowTo';
-
+import { history } from "../../store/configureStore";
 
 class OrderForm extends Component {
   state = {
@@ -31,7 +31,15 @@ class OrderForm extends Component {
     paymentAmount: 50,
     pickupError: null,
     deliveryError: null,
+    ripple: false
   };
+
+  componentDidMount() {
+    console.log(history)
+    // if (history.location.pathname !== '/add-order'){
+      
+    // }
+  }
 
   submitFormHandler = async (event) => {
     event.preventDefault();
@@ -52,11 +60,15 @@ class OrderForm extends Component {
       });
       orderData.customerId = this.props.id
     }
-    // if (orderData.pickupAddress.length > 0 && orderData.deliveryAddress > 0) {
+    if (orderData.pickupAddress.length < 1 && orderData.deliveryAddress.length < 1 ) {
+      this.setState({ pickupError: "Необходимо заполнить", deliveryError: "Необходимо заполнить"  });
+    } else if (orderData.pickupAddress.length < 1) {
+      this.setState({ pickupError: "Необходимо заполнить"})
+    } else if (orderData.deliveryAddress.length < 1) {
+      this.setState({ deliveryError: "Необходимо заполнить"})
+    } else {
       this.props.onSubmit(orderData);
-    // } else {
-    //   this.setState({ pickupError: "Необходимо заполнить", deliveryError: "Необходимо заполнить" });
-    // }
+    }
   };
 
   addressChangeHandler = (e, val, kind) => {
@@ -137,8 +149,9 @@ class OrderForm extends Component {
       return undefined;
     }
   };
-
+  
   render() {
+    console.log(this.props)
     return (
       <form onSubmit={this.submitFormHandler} >
         <Grid container direction='column' alignItems='center'>
@@ -207,7 +220,7 @@ class OrderForm extends Component {
                       value={this.state.phone}
                       onChange={this.inputChangeHandler}
                       error={this.getFieldError('phone')}
-                      autoComplete="new-phone"
+                      placeholder='Например 0312 55-55-55'
                       required
                     />
                   </Grid>
@@ -220,7 +233,6 @@ class OrderForm extends Component {
                       value={this.state.email}
                       onChange={this.inputChangeHandler}
                       error={this.getFieldError('email')}
-                      autoComplete="new-email"
                       required
                     />
                   </Grid>
