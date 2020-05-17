@@ -1,7 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
 import TextField from "@material-ui/core/TextField";
-// import FileInput from "./FileInput";
 
 const FormElement = (props) => {
   let inputChildren = undefined;
@@ -18,7 +17,6 @@ const FormElement = (props) => {
       value={props.value}
       onChange={props.onChange}
       required={props.required}
-      autoComplete={props.autoComplete}
       placeholder={props.placeholder}
       children={inputChildren}
       helperText={props.error}
@@ -27,17 +25,6 @@ const FormElement = (props) => {
       {inputChildren}
     </TextField>
   );
-
-  // if (props.type === "file") {
-  //   inputComponent = (
-  //     <FileInput
-  //       label={props.title}
-  //       name={props.propertyName}
-  //       onChange={props.onChange}
-  //       Error1={!!props.Error1}
-  //     />
-  //   );
-  // }
 
   return inputComponent;
 };
@@ -56,7 +43,6 @@ FormElement.propTypes = {
   onChange: PropTypes.func.isRequired,
   error: PropTypes.string,
   size: PropTypes.string,
-  autoComplete: PropTypes.string,
 };
 
 export default FormElement;

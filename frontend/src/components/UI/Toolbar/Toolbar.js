@@ -18,6 +18,7 @@ import MenuList from "@material-ui/core/MenuList";
 const useStyles = makeStyles(theme => ({
   appBar: {
     zIndex: theme.zIndex.drawer + 1,
+    marginBottom: '30px',
   },
   menuButton: {
     marginRight: theme.spacing(2),

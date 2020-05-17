@@ -1,8 +1,7 @@
 import React from 'react';
 import {useDispatch, useSelector} from "react-redux";
 import { makeStyles } from '@material-ui/core/styles';
-import {createOrder} from "../../store/actions/ordersActions";
-import {createCustomer} from "../../store/actions/customersActions";
+import { createOrder } from "../../store/actions/ordersActions";
 import OrderForm from "../../components/OrderForm/OrderForm";
 import Typography from "@material-ui/core/Typography";
 import Box from "@material-ui/core/Box";
@@ -16,7 +15,7 @@ const useStyles = makeStyles((theme) => ({
       top: '50%',
       left: '50%',
       transform: 'translate(-50%, -50%)',
-      padding: '0 16px'
+      padding: '0 16px',
     },
   },
   titleWrap: {
@@ -53,10 +52,9 @@ const NewOrder = () => {
   const user = useSelector(state => state.users.user);
   
   const createOrderHandler = async (data) => {
-    console.log(data.customerId)
-    // if(data.customerId) {
+    if(data.customerId) {
       await dispatch(createOrder(data));
-    // }
+    }
   };
 
   return (

@@ -46,31 +46,25 @@ router.post('/', async (req, res) => {
 
 router.delete('/:id', [auth, permit('operator', 'admin', 'super_admin')], async (req, res) => {
   try {
-    const order = await Order.findById(req.params.id);
-
-    if (order.user.equals(req.user._id)) {
-      order.delete();
-      return res.send({message: 'Successfully deleted'});
-    }
-    return res.status(403).send({message: 'Oops, nothing'});
-
+    await Order.findByIdAndRemove(req.params.id);
+    return res.send({message: 'Successfully deleted'});
   } catch (error) {
+    console.log(error)
     res.status(500).send({error});
   }
 });
 
-router.patch('/:id', [auth, permit('courier', 'operator', 'admin', 'super_admin')], async (req, res) => {
+router.patch('/:id/publish', [auth, permit('courier', 'operator', 'admin', 'super_admin')], async (req, res) => {
   try {
     const order = await Order.findById(req.params.id);
-
     if (!order) {
       return res.status(404).send({message: 'Not found'});
     }
-
-    await Order.updateOne({_id: req.params.id}, order);
+    order.status = "published";
+    await order.save();
     return res.send({message: 'Order is successfully changed'});
   } catch (error) {
-      return res.status(400).send(error);
+    return res.status(400).send(error);
   }
 });
 
