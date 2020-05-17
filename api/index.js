@@ -7,6 +7,7 @@ const users = require('./routes/users');
 const customers = require('./routes/customers');
 const orders = require('./routes/orders');
 const streets = require('./routes/streets');
+const reviews = require('./routes/reviews');
 
 const app = express();
 
@@ -21,6 +22,7 @@ const run = async () => {
   app.use('/customers', customers);
   app.use('/streets', streets);
   app.use('/orders', orders);
+  app.use('/reviews', reviews);
 
   app.listen(config.port, () => {
     console.log(`HTTP Server started on ${config.port} port!`);

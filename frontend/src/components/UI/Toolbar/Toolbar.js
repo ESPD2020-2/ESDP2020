@@ -13,6 +13,7 @@ import MenuIcon from '@material-ui/icons/Menu';
 import Typography from "@material-ui/core/Typography";
 import {makeStyles} from "@material-ui/core/styles";
 import {toggleDrawer} from "../../../store/actions/mainActions";
+import MenuList from "@material-ui/core/MenuList";
 
 const useStyles = makeStyles(theme => ({
   appBar: {
@@ -35,6 +36,12 @@ const useStyles = makeStyles(theme => ({
       color: 'inherit',
       textDecoration: 'none'
     }
+  },
+  temporarily: {
+    marginRight: '30px',
+  },
+  pageLink: {
+    padding: '0 10px'
   }
 }));
 
@@ -44,14 +51,29 @@ const AppToolbar = () => {
   const classes = useStyles();
   return (
     <>
+
       <AppBar position="fixed" className={classes.appBar}>
+
         <Toolbar>
-          <IconButton edge="start" className={classes.menuButton} color="inherit" onClick={() => dispatch(toggleDrawer())}>
+          <IconButton edge="start" className={classes.menuButton} color="inherit"
+                      onClick={() => dispatch(toggleDrawer())}>
             <MenuIcon/>
           </IconButton>
           <Typography variant="h6" className={classes.title}>
             <NavLink to="/" className={classes.mainLink}>Shop</NavLink>
           </Typography>
+
+          <MenuList className={classes.temporarily}>
+            <NavLink className={classes.pageLink} to='/adm'>админка</NavLink>
+            <NavLink className={classes.pageLink} to='/add-order'>форма заказа</NavLink>
+
+            <NavLink className={classes.pageLink} to='/about'>о нас</NavLink>
+            <NavLink className={classes.pageLink} to='/faq'>faq</NavLink>
+            <NavLink className={classes.pageLink} to='/contacts'>контакты</NavLink>
+            <NavLink className={classes.pageLink} to='/couriers'>курьер</NavLink>
+          </MenuList>
+
+
 
           {user ? (
             <UserMenu user={user} logout={() => dispatch(logoutUser())}/>
@@ -59,6 +81,7 @@ const AppToolbar = () => {
             <AnonymousMenu/>
           )}
         </Toolbar>
+
       </AppBar>
       <Toolbar/>
     </>
