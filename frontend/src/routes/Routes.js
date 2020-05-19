@@ -8,6 +8,7 @@ import FAQ from "../containers/FAQ/FAQ";
 import Contacts from "../containers/Contacts/Contacts";
 import ForCouriers from "../containers/ForCouriers/ForCouriers";
 import About from "../containers/About/About";
+import ReviewForm from "../components/ReviewForm/ReviewForm";
 
 const Routes = () => {
 
@@ -21,6 +22,7 @@ const Routes = () => {
         <Route path="/contacts" component={ Contacts} />
         <Route path="/couriers" component={ForCouriers}/>
         <Route path='/about' component={About}/>
+        <Route path='/review-form' component={ReviewForm} />
     </Switch>
   );
 };

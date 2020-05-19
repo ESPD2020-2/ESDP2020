@@ -3,12 +3,22 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const ReviewSchema = new Schema({
+    reviewNumber: {
+      type: Number,
+      required: true,
+    },
     author: {
       type: Schema.Types.ObjectId,
-      ref: "User",
-      default: null,
+      ref: "Customer",
+      required: true,
     },
-    reviewText: {
+    advantages: {
+      type: String,
+    },
+    disadvantages: {
+      type: String,
+    },
+    comment: {
       type: String,
       required: true,
     },
@@ -19,6 +29,7 @@ const ReviewSchema = new Schema({
     },
     rating: {
       type: [mongoose.Schema.Types.Mixed],
+      required: true,
     },
   },
   {
