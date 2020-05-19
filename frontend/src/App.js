@@ -5,11 +5,11 @@ import {ToastContainer} from "react-toastify";
 import CarouselReviews from "./components/CarouselReviews/CarouselReviews";
 
 const App = () => {
+
 	return (
 		<>
 			<ToastContainer autoClose={3000} />
 			<Toolbar />
-			{/*<CarouselReviews/>*/}
 			<Routes />
 		</>
 	);

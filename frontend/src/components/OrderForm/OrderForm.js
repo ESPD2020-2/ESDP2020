@@ -1,14 +1,15 @@
 import React, { Component } from "react";
 import Grid from '@material-ui/core/Grid';
 import { connect } from "react-redux";
-import {createCustomer} from "../../store/actions/customersActions";
+import {createCustomer, editCustomer} from "../../store/actions/customersActions";
+import {getOrder} from '../../store/actions/ordersActions';
 import AddressFormElement from "../AddressFormElement/AddressFormElement";
 import FormElement from '../UI/Form/FormElement';
 import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import ShowTo from '../../hoc/ShowTo';
-import { history } from "../../store/configureStore";
+import { withRouter } from 'react-router'
 
 class OrderForm extends Component {
   state = {
@@ -31,14 +32,21 @@ class OrderForm extends Component {
     paymentAmount: 50,
     pickupError: null,
     deliveryError: null,
-    ripple: false
   };
 
   componentDidMount() {
-    console.log(history)
-    // if (history.location.pathname !== '/add-order'){
-      
-    // }
+    if (this.props.history.location.pathname !== '/add-order'){
+      this.props.getOrder(this.props.match.params.id);
+    } 
+  }
+
+  componentDidUpdate(prevProps) {
+    if(this.props.order !== prevProps.order) {
+      const customer = {};
+      const order = this.props.order;
+      Object.keys(this.props.order.customer).map(el => customer[el] = this.props.order.customer[el]);
+      this.setState({...customer, pickupAddress: order.pickupAddress, deliveryAddress: order.deliveryAddress});
+      }
   }
 
   submitFormHandler = async (event) => {
@@ -67,9 +75,36 @@ class OrderForm extends Component {
     } else if (orderData.deliveryAddress.length < 1) {
       this.setState({ deliveryError: "Необходимо заполнить"})
     } else {
-      this.props.onSubmit(orderData);
+      this.props.create(orderData);
     }
   };
+
+  editFormHandler = async (event) => {
+    event.preventDefault();
+    const orderData = {
+      pickupAddress: this.state.pickupAddress,
+      deliveryAddress: this.state.deliveryAddress,
+    };
+    const customerData = {
+      name: this.state.name,
+      surname: this.state.surname,
+      patronymic: this.state.patronymic,
+      phone: this.state.phone,
+      email: this.state.email,
+    };
+
+   await this.props.editCustomer(this.props.order.customer._id, customerData);
+    
+    if (orderData.pickupAddress.length < 1 && orderData.deliveryAddress.length < 1 ) {
+      this.setState({ pickupError: "Необходимо заполнить", deliveryError: "Необходимо заполнить"  });
+    } else if (orderData.pickupAddress.length < 1) {
+      this.setState({ pickupError: "Необходимо заполнить"})
+    } else if (orderData.deliveryAddress.length < 1) {
+      this.setState({ deliveryError: "Необходимо заполнить"})
+    } else {
+      this.props.edit(this.props.order._id, orderData);
+    }
+  }
 
   addressChangeHandler = (e, val, kind) => {
     if (kind === 'pickup') {
@@ -151,9 +186,9 @@ class OrderForm extends Component {
   };
   
   render() {
-    console.log(this.props)
+    const path = this.props.history.location.pathname;
     return (
-      <form onSubmit={this.submitFormHandler} >
+     <form onSubmit={this.submitFormHandler} >
         <Grid container direction='column' alignItems='center'>
           <ShowTo user={this.props.user} role='admin'>
             <Grid item container xs>
@@ -268,12 +303,23 @@ class OrderForm extends Component {
           />
           <Grid item xs>
            <Button
-              onClick={this.submitFormHandler}
+              onClick={path === '/add-order' ? this.submitFormHandler : this.editFormHandler}
               color="primary"
               variant="contained"
             >
-              Создать
+              {path === '/add-order' ? 'Создать' : 'Редактировать'}
             </Button>
+
+            {path !== '/add-order' && (
+              <Button
+                onClick={() => this.props.history.goBack()}
+                color="secondary"
+                variant="contained"
+                style={{marginLeft: '15px'}}
+              >
+                Отмена
+              </Button>
+            )}
           </Grid>
         </Grid>
       </form>
@@ -283,12 +329,15 @@ class OrderForm extends Component {
 
 const mapStateToProps = state => ({
   id: state.customers.customerId,
-  customerError: state.customers.error
+  customerError: state.customers.error,
+  order: state.ord.order,
 });
 
 const mapDispatchToProps = dispatch => ({
-  createCustomer: customerData => dispatch(createCustomer(customerData))
+  createCustomer: customerData => dispatch(createCustomer(customerData)),
+  editCustomer: (id, data) => dispatch(editCustomer(id, data)),
+  getOrder: id => dispatch(getOrder(id)),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps) (OrderForm);
+export default connect(mapStateToProps, mapDispatchToProps) (withRouter(OrderForm));
        

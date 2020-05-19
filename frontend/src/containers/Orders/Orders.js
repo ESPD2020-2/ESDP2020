@@ -10,6 +10,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import {getOrders} from "../../store/actions/ordersActions";
 import OrderRow from "../../components/OrderRow/OrderRow";
 import { withStyles, } from '@material-ui/core/styles';
+import {history} from '../../store/configureStore';
 
 const StyledTableCell = withStyles((theme) => ({
   head: {
@@ -24,11 +25,20 @@ const StyledTableCell = withStyles((theme) => ({
 const Orders = () => {
   
   const dispatch = useDispatch();
-  useEffect(() => {
-    dispatch(getOrders())
-  }, [dispatch]);
-
   const orders = useSelector(state => state.ord.orders);
+  const path = useSelector(state => state.router.location.pathname)
+  useEffect(() => {
+    let status;
+    if ( path === "/adm/orders/created") {
+      status = 'created'
+    }
+    if (path === "/adm/orders/published") {
+      status = 'published'
+    }
+      dispatch(getOrders(status))
+    
+  },[dispatch, path]);
+
   return (
     <TableContainer component={Paper}>
       <Table>
