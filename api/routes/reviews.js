@@ -26,13 +26,31 @@ router.get('/:id', async (req, res) => {
   }
 });
 
+router.get('/:author', auth, async (req, res) => {
+  const authorReviews = await Review.find({author: req.user._id});
+
+  if (!authorReviews) {
+    return res.status(404).send({message: "Нет такого автора отзыва!"});
+  } else {
+    return res.status(200).send(authorReviews);
+  }
+});
+
 router.post('/', auth, async (req, res) => {
   try {
     const reviewData = {
       author: req.user._id,
-      reviewText: req.body.reviewText,
+      comment: req.body.comment,
       rating: req.body.rating,
     };
+
+    if (req.body.advantages) {
+      reviewData.advantages = req.body.advantages;
+    }
+
+    if (req.body.disadvantages) {
+      reviewData.disadvantages = req.body.disadvantages;
+    }
 
     const review = new Review(reviewData);
 

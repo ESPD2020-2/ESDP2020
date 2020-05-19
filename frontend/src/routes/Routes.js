@@ -7,7 +7,11 @@ import NewOrder from "../containers/NewOrder/NewOrder";
 import FAQ from "../containers/FAQ/FAQ";
 import Contacts from "../containers/Contacts/Contacts";
 import About from "../containers/About/About";
+<<<<<<< HEAD
+import ReviewForm from "../components/ReviewForm/ReviewForm";
+=======
 import ForCouriers from "../containers/ForCouriers/forCouriers";
+>>>>>>> development
 
 const Routes = () => {
 
@@ -22,6 +26,7 @@ const Routes = () => {
         <Route path="/contacts" component={ Contacts} />
         <Route path="/couriers" component={ForCouriers}/>
         <Route path='/about' component={About}/>
+        <Route path='/review-form' component={ReviewForm} />
     </Switch>
   );
 };
