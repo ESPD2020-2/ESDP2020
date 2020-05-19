@@ -3,9 +3,10 @@ import IconButton from '@material-ui/core/IconButton';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
-import {publishOrder, removeOrder} from '../../store/actions/ordersActions';
+import {publishOrder, removeOrder, acceptOrder} from '../../store/actions/ordersActions';
 import { useDispatch } from 'react-redux';
 import {push} from 'connected-react-router';
+import {history} from '../../store/configureStore';
 
 const ITEM_HEIGHT = 48;
 
@@ -52,9 +53,20 @@ const OrderOperationsMenu = ({id}) => {
           },
         }}
       >
-        <MenuItem onClick={publishOrderHandler}>Опубликовать</MenuItem>
-        <MenuItem onClick={editOrderHandler}>Редактрировать</MenuItem>
-        <MenuItem onClick={removeOrderHandler}>Удалить</MenuItem>
+        {history.location.pathname === '/adm/orders/created' && (
+          <span>
+            <MenuItem onClick={publishOrderHandler}>Опубликовать</MenuItem>
+            <MenuItem onClick={editOrderHandler}>Редактрировать</MenuItem>
+            <MenuItem onClick={removeOrderHandler}>Удалить</MenuItem>
+          </span>
+        )}
+
+        {history.location.pathname === '/adm/orders/published' && (
+          <span>
+            <MenuItem onClick={() => dispatch(acceptOrder(id))}>Принять</MenuItem>
+            {/* <MenuItem onClick={removeOrderHandler}>Отказаться</MenuItem> */}
+          </span>
+        )}
       </Menu>
     </div>
   );
