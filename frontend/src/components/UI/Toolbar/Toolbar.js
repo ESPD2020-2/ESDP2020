@@ -18,6 +18,7 @@ import MenuList from "@material-ui/core/MenuList";
 const useStyles = makeStyles(theme => ({
   appBar: {
     zIndex: theme.zIndex.drawer + 1,
+    marginBottom: '30px',
   },
   menuButton: {
     marginRight: theme.spacing(2),
@@ -63,12 +64,13 @@ const AppToolbar = () => {
           </Typography>
 
           <MenuList className={classes.temporarily}>
-            <NavLink className={classes.pageLink} to='/adm'>admin</NavLink>
-            <NavLink className={classes.pageLink} to='/add-order'>order form</NavLink>
+            <NavLink className={classes.pageLink} to='/adm'>админка</NavLink>
+            <NavLink className={classes.pageLink} to='/add-order'>форма заказа</NavLink>
 
-            <NavLink className={classes.pageLink} to='/about'>about</NavLink>
+            <NavLink className={classes.pageLink} to='/about'>о нас</NavLink>
             <NavLink className={classes.pageLink} to='/faq'>faq</NavLink>
-            <NavLink className={classes.pageLink} to='/contacts'>contacts</NavLink>
+            <NavLink className={classes.pageLink} to='/contacts'>контакты</NavLink>
+            <NavLink className={classes.pageLink} to='/couriers'>курьер</NavLink>
           </MenuList>
 
 

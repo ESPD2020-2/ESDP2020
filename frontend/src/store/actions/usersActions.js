@@ -33,7 +33,7 @@ export const registerUser = userData => {
             if (error.response) {
                 dispatch(registerUserFailure(error.response.data));
             } else {
-                dispatch(registerUserFailure({global: 'Network error or no internet'}));
+                dispatch(registerUserFailure({global: 'Network Error1 or no internet'}));
             }
         }
     }

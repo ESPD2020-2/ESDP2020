@@ -11,14 +11,14 @@ const AdminLayout = () => {
     <MenuList>
       <MenuItem
         component={NavLink}
-        to={`${url}/orders`}
+        to={`${url}/orders/created`}
         activeClassName="Mui-selected"
       >
         Заказы
       </MenuItem>
       <MenuItem
         component={NavLink}
-        to={`${url}/couriers`}
+        to={`${url}/orders/published`}
         activeClassName="Mui-selected"
       >
         Курьеры

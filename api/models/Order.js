@@ -50,6 +50,7 @@ const OrderSchema = new Schema(
       type: String,
       enum: [
         "created", //создание
+        "published",
         "transferred", //передача курьеру
         "accepted", //принятием курьером
         "rejected", //отказ от выполнения заказа курьером после принятия этого заказа
