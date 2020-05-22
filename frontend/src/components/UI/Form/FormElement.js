@@ -28,7 +28,6 @@ const FormElement = (props) => {
       value={props.value}
       onChange={props.onChange}
       required={props.required}
-      autoComplete={props.autoComplete}
       placeholder={props.placeholder}
       children={inputChildren}
       helperText={props.error}
@@ -66,7 +65,6 @@ FormElement.propTypes = {
   onChange: PropTypes.func.isRequired,
   error: PropTypes.string,
   size: PropTypes.string,
-  autoComplete: PropTypes.string,
 };
 
 export default FormElement;

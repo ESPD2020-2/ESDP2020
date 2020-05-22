@@ -1,8 +1,8 @@
 import React from 'react';
 import {useDispatch, useSelector} from "react-redux";
 import { makeStyles } from '@material-ui/core/styles';
-import {createOrder} from "../../store/actions/ordersActions";
-import {createCustomer} from "../../store/actions/customersActions";
+import {history} from '../../store/configureStore';
+import { createOrder, editOrder } from "../../store/actions/ordersActions";
 import OrderForm from "../../components/OrderForm/OrderForm";
 import Typography from "@material-ui/core/Typography";
 import Box from "@material-ui/core/Box";
@@ -16,7 +16,7 @@ const useStyles = makeStyles((theme) => ({
       top: '50%',
       left: '50%',
       transform: 'translate(-50%, -50%)',
-      padding: '0 16px'
+      padding: '0 16px',
     },
   },
   titleWrap: {
@@ -53,11 +53,14 @@ const NewOrder = () => {
   const user = useSelector(state => state.users.user);
   
   const createOrderHandler = async (data) => {
-    console.log(data.customerId)
-    // if(data.customerId) {
+    if(data.customerId) {
       await dispatch(createOrder(data));
-    // }
+    }
   };
+
+  const editOrderHandler = async (id, data) => {
+    await dispatch(editOrder(id, data));
+  }
 
   return (
     <>
@@ -65,11 +68,12 @@ const NewOrder = () => {
         <Grid item xs md={8} lg={5} xl={4}>
           <Paper elevation={3} className={classes.titleWrap}>
             <Box className={classes.title} px={1}>
-              <Typography variant="h4">Создать заказ</Typography>
+              <Typography variant="h4">{history.location.pathname === '/add-order' ? 'Создать заказ' : 'Редактировать'}</Typography>
             </Box>
             <Box className={classes.formWrap} pt={5} pb={2}>
               <OrderForm
-                onSubmit={createOrderHandler}
+                create={createOrderHandler}
+                edit={editOrderHandler}
                 user={user}
               />
             </Box>

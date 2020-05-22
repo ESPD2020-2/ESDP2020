@@ -33,7 +33,7 @@ const CustomerSchema = new Schema(
       type: String,
       validate: {
         validator: function(value) {
-          const phoneRegex = /\+996\(\d{3}\)\d{2}-\d{2}-\d{2}/;
+          const phoneRegex = /\d{4} \d{2}-\d{2}-\d{2}/;
           return phoneRegex.test(value);
           
         },

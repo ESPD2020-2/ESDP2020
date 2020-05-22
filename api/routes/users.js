@@ -110,5 +110,10 @@ router.delete('/sessions', async (req, res) => {
     return res.send(success);
   }
 });
+//
+// router.get('/', async (req, res) => {
+//   const users = await User.find();
+//   return res.send(users);
+// });
 
 module.exports = router;

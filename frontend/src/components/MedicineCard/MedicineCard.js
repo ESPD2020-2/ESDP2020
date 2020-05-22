@@ -16,9 +16,6 @@ import Typography from "@material-ui/core/Typography";
 const useStyles = makeStyles((theme) => ({
 	media: {
 		height: 140,
-		// [theme.breakpoints.down('sm')]: {
-		// 	height: 100,
-		// },
 	},
 	card: {
 		width: '100%',

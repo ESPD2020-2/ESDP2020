@@ -4,6 +4,7 @@ import Routes from "./routes/Routes";
 import {ToastContainer} from "react-toastify";
 
 const App = () => {
+
 	return (
 		<>
 			<ToastContainer autoClose={3000} />

@@ -1,0 +1,51 @@
+#root .MuiGrid-spacing-xs-2 {
+    width: 100%;
+}
+
+.MuiGrid-root {
+    text-align: justify;
+}
+
+.blockWithImage {
+    position: relative;
+    display: flex;
+}
+
+.blockWithImage img {
+    position: absolute;
+    top: 20px;
+    right: 17%;
+}
+
+.blockWithImage .textNearTheImage {
+    position: absolute;
+    text-align: justify;
+    width: 32%;
+    left: 18%;
+}
+
+.blockWithImage .textNearTheImage p {
+    font-size: 16px;
+}
+
+.reasons {
+    margin-top: 20%;
+    width: 100%;
+    padding: 0;
+}
+
+.reasons .MuiGrid-spacing-xs-10 > .MuiGrid-item {
+    padding: 0;
+}
+
+.list {
+    margin-top: 5%;
+}
+
+.MuiTypography-h5 .MuiSvgIcon-root {
+    font-size: 30px;
+}
+
+.MuiList-padding .MuiListItem-gutters {
+    padding: 0;
+}
