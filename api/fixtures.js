@@ -3,6 +3,7 @@ const config = require('./config');
 const User = require('./models/User');
 const Customer = require('./models/Customer');
 const City = require('./models/City');
+const Category = require('./models/Category');
 const Street = require('./models/Street');
 const streets = require('./constant');
 const {nanoid} = require("nanoid");
