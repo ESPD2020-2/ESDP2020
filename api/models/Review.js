@@ -1,11 +1,13 @@
 const mongoose = require("mongoose");
+const {nanoid} = require('nanoid');
 
 const Schema = mongoose.Schema;
 
 const ReviewSchema = new Schema({
     reviewNumber: {
-      type: Number,
+      type: String,
       required: true,
+      default: () => nanoid(6),
     },
     author: {
       type: Schema.Types.ObjectId,

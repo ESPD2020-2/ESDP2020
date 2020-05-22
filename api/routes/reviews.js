@@ -39,7 +39,7 @@ router.get('/:author', auth, async (req, res) => {
 router.post('/', auth, async (req, res) => {
   try {
     const reviewData = {
-      author: req.user._id,
+      author: req.body.customerId,
       comment: req.body.comment,
       rating: req.body.rating,
     };

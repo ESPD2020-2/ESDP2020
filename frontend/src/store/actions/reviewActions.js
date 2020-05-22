@@ -62,6 +62,7 @@ export const createReview = reviewData => {
       dispatch(createReviewRequest());
       const response = await axiosApi.post('/reviews', reviewData);
       dispatch(createReviewSuccess(response.data));
+      dispatch(fetchReviews());
     } catch (error) {
       dispatch(createReviewFailure(error));
     }
@@ -73,7 +74,7 @@ export const deleteReview = reviewId => {
     try {
       dispatch(deleteReviewRequest());
       await axiosApi.delete('/reviews/' + reviewId);
-      dispatch(deleteReviewSuccess(reviewId));
+      dispatch(fetchReviews());
     } catch (error) {
       dispatch(deleteReviewFailure(error));
     }

@@ -15,10 +15,6 @@ const initialState = {
   error: null,
 };
 
-const filterReviews = (state, reviewId) => {
-  return state.reviews.filter(review => review._id !== reviewId);
-};
-
 const reviewsReducer = (state = initialState, action) => {
   switch (action.type) {
     case FETCH_REVIEWS_REQUEST:
@@ -42,7 +38,7 @@ const reviewsReducer = (state = initialState, action) => {
     case DELETE_REVIEW_REQUEST:
       return {...state, loading: true};
     case DELETE_REVIEW_SUCCESS:
-      return {...state, reviews: filterReviews(state, action.reviewId)};
+      return {...state, loading: null};
     case DELETE_REVIEW_FAILURE:
       return {...state, loading: false, error: action.error};
     default:
