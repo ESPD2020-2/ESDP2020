@@ -32,9 +32,10 @@ const UserMenu = ({user, logout}) => {
         open={Boolean(anchorEl)}
         onClose={handleClose}
       >
-        <ListItem disabled>Hello, {user.firstName || user.username}!</ListItem>
+        <ListItem disabled>Привет, {user.customer ? user.customer.name : user.username}!</ListItem>
         <Divider/>
-        <MenuItem onClick={handleClose} component={Link} to="/profile">Profile</MenuItem>
+        <MenuItem onClick={handleClose} component={Link} to="/profile">Профиль</MenuItem>
+        <MenuItem onClick={handleClose} component={Link} to="/user/orders">Принятые заказы</MenuItem>
         <MenuItem onClick={logout}>Logout</MenuItem>
       </Menu>
     </>

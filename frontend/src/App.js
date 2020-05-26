@@ -1,7 +1,8 @@
 import React from "react";
-import Toolbar from "./components/UI/Toolbar/Toolbar";
+import AppToolbar from "./components/UI/Toolbar/AppToolbar";
 import Routes from "./routes/Routes";
 import {ToastContainer} from "react-toastify";
+
 import CarouselReviews from "./components/CarouselReviews/CarouselReviews";
 
 const App = () => {
@@ -9,7 +10,7 @@ const App = () => {
 	return (
 		<>
 			<ToastContainer autoClose={3000} />
-			<Toolbar />
+			<AppToolbar />
 			<Routes />
 		</>
 	);

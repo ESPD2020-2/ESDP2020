@@ -1,7 +1,6 @@
 import React from 'react';
 import Hidden from "@material-ui/core/Hidden";
 import Drawer from "@material-ui/core/Drawer";
-import Toolbar from "@material-ui/core/Toolbar";
 import {useDispatch, useSelector} from "react-redux";
 import {makeStyles} from "@material-ui/core/styles";
 import {toggleDrawer} from "../../../store/actions/mainActions";
@@ -16,6 +15,7 @@ const useStyles = makeStyles((theme) => ({
     [theme.breakpoints.up('lg')]: {
       width: drawerWidth,
       flexShrink: 0,
+      display: 'none'
     },
   },
   drawerPaper: {
@@ -48,18 +48,6 @@ const DrawerLayout = ({children, drawerContent}) => {
               keepMounted: true,
             }}
           >
-            {drawerContent}
-          </Drawer>
-        </Hidden>
-        <Hidden mdDown implementation="css">
-          <Drawer
-            classes={{
-              paper: classes.drawerPaper,
-            }}
-            variant="permanent"
-            open
-          >
-            <Toolbar/>
             {drawerContent}
           </Drawer>
         </Hidden>

@@ -1,27 +1,24 @@
 import React from "react";
-import {Route, Switch} from "react-router-dom";
+import {Route, Switch, Redirect} from "react-router-dom";
+import {useSelector} from "react-redux";
 import Register from "../containers/Register/Register";
 import Login from "../containers/Login/Login";
-import AdminLayout from "../components/AdminLayout/AdminLayout";
-import NewOrder from "../containers/NewOrder/NewOrder";
-import FAQ from "../containers/FAQ/FAQ";
-import Contacts from "../containers/Contacts/Contacts";
-import About from "../containers/About/About";
-import ForCouriers from "../containers/ForCouriers/forCouriers";
+import AdminLayout from "../containers/Layouts/AdminLayout";
+import MainLayout from "../containers/Layouts/MainLayout";
+
+const ProtectedRoute = ({isAllowed, ...props}) => (
+  isAllowed ? <Route {...props}/> : <Redirect to="/"/>
+);
 
 const Routes = () => {
-
+  const user = useSelector(state => state.users.user);
   return (
     <Switch>
         <Route path="/register/" exact component={Register} />
         <Route path="/login" exact component={Login} />
-        <Route path="/adm" component={AdminLayout} />
-        <Route path="/add-order" component={NewOrder} />
-        <Route path="/orders/:id/edit" exact component={NewOrder} />
-        <Route path="/faq" component={FAQ} />
-        <Route path="/contacts" component={ Contacts} />
-        <Route path="/couriers" component={ForCouriers}/>
-        <Route path='/about' component={About}/>
+        <ProtectedRoute isAllowed={user && (user.role === 'admin' || user.role === 'operator' || user.role === 'courier')} path="/adm" component={AdminLayout} />
+        <Route path="/" component={MainLayout } />
+        <Route render={() => <h1>Not found</h1>} />
     </Switch>
   );
 };

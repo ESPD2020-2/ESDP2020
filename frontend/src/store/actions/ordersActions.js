@@ -1,5 +1,6 @@
 import axiosApi from "../../axiosApi";
 import {push} from 'connected-react-router';
+import { toast } from 'react-toastify';
 
 export const GET_ORDERS_REQUEST = 'GET_ORDERS_REQUEST';
 export const GET_ORDERS_SUCCESS = 'GET_ORDERS_SUCCESS';
@@ -89,7 +90,6 @@ export const getOrder = id => {
       const order = await axiosApi.get(`/orders/${id}`);
       dispatch(getOrderSuccess(order.data));
     } catch (error) {
-      console.log(error)
       dispatch(getOrderFailure(error));
     }
     
@@ -100,8 +100,9 @@ export const createOrder = data => {
   return async dispatch => {
     try {
       dispatch(createOrderRequest());
-      await axiosApi.post(`/orders`, data);
-      dispatch(push('/adm/orders/created'));
+      const response = await axiosApi.post(`/orders`, data);
+      toast.success(response.data.message);
+      dispatch(push('/'));
     } catch (error) {
       dispatch(createOrderFailure(error));
     }
@@ -112,10 +113,12 @@ export const publishOrder = id=> {
   return async dispatch => {
     try {
       dispatch(publishOrderRequest());
-      await axiosApi.patch(`/orders/${id}/publish`);
+      const response = await axiosApi.patch(`/orders/${id}/publish`);
+      toast.success(response.data.message);
       dispatch(getOrders('created'));
     } catch (error) {
       dispatch(publishOrderFailure(error));
+      toast.error(error.response.data.error);
     }
   }
 };
@@ -124,10 +127,12 @@ export const acceptOrder = (id) => {
   return async dispatch => {
     try {
       dispatch(acceptOrderRequest());
-      await axiosApi.patch(`/orders/${id}/accept`);
+      const response = await axiosApi.patch(`/orders/${id}/accept`);
+      toast.success(response.data.message);
       dispatch(getOrders('published'));
     } catch (error) {
       dispatch(acceptOrderFailure(error));
+      toast.error(error.response.data.error);
     }
   }
 };
@@ -136,7 +141,8 @@ export const editOrder = (id, data) => {
   return async dispatch => {
     try {
       dispatch(editOrderRequest());
-      await axiosApi.patch(`/orders/${id}/edit`, data);
+      const response = await axiosApi.patch(`/orders/${id}/edit`, data);
+      toast.success(response.data.message);
       dispatch(push('/adm/orders/created'));
     } catch (error) {
       dispatch(editOrderFailure(error));
@@ -160,10 +166,12 @@ export const removeOrder = id => {
   return async dispatch => {
     try {
       dispatch(removeOrderRequest());
-      await axiosApi.delete(`/orders/${id}`);
+      const response = await axiosApi.delete(`/orders/${id}`);
+      toast.success(response.data.message);
       dispatch(getOrders('created'));
     } catch (error) {
       dispatch(removeOrderFailure(error));
+      toast.error(error.response.data.error);
     }
   }
 };

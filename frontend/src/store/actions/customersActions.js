@@ -26,10 +26,10 @@ export const createCustomer = customerData => {
             dispatch(createCustomerSuccess(response.data));
         } catch (error) {
             if (error.response) {
-                toast.warn(error.response.data);
+                toast.error(error.response.data.error);
                 dispatch(createCustomerFailure(error.response.data));
             } else {
-                dispatch(createCustomerFailure({global: 'Network Error or no internet'}));
+                dispatch(createCustomerFailure({error: 'Network Error or no internet'}));
             }
         }
     }
@@ -42,10 +42,10 @@ export const editCustomer = (id, data) => {
             await axiosApi.patch(`/customers/${id}`, data);
         } catch (error) {
             if (error.response) {
-                toast.warn(error.response.data);
+                toast.error(error.response.data.error);
                 dispatch(editCustomerFailure(error.response.data));
             } else {
-                dispatch(editCustomerFailure({global: 'Network Error or no internet'}));
+                dispatch(editCustomerFailure({error: 'Network Error or no internet'}));
             }
         }
     }

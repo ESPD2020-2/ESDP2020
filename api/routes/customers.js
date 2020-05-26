@@ -12,13 +12,12 @@ router.post('/', async (req, res) => {
     const findCustomer = await Customer.findOne({'phone': req.body.phone});
     if (!findCustomer) {
       const customer = new Customer(req.body);
-      console.log(customer, 'yes')
       await customer.save();
       return res.send(customer._id);
     } else if (findCustomer && !findCustomer.addedToBlackList) {
       return res.send(findCustomer._id);
     } else {
-      res.status(400).send('Неудается создать заказ обратитесь в службу поддержки')
+      res.status(400).send({error: 'Неудается создать заказ обратитесь в службу поддержки'})
     }
   } catch (error) {
     return res.status(400).send(error);
@@ -31,7 +30,7 @@ router.patch('/:id', async (req, res) => {
   const customer = await Customer.findById(req.params.id)
   try {
     if (!customer) {
-      return res.status(404).send({message: 'Not found'});
+      return res.status(404).send({error: 'Not found'});
     };
 
     customer.name = req.body.name;
