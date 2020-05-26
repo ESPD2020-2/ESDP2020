@@ -1,11 +1,11 @@
 const permit = (...roles) => {
   return (req, res, next) => {
     if (!req.user) {
-      return res.status(401).send({message: 'Unauthenticated'});
+      return res.status(401).send({error: 'Вы не авторизованы'});
     }
 
     if (!roles.includes(req.user.role)) {
-      return res.status(403).send({message: 'Forbidden'})
+      return res.status(403).send({error: 'У вас нет прав для этой операции'})
     }
 
     next();

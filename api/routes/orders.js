@@ -1,30 +1,29 @@
 const express = require('express');
-
+const Order = require('../models/Order');
+const router = express.Router();
 const auth = require('../middleware/auth');
 const permit = require('../middleware/permit');
 
-const Order = require('../models/Order');
-
-const router = express.Router();
-
-router.get('/',  async (req, res) => {
-  console.log(req.query.status)
-  const orders = await Order.find({status: req.query.status}).populate('customer');
-  res.send(orders);
+router.get('/', [auth, permit('courier', 'operator', 'admin', 'super_admin')], async (req, res) => {
+  try {
+    const orders = await Order.find({status: req.query.status}).populate('customer');
+    res.send(orders);
+  } catch (error) {
+    return res.status(400).send(error);
+  }
 });
 
 router.get('/:id', [auth, permit('courier', 'operator', 'admin', 'super_admin')], async (req, res) => {
-  console.log(req.params.id)
   try {
     const order = await Order.findById(req.params.id).populate('customer');
 
     if (!order) {
-      return res.status(404).send({message: 'No such order'});
+      return res.status(404).send({message: 'Not found'});
     }
 
     res.send(order);
   } catch (error) {
-    return res.status(500).send(error);
+    return res.status(400).send(error);
   }
 });
 
@@ -39,24 +38,23 @@ router.post('/', async (req, res) => {
 
     const order = new Order(orderData);
     await order.save();
-    return res.send(order._id);
+    return res.send({message: `Заказ № ${order.orderNumber} успешно создан`});
   } catch (error) {
     console.log(error)
-    return res.send(error);
+    return res.status(400).send(error);
   }
 });
 
 router.delete('/:id', [auth, permit('operator', 'admin', 'super_admin')], async (req, res) => {
   try {
     await Order.findByIdAndRemove(req.params.id);
-    return res.send({message: 'Successfully deleted'});
+    return res.send({message: `Заказ успешно удален`});
   } catch (error) {
-    console.log(error)
-    res.status(500).send({error});
+    res.status(400).send({error});
   }
 });
 
-router.patch('/:id/publish', [auth, permit('courier', 'operator', 'admin', 'super_admin')], async (req, res) => {
+router.patch('/:id/publish', [auth, permit('operator', 'admin', 'super_admin')], async (req, res) => {
   try {
     const order = await Order.findById(req.params.id);
     if (!order) {
@@ -64,16 +62,13 @@ router.patch('/:id/publish', [auth, permit('courier', 'operator', 'admin', 'supe
     }
     order.status = "published";
     await order.save();
-    return res.send({message: 'Order is successfully changed'});
+    return res.send({message: `Заказ № ${order.orderNumber} успешно опубликован`});
   } catch (error) {
     return res.status(400).send(error);
   }
 });
 
-router.patch('/:id/accept', [auth, permit('courier', 'operator', 'admin', 'super_admin')], async (req, res) => {
-
-  console.log(req.user)
-
+router.patch('/:id/accept', [auth, permit('courier')], async (req, res) => {
   try {
     const order = await Order.findById(req.params.id);
     if (!order) {
@@ -82,26 +77,24 @@ router.patch('/:id/accept', [auth, permit('courier', 'operator', 'admin', 'super
     order.status = "accepted";
     order.courier = req.user._id;
     await order.save();
-    return res.send({message: 'Order is successfully accepted'});
+    return res.send({message: `Заказ № ${order.orderNumber} успешно принят`});
   } catch (error) {
     return res.status(400).send(error);
   }
 });
 
 router.patch('/:id/edit', async (req, res) => {
-  console.log(req.body)
-
-  const order = await Order.findById(req.params.id)
   try {
+    const order = await Order.findById(req.params.id)
     if (!order) {
       return res.status(404).send({message: 'Not found'});
     };
     order.pickupAddress = req.body.pickupAddress;
     order.deliveryAddress = req.body.deliveryAddress;
     await order.save();
-    return res.send(order._id);
+    return res.send({message: `Заказ № ${order.orderNumber} успешно изменен`});
   } catch (e) {
-    return res.status(500).send(e);
+    return res.status(400).send(e);
   }
 });
 

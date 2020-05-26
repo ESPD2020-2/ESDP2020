@@ -45,7 +45,7 @@ export const loginUser = userData => {
             dispatch(loginUserRequest());
             const response = await axiosApi.post('/users/sessions', userData);
             dispatch(loginUserSuccess(response.data));
-            dispatch(push('/'));
+            response.data.role === 'user' ? dispatch(push('/')) : dispatch(push('/adm'));
         } catch (error) {
             dispatch(loginUserFailure(error.response.data));
         }

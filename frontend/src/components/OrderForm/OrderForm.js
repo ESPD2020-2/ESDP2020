@@ -28,7 +28,6 @@ class OrderForm extends Component {
     deliveryApartment: "",
     pickupAddress: [],
     deliveryAddress: [],
-    weight: '',
     paymentAmount: 50,
     pickupError: null,
     deliveryError: null,

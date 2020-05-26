@@ -9,6 +9,8 @@ import Box from "@material-ui/core/Box";
 import Alert from "@material-ui/lab/Alert";
 import Button from "@material-ui/core/Button";
 import Paper from "@material-ui/core/Paper";
+import Link from '@material-ui/core/Link';
+import {NavLink} from "react-router-dom";
 
 class Login extends Component {
   state = {
@@ -52,7 +54,6 @@ class Login extends Component {
                         value={this.state.username}
                         onChange={this.inputChangeHandler}
                         type="text"
-                        size='small'
                         autoComplete="current-username"
                       />
                     </Grid>
@@ -63,7 +64,6 @@ class Login extends Component {
                         value={this.state.password}
                         onChange={this.inputChangeHandler}
                         type="password"
-                        size='small'
                         autoComplete="current-password"
                       />
                     </Grid>
@@ -72,6 +72,11 @@ class Login extends Component {
                     </Grid>
                     <Grid item xs>
                       <FacebookLogin/>
+                    </Grid>
+                    <Grid item>
+                      <Link component={NavLink} to='/register' variant="body2">
+                        {"У вас нет аккаунта? Зарегистрируйтесь"}
+                      </Link>
                     </Grid>
                   </Grid>
                 </form>

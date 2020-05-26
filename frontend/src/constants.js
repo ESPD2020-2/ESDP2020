@@ -1,5 +1,18 @@
 export const apiURL = "http://localhost:8000";
 
+export const links = [
+  {path: '/about', name: 'о нас'},
+  {path: '/add-order', name: 'форма заказа'},
+  {path: '/faq', name: 'faq'},
+  {path: '/contacts', name: 'контакты'},
+  {path: '/couriers', name: 'курьер'},
+];
+
+export const admLinks = [
+  {path: '/orders/created', name: 'Заказы'},
+  {path: '/orders/published', name: 'Курьерская'},
+];
+
 export const initialState = {
   orders: [{
       _id: "sdd3r23",

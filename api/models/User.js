@@ -28,7 +28,9 @@ const UserSchema = new Schema(
     customer: {
       type: Schema.Types.ObjectId,
       ref: "Customer",
-      required: true,
+      required: function () {
+        return this.role === 'user';
+      },
     },
     token: {
       type: String,
