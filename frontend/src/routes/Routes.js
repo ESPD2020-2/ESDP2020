@@ -6,6 +6,7 @@ import Login from "../containers/Login/Login";
 import AdminLayout from "../containers/Layouts/AdminLayout";
 import MainLayout from "../containers/Layouts/MainLayout";
 
+
 const ProtectedRoute = ({isAllowed, ...props}) => (
   isAllowed ? <Route {...props}/> : <Redirect to="/"/>
 );
