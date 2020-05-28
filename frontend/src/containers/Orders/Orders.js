@@ -26,7 +26,7 @@ const StyledTableCell = withStyles((theme) => ({
 }))(TableCell);
 
 const Orders = () => {
-  
+
   const dispatch = useDispatch();
   const orders = useSelector(state => state.ord.orders);
   const path = useSelector(state => state.router.location.pathname)
@@ -39,7 +39,7 @@ const Orders = () => {
       status = 'published'
     }
       dispatch(getOrders(status))
-    
+
   },[dispatch, path]);
   
   return (
