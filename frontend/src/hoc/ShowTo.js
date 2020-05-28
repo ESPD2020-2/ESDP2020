@@ -1,11 +1,7 @@
-import { useSelector } from "react-redux";
-
-const ShowTo = ({  children, role }) => {
-  const user = useSelector((state) => state.users.user);
+const ShowTo = ({  children, role, user }) => {
   if (!user || user.role === role) {
     return children;
   }
-
   return null;
 };
 

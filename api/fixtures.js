@@ -49,6 +49,11 @@ const run = async () => {
     role: 'admin',
     token: nanoid(),
     customer: admCustomer,
+  }, {
+    username: 'courier',
+    password: '123',
+    role: 'courier',
+    token: nanoid(),
   });
 
   const city = await City.create({

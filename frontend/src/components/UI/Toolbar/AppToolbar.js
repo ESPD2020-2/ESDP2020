@@ -8,12 +8,14 @@ import {logoutUser} from "../../../store/actions/usersActions";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import IconButton from "@material-ui/core/IconButton";
-
 import MenuIcon from '@material-ui/icons/Menu';
 import Typography from "@material-ui/core/Typography";
 import {makeStyles} from "@material-ui/core/styles";
 import {toggleDrawer} from "../../../store/actions/mainActions";
-import MenuList from "@material-ui/core/MenuList";
+import Button from "@material-ui/core/Button";
+import {links} from "../../../constants";
+import ShowTo from '../../../hoc/ShowTo';
+
 
 const useStyles = makeStyles(theme => ({
   appBar: {
@@ -42,8 +44,19 @@ const useStyles = makeStyles(theme => ({
   },
   pageLink: {
     padding: '0 10px'
-  }
+  },
+  drawer: {
+    [theme.breakpoints.down('md')]: {
+      display: "none"
+    },
+  },
+  navLink: {
+    '&:hover': {
+      color: 'inherit'
+    },
+  },
 }));
+
 
 const AppToolbar = () => {
   const user = useSelector(state => state.users.user);
@@ -51,37 +64,27 @@ const AppToolbar = () => {
   const classes = useStyles();
   return (
     <>
-
       <AppBar position="fixed" className={classes.appBar}>
-
         <Toolbar>
-          <IconButton edge="start" className={classes.menuButton} color="inherit"
-                      onClick={() => dispatch(toggleDrawer())}>
+          <IconButton edge="start" className={classes.menuButton} color="inherit" onClick={() => dispatch(toggleDrawer())}>
             <MenuIcon/>
           </IconButton>
           <Typography variant="h6" className={classes.title}>
-            <NavLink to="/" className={classes.mainLink}>Shop</NavLink>
+            <NavLink to="/" className={classes.mainLink}>Delivery</NavLink>
           </Typography>
-
-          <MenuList className={classes.temporarily}>
-            <NavLink className={classes.pageLink} to='/adm'>админка</NavLink>
-            <NavLink className={classes.pageLink} to='/add-order'>форма заказа</NavLink>
-
-            <NavLink className={classes.pageLink} to='/about'>о нас</NavLink>
-            <NavLink className={classes.pageLink} to='/faq'>faq</NavLink>
-            <NavLink className={classes.pageLink} to='/contacts'>контакты</NavLink>
-            <NavLink className={classes.pageLink} to='/couriers'>курьер</NavLink>
-          </MenuList>
-
-
-
+          <ShowTo user={user} role='user'>
+            <nav className={classes.drawer}>
+              {links.map((el, i) => (
+                <Button key={i} className={classes.navLink} color="inherit" component={NavLink} to={el.path}>{el.name}</Button>
+              ))}
+            </nav>
+          </ShowTo>
           {user ? (
             <UserMenu user={user} logout={() => dispatch(logoutUser())}/>
           ) : (
             <AnonymousMenu/>
           )}
         </Toolbar>
-
       </AppBar>
       <Toolbar/>
     </>

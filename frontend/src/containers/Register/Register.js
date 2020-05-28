@@ -52,7 +52,7 @@ class Register extends Component {
     return (
       <>
         <Grid container direction='column' alignItems='center' style={{position: 'absolute', top: '40%', left: '50%', transform: 'translate(-50%, -50%)', padding: '0 16px'}}>
-          <Grid item xs sm={10} md={8} lg={7}>
+          <Grid item xs sm={10} md={8} lg={5}>
             <Paper elevation={3} style={{ border: '1px solid rgba(0, 0, 0, 0.23)', borderRadius: '4px',position: 'relative'}}>
               <Box style={{position: 'absolute', top: '-20px', left: '50%', transform: 'translateX(-50%)', backgroundColor: '#fff'}} px={1}>
                 <Typography variant="h4">Регистрация</Typography>

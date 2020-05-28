@@ -3,6 +3,7 @@ import IconButton from '@material-ui/core/IconButton';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
+import AlertDialog from '../UI/Dialog/AlertDialog';
 import {publishOrder, removeOrder, acceptOrder} from '../../store/actions/ordersActions';
 import { useDispatch } from 'react-redux';
 import {push} from 'connected-react-router';
@@ -12,6 +13,7 @@ const ITEM_HEIGHT = 48;
 
 const OrderOperationsMenu = ({id}) => {
   const [anchorEl, setAnchorEl] = React.useState(null);
+  const [openAlert, setOpenAlert] = React.useState(false);
   const open = Boolean(anchorEl);
   const dispatch = useDispatch();
 
@@ -21,20 +23,27 @@ const OrderOperationsMenu = ({id}) => {
 
   const publishOrderHandler = () => {
     setAnchorEl(null);
-    dispatch(publishOrder(id))
+    dispatch(publishOrder(id));
   };
 
   const removeOrderHandler = () => {
     setAnchorEl(null);
-    dispatch(removeOrder(id))
-  }
+    setOpenAlert(true);
+  };
 
   const editOrderHandler = () => {
-    dispatch(push(`/orders/${id}/edit`))
-  }
+    setAnchorEl(null);
+    dispatch(push(`/orders/${id}/edit`));
+  };
+
+  const acceptOrderHandler = () => {
+    setAnchorEl(null);
+    dispatch(acceptOrder(id));
+  };
 
   return (
     <div>
+      <AlertDialog open={openAlert} handleClose={() => setOpenAlert(false)} removeOrder={() => dispatch(removeOrder(id))}/>
       <IconButton
         size='small'
         onClick={handleClick}
@@ -63,7 +72,7 @@ const OrderOperationsMenu = ({id}) => {
 
         {history.location.pathname === '/adm/orders/published' && (
           <span>
-            <MenuItem onClick={() => dispatch(acceptOrder(id))}>Принять</MenuItem>
+            <MenuItem onClick={acceptOrderHandler}>Принять</MenuItem>
             {/* <MenuItem onClick={removeOrderHandler}>Отказаться</MenuItem> */}
           </span>
         )}

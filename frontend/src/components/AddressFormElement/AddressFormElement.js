@@ -89,7 +89,7 @@ const AddressFormElement = ({ addressChange, inputChangeHandler, addAddress, rem
             }}
             px={1}
           >
-            <Typography variant='overline' component='h5'>{kind === 'pickup' ? 'Адрес отправителя': 'Адрес получателя'}</Typography>
+            <Typography variant='overline' component='h5'>{kind === 'pickup' ? 'Откуда забрать': 'Куда доставить'}</Typography>
           </Box>
           {address.length > 0 && (
             <Grid item xs={12}>

@@ -57,13 +57,13 @@ const OrderRow = ({pickupAddress, deliveryAddress, ordNum, createdAt, customer, 
         <StyledTableCell align="center">{customer.surname} {customer.name} {customer.patronymic}</StyledTableCell>
         <StyledTableCell align="center">{customer.phone}</StyledTableCell>
         <StyledTableCell align="center">{amount}</StyledTableCell>
-        <StyledTableCell > <OrderOperationsMenu id={id}/> </StyledTableCell>
+        <StyledTableCell align="right"> <OrderOperationsMenu id={id}/> </StyledTableCell>
       </StyledTableRow>
       <TableRow >
         <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={7}>
           <Collapse in={open} timeout="auto" unmountOnExit>
-            <OrderRowItem address={pickupAddress} title='Адрес получения'/>
-            <OrderRowItem address={deliveryAddress} title='Адрес доставки'/>
+            <OrderRowItem address={pickupAddress} title='Откуда забрать'/>
+            <OrderRowItem address={deliveryAddress} title='Куда доставить'/>
           </Collapse>
         </TableCell>
       </TableRow>
