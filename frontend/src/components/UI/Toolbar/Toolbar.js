@@ -41,7 +41,8 @@ const useStyles = makeStyles(theme => ({
     marginRight: '30px',
   },
   pageLink: {
-    padding: '0 10px'
+    padding: '0 10px',
+    color: 'white',
   }
 }));
 
@@ -71,6 +72,7 @@ const AppToolbar = () => {
             <NavLink className={classes.pageLink} to='/faq'>faq</NavLink>
             <NavLink className={classes.pageLink} to='/contacts'>контакты</NavLink>
             <NavLink className={classes.pageLink} to='/couriers'>курьер</NavLink>
+            <NavLink className={classes.pageLink} to='/add-review'>Отзыв</NavLink>
           </MenuList>
 
 

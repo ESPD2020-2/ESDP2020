@@ -43,7 +43,7 @@ const useStyles = makeStyles((theme) => ({
     [theme.breakpoints.down('xs')]: {
       paddingTop: "0px"
     }
-  }
+  },
 }));
 
 const NewReview = () => {
