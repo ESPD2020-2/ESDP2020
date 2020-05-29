@@ -7,12 +7,9 @@ const users = require('./routes/users');
 const customers = require('./routes/customers');
 const orders = require('./routes/orders');
 const streets = require('./routes/streets');
-<<<<<<< HEAD
 const categories = require('./routes/categories');
 const products = require('./routes/products');
-=======
 const reviews = require('./routes/reviews');
->>>>>>> development
 
 const app = express();
 
@@ -27,12 +24,9 @@ const run = async () => {
   app.use('/customers', customers);
   app.use('/streets', streets);
   app.use('/orders', orders);
-<<<<<<< HEAD
   app.use('/categories', categories);
   app.use('/products', products);
-=======
   app.use('/reviews', reviews);
->>>>>>> development
 
   app.listen(config.port, () => {
     console.log(`HTTP Server started on ${config.port} port!`);

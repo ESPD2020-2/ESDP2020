@@ -70,7 +70,7 @@ const AppToolbar = () => {
             <MenuIcon/>
           </IconButton>
           <Typography variant="h6" className={classes.title}>
-            <NavLink to="/" className={classes.mainLink}>Delivery</NavLink>
+            <NavLink to="/" className={classes.mainLink}>Служба доставки</NavLink>
           </Typography>
           <ShowTo user={user} role='user'>
             <nav className={classes.drawer}>

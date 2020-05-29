@@ -1,11 +1,11 @@
 export const apiURL = "http://localhost:8000";
 
 export const links = [
+  {path: '/add-order', name: 'заказать доставку'},
   {path: '/about', name: 'о нас'},
-  {path: '/add-order', name: 'форма заказа'},
   {path: '/faq', name: 'faq'},
   {path: '/contacts', name: 'контакты'},
-  {path: '/couriers', name: 'курьер'},
+  {path: '/couriers', name: 'курьеру'},
 ];
 
 export const admLinks = [

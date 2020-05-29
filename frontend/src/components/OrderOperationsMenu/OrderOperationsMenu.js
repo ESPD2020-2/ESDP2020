@@ -65,7 +65,7 @@ const OrderOperationsMenu = ({id}) => {
         {history.location.pathname === '/adm/orders/created' && (
           <span>
             <MenuItem onClick={publishOrderHandler}>Опубликовать</MenuItem>
-            <MenuItem onClick={editOrderHandler}>Редактрировать</MenuItem>
+            <MenuItem onClick={editOrderHandler}>Редактировать</MenuItem>
             <MenuItem onClick={removeOrderHandler}>Удалить</MenuItem>
           </span>
         )}
