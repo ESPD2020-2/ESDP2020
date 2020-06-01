@@ -68,7 +68,7 @@ class Login extends Component {
                       />
                     </Grid>
                     <Grid item xs>
-                      <Button fullWidth type="submit" color="primary" variant="contained">Войти</Button>
+                      <Button fullWidth type="submit" color="primary" variant="contained">Войти как клиент</Button>
                     </Grid>
                     <Grid item xs>
                       <FacebookLogin/>
@@ -82,7 +82,7 @@ class Login extends Component {
                 </form>
               </Box>
             </Paper>
-          </Grid> 
+          </Grid>
         </Grid>
       </>
     );

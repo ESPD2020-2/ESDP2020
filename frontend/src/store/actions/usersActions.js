@@ -1,5 +1,7 @@
 import axiosApi from "../../axiosApi";
 import {push} from 'connected-react-router';
+import { toast } from 'react-toastify';
+
 
 export const REGISTER_USER_REQUEST = 'REGISTER_USER_REQUEST';
 export const REGISTER_USER_SUCCESS = 'REGISTER_USER_SUCCESS';
@@ -24,11 +26,11 @@ export const logoutUserSuccess = () => ({type: LOGOUT_USER_SUCCESS});
 export const registerUser = userData => {
     return async dispatch => {
         try {
-            console.log('Внутри юзер')
             dispatch(registerUserRequest());
             await axiosApi.post('/users', userData);
             dispatch(registerUserSuccess());
             dispatch(push('/'));
+            toast.success('Registered successfully');
         } catch (error) {
             if (error.response) {
                 dispatch(registerUserFailure(error.response.data));
@@ -45,6 +47,7 @@ export const loginUser = userData => {
             dispatch(loginUserRequest());
             const response = await axiosApi.post('/users/sessions', userData);
             dispatch(loginUserSuccess(response.data));
+            toast.success('Logged in successfully');
             response.data.role === 'user' ? dispatch(push('/')) : dispatch(push('/adm'));
         } catch (error) {
             dispatch(loginUserFailure(error.response.data));
