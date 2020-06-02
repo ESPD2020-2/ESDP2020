@@ -29,5 +29,5 @@ exports.config = {
   },
   translation: "ru-RU",
   tests: './*_test.js',
-  name: 'shop-tests'
+  name: 'delivery-tests'
 };
