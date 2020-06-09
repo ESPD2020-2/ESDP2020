@@ -7,8 +7,6 @@ import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';  
 import { withStyles, } from '@material-ui/core/styles';
-import { CallMissedSharp } from '@material-ui/icons';
-
 
 const StyledTableCell = withStyles((theme) => ({
   head: {
@@ -43,7 +41,7 @@ const OrderRowItem = ({address, title}) => {
       </Typography>
       <Table size="small">
         <TableHead>
-          <TableRow className={CallMissedSharp.row}>
+          <TableRow>
             <StyledTableCell component="th" scope="row" style={{width: '40%'}}>Улица</StyledTableCell>
             <StyledTableCell align="right" size='small' style={{width: '20%'}}>Дом</StyledTableCell>
             <StyledTableCell align="right" size='small' style={{width: '20%'}}>Корпус</StyledTableCell>

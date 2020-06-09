@@ -1,3 +1,5 @@
+const ValidationError = require('mongoose').Error.ValidationError;
+
 const express = require('express');
 const bcrypt = require('bcrypt');
 
@@ -8,12 +10,38 @@ const User = require('../models/User');
 
 const router = express.Router();
 
+router.get('/', [auth, permit('admin', 'super_admin')], async (req, res) => {
+  try {
+    const users = await User.find({role: {$ne : 'user'}}, '_id username role');
+    return res.send(users);
+  } catch (error) {
+    return res.status(500).send(error);
+  }
+  
+});
+
+router.get('/couriers', [auth, permit('courier', 'operator', 'admin', 'super_admin')], async (req, res) => {
+  try {
+    const couriers = await User.find({role: 'courier'}, {username: 1});
+    res.send(couriers);
+  } catch (error) {
+    return res.status(400).send(error);
+  }
+});
+
 router.post('/', async (req, res) => {
-  const user = new User({
+  const userData = {
     username: req.body.username,
     password: req.body.password,
-    customer: req.body.customer
-  });
+  }
+  if (req.body.role) {
+    userData.role = req.body.role;
+  }
+  if (req.body.customer) {
+    userData.customer = req.body.customer;
+  }
+
+  const user = new User(userData);
 
   try {
     user.generateToken();
@@ -44,52 +72,6 @@ router.post('/sessions', async (req, res) => {
   return res.send(user);
 });
 
-router.patch('/profile', auth, async (req, res) => {
-  try {
-    if (req.body.password) {
-      req.user.password = req.body.password;
-    }
-
-    if (req.body.displayName) {
-      req.user.displayName = req.body.displayName;
-    }
-
-    if (req.body.phone) {
-      req.user.phone = req.body.phone;
-    }
-
-    if (req.body.email) {
-      req.user.email = req.body.email;
-    }
-
-    await req.user.save();
-
-    return res.send(req.user);
-  } catch (error) {
-    console.error(error);
-    return res.sendStatus(500);
-  }
-});
-
-router.patch('/:id', [auth, permit('operator', 'admin', 'super_admin')], async (req, res) =>{
-  try {
-    if (req.body.addedToWhiteList !== null) {
-      req.user.addedToWhiteList = req.body.addedToWhiteList;
-    }
-
-    if (req.body.addedToBlackList !== null) {
-      req.user.addedToBlackList = req.body.addedToBlackList;
-    }
-
-    await req.user.save();
-
-    return res.send(req.user);
-  } catch (error) {
-    console.error(error);
-    return res.sendStatus(500);
-  }
-});
-
 router.delete('/sessions', async (req, res) => {
   const success = {message: 'Success'};
 
@@ -110,10 +92,41 @@ router.delete('/sessions', async (req, res) => {
     return res.send(success);
   }
 });
-//
-// router.get('/', async (req, res) => {
-//   const users = await User.find();
-//   return res.send(users);
-// });
+
+router.patch('/:id', [auth, permit('admin', 'super_admin')], async (req, res) => {
+  const user = await User.findById(req.params.id)
+  try {
+    if (!user) { 
+      return res.status(404).send({error: 'Not found'});
+    }
+    if (req.body.password) {
+      user.password = req.body.password;
+    }
+    if (req.body.role) {
+      user.role = req.body.role;
+    }
+    user.username = req.body.username;
+    await user.save();
+    return res.send({message: 'edited'});
+  } catch (e) {
+    if (e instanceof ValidationError) {
+      return res.status(400).send(e);
+    } else {
+      return res.sendStatus(500);
+    }
+  }
+});
+
+router.delete('/:id',[auth, permit('admin', 'super_admin')], async (req, res) => {
+  try {
+  const user = await User.findByIdAndDelete(req.params.id) 
+  if (!user) { 
+    return res.status(404).send({error: 'Not found'});
+  }
+    return res.send({message: 'deleted'});
+  } catch (e) {
+    return res.status(500).send(e);
+  }
+});
 
 module.exports = router;

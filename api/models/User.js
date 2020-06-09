@@ -17,7 +17,7 @@ const UserSchema = new Schema(
           if (!this.isModified("username")) return true;
 
           const user = await User.findOne({ username: value });
-          if (user) throw new Error("This user is already registered");
+          if (user) throw new Error("Пользователь с таким именем уже зарегистрирован");
         },
       },
     },

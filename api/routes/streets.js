@@ -1,8 +1,5 @@
 const express = require('express');
 
-// const auth = require('../middleware/auth');
-// const permit = require('../middleware/permit');
-
 const Street = require('../models/Street');
 
 const router = express.Router();
