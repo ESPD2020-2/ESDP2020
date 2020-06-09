@@ -8,7 +8,7 @@ const FormElement = (props) => {
   let inputComponent = (
     <TextField
       fullWidth
-      variant="outlined"
+      variant={props.variant ==='standard' ? props.variant : 'outlined' }
       label={props.title}
       error={!!props.error}
       type={props.type}
@@ -31,7 +31,7 @@ const FormElement = (props) => {
 
 FormElement.propTypes = {
   propertyName: PropTypes.string.isRequired,
-  title: PropTypes.string.isRequired,
+  title: PropTypes.string,
   required: PropTypes.bool,
   placeholder: PropTypes.string,
   value: PropTypes.oneOfType([

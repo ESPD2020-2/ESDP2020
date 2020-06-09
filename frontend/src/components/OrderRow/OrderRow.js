@@ -1,4 +1,7 @@
 import React from 'react';
+import moment from "moment";
+import "moment/locale/ru";
+import { makeStyles, withStyles, } from '@material-ui/core/styles';
 import Collapse from '@material-ui/core/Collapse';
 import IconButton from '@material-ui/core/IconButton';
 import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
@@ -6,9 +9,7 @@ import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
 import TableCell from '@material-ui/core/TableCell';
 import TableRow from '@material-ui/core/TableRow';  
 import OrderRowItem from "./OrderRowItem";
-import { makeStyles, withStyles, } from '@material-ui/core/styles';
-import moment from "moment";
-import "moment/locale/ru";
+import OrderRowItemReason from './OrderRowItemReason';
 import OrderOperationsMenu from '../OrderOperationsMenu/OrderOperationsMenu';
 
 const useRowStyles = makeStyles({
@@ -16,6 +17,12 @@ const useRowStyles = makeStyles({
     '& > ': {
       borderBottom: 'unset',
     },
+  }, 
+  rejectedColor: {
+    '& > ': {
+      borderBottom: 'unset',
+    },
+    backgroundColor: "rgba(245, 0, 87, 0.08) !important"
   }
 });
 
@@ -38,7 +45,7 @@ const StyledTableRow = withStyles((theme) => ({
 }))(TableRow);
 
 
-const OrderRow = ({pickupAddress, deliveryAddress, ordNum, createdAt, customer, amount, id}) => {
+const OrderRow = ({pickupAddress, deliveryAddress, ordNum, createdAt, acceptedAt, customer, amount, id, courier, status, reason}) => {
   const [open, setOpen] = React.useState(false);
   const classes = useRowStyles();
   const date = moment(createdAt).calendar();
@@ -46,7 +53,7 @@ const OrderRow = ({pickupAddress, deliveryAddress, ordNum, createdAt, customer, 
 
   return (
     <React.Fragment >
-      <StyledTableRow className={classes.root}>
+      <StyledTableRow className={reason ? classes.rejectedColor : classes.root}>
         <StyledTableCell>
           <IconButton size="small" onClick={() => setOpen(!open)}>
             {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
@@ -62,6 +69,7 @@ const OrderRow = ({pickupAddress, deliveryAddress, ordNum, createdAt, customer, 
       <TableRow >
         <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={7}>
           <Collapse in={open} timeout="auto" unmountOnExit>
+            {courier && <OrderRowItemReason reason={reason} courier={courier} status={status} acceptedAt={acceptedAt}/>}
             <OrderRowItem address={pickupAddress} title='Откуда забрать'/>
             <OrderRowItem address={deliveryAddress} title='Куда доставить'/>
           </Collapse>

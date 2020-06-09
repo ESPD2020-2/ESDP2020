@@ -5,9 +5,7 @@ import {
   GET_ORDER_REQUEST,
   GET_ORDER_SUCCESS,
   GET_ORDER_FAILURE,
-  TRANSFER_TO_COURIER_REQUEST,
   TRANSFER_TO_COURIER_FAILURE,
-  REMOVE_ORDER_REQUEST,
   REMOVE_ORDER_FAILURE,
 } from "../actions/ordersActions";
 
@@ -32,12 +30,8 @@ const ordersReducer = (state = initialState, action) => {
       return { ...state, loading: false, order: action.order };
     case GET_ORDER_FAILURE:
       return { ...state, error: action.error, loading: false };
-    case TRANSFER_TO_COURIER_REQUEST:
-      return { ...state, loading: true };
     case TRANSFER_TO_COURIER_FAILURE:
       return { ...state, loading: false, error: action.error };
-    case REMOVE_ORDER_REQUEST:
-      return { ...state, loading: true };
     case REMOVE_ORDER_FAILURE:
       return { ...state, loading: false, error: action.error };
     default:

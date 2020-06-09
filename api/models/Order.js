@@ -33,18 +33,33 @@ const OrderSchema = new Schema(
       required: true,
       default: null,
     },
-    pickupTime: {
-      type: Date,
-      default: null,
-    },
-    deliveryTime: {
-      type: Date,
-      default: null,
-    },
     createdAt: {
       type: Date,
       required: true,
       default: Date.now(),
+    },
+    acceptedAt: {
+      type: Date,
+      default: null,
+    },
+    deliveredAt: {
+      type: Date,
+      default: null,
+    },
+    historicalData: {
+      type: [mongoose.Schema.Types.Mixed],
+      required: function () {
+        return this.status === 'rejected' || this.status === 'canceled'
+      }
+    },
+    reason: {
+      type: String,
+      required: [function () {
+        return this.status === 'rejected' || this.status === 'canceled'
+      }, "Необходимо написать причину отказа, попробуйте еще раз"]
+    },
+    courierComment: {
+      type: String,
     },
     status: {
       type: String,
@@ -59,6 +74,7 @@ const OrderSchema = new Schema(
       ],
       default: "created",
     },
+
     // pickupEntityName: {
     //   //имя человека или название организации, у которых нужно забрать доставку
     //   type: String,

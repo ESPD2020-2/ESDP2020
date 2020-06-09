@@ -1,6 +1,5 @@
 import React, {useState} from 'react';
 import {Link} from "react-router-dom";
-
 import IconButton from "@material-ui/core/IconButton";
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
@@ -34,8 +33,9 @@ const UserMenu = ({user, logout}) => {
       >
         <ListItem disabled>Привет, {user.customer ? user.customer.name : user.username}!</ListItem>
         <Divider/>
-        <MenuItem onClick={handleClose} component={Link} to="/profile">Профиль</MenuItem>
-        <MenuItem onClick={handleClose} component={Link} to="/user/orders">Принятые заказы</MenuItem>
+        {user.role === 'courier' && (
+          <MenuItem onClick={handleClose} component={Link} to="/adm/orders/courier/accepted">Мои заказы</MenuItem>
+        )}
         <MenuItem onClick={logout}>Logout</MenuItem>
       </Menu>
     </>

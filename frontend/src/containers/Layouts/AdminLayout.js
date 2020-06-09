@@ -1,6 +1,6 @@
 import React from "react";
 import { useRouteMatch, NavLink } from "react-router-dom";
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {closeDrawer} from "../../store/actions/mainActions";
 import AdminRoutes from "../../routes/AdminRoutes";
 import AdmDrawerLayout from "../../components/UI/DrawerLayout/AdmDrawerLayout";
@@ -11,9 +11,10 @@ import {admLinks} from "../../constants";
 const AdminLayout = () => {
   const { path, url } = useRouteMatch();
   const dispatch = useDispatch();
+  const role = useSelector(state => state.users.user.role)
   const drawerContent = (
     <MenuList>
-      {admLinks.map(el => (
+      {admLinks.map(el => el.role.includes(role) && (
         <MenuItem key={el.name} onClick={() => dispatch(closeDrawer())} activeClassName="Mui-selected" component={NavLink} to={url + el.path}>{el.name}</MenuItem>
       ))}
     </MenuList>

@@ -16,7 +16,7 @@ const run = async () => {
     await mongoose.connection.db.dropCollection(coll.name);
   }
 
-  const [userCustomer, admCustomer, testCustomer] = await Customer.create({
+  const [user1, user2, user3] = await Customer.create({
     name: 'John',
     surname: 'Connor',
     patronymic: 'Sarovich',
@@ -38,20 +38,34 @@ const run = async () => {
   });
 
  await User.create({
-    username: 'user',
+    username: 'operator',
     password: '123',
     token: nanoid(),
-    customer: userCustomer,
+    role: 'operator'
   }, {
     username: 'admin',
     password: '123',
     role: 'admin',
     token: nanoid(),
-    customer: admCustomer,
   }, {
     username: 'courier',
     password: '123',
     role: 'courier',
+    token: nanoid(),
+  }, {
+    username: 'petr',
+    password: '123',
+    customer: user3,
+    token: nanoid(),
+  }, {
+    username: 'sarah',
+    password: '123',
+    customer: user2,
+    token: nanoid(),
+  }, {
+    username: 'john',
+    password: '123',
+    customer: user1,
     token: nanoid(),
   });
 
