@@ -166,7 +166,7 @@ export default function ForCouriers() {
           <Typography variant="p">Вежливость, пунктуальность, приятный и аккуратный внешний вид.</Typography>
         </Grid>
         <Grid item xs style={{margin:'0 3%',background:'white',textAlign:'center'}}>
-          <Typography variant="p">елефон или планшет с доступом в интернет и мессенджером (Viber, WhatsApp,
+          <Typography variant="p">Телефон или планшет с доступом в интернет и мессенджером (Viber, WhatsApp,
             Telegram) для оперативной связи.</Typography>
         </Grid>
       </Grid>
