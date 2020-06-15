@@ -1,13 +1,15 @@
 import React from 'react';
-import {useDispatch, useSelector} from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { makeStyles } from '@material-ui/core/styles';
-import {history} from '../../store/configureStore';
+import { history } from '../../store/configureStore';
 import { createOrder, editOrder } from "../../store/actions/ordersActions";
 import OrderForm from "../../components/OrderForm/OrderForm";
 import Typography from "@material-ui/core/Typography";
 import Box from "@material-ui/core/Box";
 import Grid from '@material-ui/core/Grid';
 import Paper from "@material-ui/core/Paper";
+import Backdrop from '@material-ui/core/Backdrop';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 const useStyles = makeStyles((theme) => ({
   wrap: {
@@ -44,13 +46,18 @@ const useStyles = makeStyles((theme) => ({
     [theme.breakpoints.down('xs')]: {
       paddingTop: "0px"
     }
-  }
+  },
+  backdrop: {
+    zIndex: theme.zIndex.drawer + 1,
+    color: '#fff',
+  },
 }));
 
 const NewOrder = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const user = useSelector(state => state.users.user);
+  const loading = useSelector(state => state.ord.loading);
   
   const createOrderHandler = async (data) => {
     if(data.customerId) {
@@ -64,6 +71,9 @@ const NewOrder = () => {
 
   return (
     <>
+      <Backdrop className={classes.backdrop} open={loading !== null &&loading}>
+        <CircularProgress color="inherit" />
+      </Backdrop>
       <Grid container direction='column' alignItems='center' className={classes.wrap}>
         <Grid item xs md={8} lg={5} xl={4}>
           <Paper elevation={3} className={classes.titleWrap}>

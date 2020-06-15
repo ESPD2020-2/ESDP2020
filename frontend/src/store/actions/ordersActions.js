@@ -26,6 +26,14 @@ export const REMOVE_ORDER_REQUEST = 'REMOVE_ORDER_REQUEST';
 export const REMOVE_ORDER_SUCCESS = 'REMOVE_ORDER_SUCCESS';
 export const REMOVE_ORDER_FAILURE = 'REMOVE_ORDER_FAILURE';
 
+export const REJECT_ORDER_REQUEST = 'REJECT_ORDER_REQUEST';
+export const REJECT_ORDER_SUCCESS = 'REJECT_ORDER_SUCCESS';
+export const REJECT_ORDER_FAILURE = 'REJECT_ORDER_FAILURE';
+
+export const CANCEL_ORDER_REQUEST = 'CANCEL_ORDER_REQUEST';
+export const CANCEL_ORDER_SUCCESS = 'CANCEL_ORDER_SUCCESS';
+export const CANCEL_ORDER_FAILURE = 'CANCEL_ORDER_FAILURE';
+
 export const PUBLISH_ORDER_REQUEST = 'PUBLISH_ORDER_REQUEST';
 export const PUBLISH_ORDER_SUCCESS = 'PUBLISH_ORDER_SUCCESS';
 export const PUBLISH_ORDER_FAILURE = 'PUBLISH_ORDER_FAILURE';
@@ -58,6 +66,14 @@ export const removeOrderRequest = () => ({type: REMOVE_ORDER_REQUEST});
 export const removeOrderSuccess = () => ({type: REMOVE_ORDER_SUCCESS});
 export const removeOrderFailure = (error) => ({type: REMOVE_ORDER_FAILURE, error});
 
+export const rejectOrderRequest = () => ({type: REJECT_ORDER_REQUEST});
+export const rejectOrderSuccess = () => ({type: REJECT_ORDER_SUCCESS});
+export const rejectOrderFailure = (error) => ({type: REJECT_ORDER_FAILURE, error});
+
+export const cancelOrderRequest = () => ({type: CANCEL_ORDER_REQUEST});
+export const cancelOrderSuccess = () => ({type: CANCEL_ORDER_SUCCESS});
+export const cancelOrderFailure = (error) => ({type: CANCEL_ORDER_FAILURE, error});
+
 export const publishOrderRequest = () => ({type: PUBLISH_ORDER_REQUEST});
 export const publishOrderSuccess = () => ({type: PUBLISH_ORDER_SUCCESS});
 export const publishOrderFailure = (error) => ({type: PUBLISH_ORDER_FAILURE, error});
@@ -66,13 +82,15 @@ export const acceptOrderRequest = () => ({type: ACCEPT_ORDER_REQUEST});
 export const acceptOrderSuccess = () => ({type: ACCEPT_ORDER_SUCCESS});
 export const acceptOrderFailure = (error) => ({type: ACCEPT_ORDER_FAILURE, error});
 
-export const getOrders = (status) => {
+export const getOrders = (status, courierId) => {
   return async dispatch => {
     try {
       let orders;
       dispatch(getOrdersRequest());
-      if (status) {
+      if (status && !courierId) {
         orders = await axiosApi.get(`/orders?status=${status}`);
+      } else if (status && courierId) {
+        orders = await axiosApi.get(`/orders?status=${status}&courier=${courierId}`);
       } else {
         orders = await axiosApi.get('/orders');
       }
@@ -102,7 +120,7 @@ export const createOrder = data => {
       dispatch(createOrderRequest());
       const response = await axiosApi.post(`/orders`, data);
       toast.success(response.data.message);
-      dispatch(push('/'));
+      dispatch(push('/adm/orders/created'));
     } catch (error) {
       dispatch(createOrderFailure(error));
     }
@@ -115,7 +133,7 @@ export const publishOrder = id=> {
       dispatch(publishOrderRequest());
       const response = await axiosApi.patch(`/orders/${id}/publish`);
       toast.success(response.data.message);
-      dispatch(getOrders('created'));
+      dispatch(getOrders('created,rejected,canceled'));
     } catch (error) {
       dispatch(publishOrderFailure(error));
       toast.error(error.response.data.error);
@@ -150,28 +168,71 @@ export const editOrder = (id, data) => {
   }
 };
 
-export const transferToCourier = data => {
-  return async dispatch => {
-    try {
-      dispatch(transferToCourierRequest());
-      await axiosApi.patch(`/orders/${data.courier}`, data);
-      dispatch(getOrders());
-    } catch (error) {
-      dispatch(transferToCourierFailure(error));
-    }
-  }
-};
-
 export const removeOrder = id => {
   return async dispatch => {
     try {
       dispatch(removeOrderRequest());
       const response = await axiosApi.delete(`/orders/${id}`);
       toast.success(response.data.message);
-      dispatch(getOrders('created'));
+      dispatch(getOrders('created,rejected,canceled'));
     } catch (error) {
       dispatch(removeOrderFailure(error));
       toast.error(error.response.data.error);
+    }
+  }
+};
+
+export const transferToCourier = (id, courierId) => {
+  return async dispatch => {
+    try {
+      dispatch(transferToCourierRequest());
+      const response = await axiosApi.patch(`/orders/${id}/transfer`, {courierId});
+      toast.success(response.data.message);
+      dispatch(getOrders('created,rejected,canceled'));
+    } catch (error) {
+      toast.error('Вы не выбрали курьера');
+      dispatch(transferToCourierFailure(error));
+    }
+  }
+};
+
+export const rejectOrder = (id, reason, courierId) => {
+  return async dispatch => {
+    try {
+      dispatch(rejectOrderRequest());
+      const response = await axiosApi.patch(`/orders/${id}/reject`, {reason});
+      toast.success(response.data.message);
+      dispatch(getOrders('accepted', courierId)); 
+    } catch (error) {
+      toast.error(error.response.data.errors.reason.message);
+      dispatch(rejectOrderFailure(error));
+    }
+  }
+};
+
+export const cancelOrder = (id, reason, courierId) => {
+  return async dispatch => {
+    try {
+      dispatch(cancelOrderRequest());
+      const response = await axiosApi.patch(`/orders/${id}/cancel`, {reason});
+      toast.success(response.data.message);
+      dispatch(getOrders('accepted', courierId));
+    } catch (error) {
+      toast.error(error.response.data.errors.reason.message);
+      dispatch(cancelOrderFailure(error));
+    }
+  }
+};
+
+export const deliveredOrder = (id, comment, courierId) => {
+  return async dispatch => {
+    try {
+      dispatch(cancelOrderRequest());
+      const response = await axiosApi.patch(`/orders/${id}/delivered`, {comment});
+      toast.success(response.data.message);
+      dispatch(getOrders('accepted', courierId));
+    } catch (error) {
+      dispatch(cancelOrderFailure(error));
     }
   }
 };

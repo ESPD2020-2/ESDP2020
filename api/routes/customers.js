@@ -1,7 +1,7 @@
 const express = require('express');
 
-// const auth = require('../middleware/auth');
-// const permit = require('../middleware/permit');
+const auth = require('../middleware/auth');
+const permit = require('../middleware/permit');
 
 const Customer = require('../models/Customer');
 
@@ -25,7 +25,7 @@ router.post('/', async (req, res) => {
 });
 
 
-router.patch('/:id', async (req, res) => {
+router.patch('/:id', [auth, permit('operator', 'admin', 'super_admin')], async (req, res) => {
 
   const customer = await Customer.findById(req.params.id)
   try {
