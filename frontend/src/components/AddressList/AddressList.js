@@ -8,8 +8,6 @@ import ExpandLess from '@material-ui/icons/ExpandLess';
 import ExpandMore from '@material-ui/icons/ExpandMore';
 import AddressListItem from './AddressListItem';
 
-
-
 const useStyles = makeStyles(() => ({
   root: {
     width: '100%',

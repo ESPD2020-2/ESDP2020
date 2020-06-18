@@ -19,12 +19,8 @@ class OrderForm extends Component {
     phone: '',
     email: '',
     pickupStreet: null,
-    pickupHouse: "",
-    pickupBuilding: "",
     pickupApartment: "",
     deliveryStreet: null,
-    deliveryHouse: "",
-    deliveryBuilding: "",
     deliveryApartment: "",
     pickupAddress: [],
     deliveryAddress: [],
@@ -134,28 +130,24 @@ class OrderForm extends Component {
   };
   
   addPickupAddressHandler = () => {
-    if (!this.state.pickupStreet || this.state.pickupHouse === "") {
+    if (!this.state.pickupStreet === "") {
       this.setState({ pickupError: "Необходимо заполнить" });
     } 
     else {
       this.setState({
         pickupAddress: [...this.state.pickupAddress, {
           street: this.state.pickupStreet,
-          house: this.state.pickupHouse,
-          building: this.state.pickupBuilding,
           apartment: this.state.pickupApartment
         }],
         paymentAmount: this.state.paymentAmount + 50,
         pickupStreet: null,
-        pickupHouse: '',
-        pickupBuilding: '',
         pickupApartment: '',
       });
     }
   };
 
   addDeliveryAddressHandler = () => {
-    if (!this.state.deliveryStreet || this.state.deliveryHouse === "") {
+    if (!this.state.deliveryStreet === "") {
       this.setState({ deliveryError: "Необходимо заполнить" });
     } 
     else {
@@ -163,14 +155,10 @@ class OrderForm extends Component {
       this.setState({
         deliveryAddress: [...this.state.deliveryAddress, {
           street: this.state.deliveryStreet,
-          house: this.state.deliveryHouse,
-          building: this.state.deliveryBuilding,
           apartment: this.state.deliveryApartment
         }],
         paymentAmount: this.state.paymentAmount + 50,
         deliveryStreet: null,
-        deliveryHouse: '',
-        deliveryBuilding: '',
         deliveryApartment: ''
       });
     }
@@ -183,7 +171,7 @@ class OrderForm extends Component {
       return undefined;
     }
   };
-  
+    
   render() {
     const path = this.props.history.location.pathname;
     return (
@@ -281,8 +269,6 @@ class OrderForm extends Component {
             removeAdress={this.removeAdressHandler}
             address={this.state.pickupAddress}
             street={this.state.pickupStreet}
-            house={this.state.pickupHouse}
-            building={this.state.pickupBuilding}
             apartment={this.state.pickupApartment}
             error={this.state.pickupError}
             kind='pickup'
@@ -294,8 +280,6 @@ class OrderForm extends Component {
             removeAdress={this.removeAdressHandler}
             address={this.state.deliveryAddress}
             street={this.state.deliveryStreet}
-            house={this.state.deliveryHouse}
-            building={this.state.deliveryBuilding}
             apartment={this.state.deliveryApartment}
             error={this.state.deliveryError}
             kind='delivery'

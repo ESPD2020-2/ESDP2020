@@ -13,5 +13,6 @@ export const admLinks = [
   {path: '/orders/published', name: 'Курьерская', role: ['admin', 'super_admin','courier']},
   {path: '/orders/accepted', name: 'В процессе', role: ['admin', 'super_admin', 'operator']},
   {path: '/orders/courier/accepted', name: 'Мои заказы', role: ['courier']},
+  {path: '/trecking', name: 'Трекинг', role: ['admin', 'super_admin', 'operator']},
   {path: '/users', name: 'Пользователи', role: ['admin', 'super_admin']}
 ];

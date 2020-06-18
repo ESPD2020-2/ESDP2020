@@ -32,6 +32,13 @@ const UserSchema = new Schema(
         return this.role === 'user';
       },
     },
+    courier: {
+      type: Schema.Types.ObjectId,
+      ref: "Courier",
+      required: function () {
+        return this.role === 'courier';
+      },
+    },
     token: {
       type: String,
       required: true,
