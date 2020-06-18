@@ -35,7 +35,7 @@ const useStyles = makeStyles((theme) => ({
       top: '-20px', 
       left: '50%', 
       transform: 'translateX(-50%)', 
-      backgroundColor: '#fff'
+      background: 'linear-gradient(360deg, rgba(255,255,255,1) 0%, rgba(255,255,255,1) 33%, rgba(250,250,250,1) 34%, rgba(250,250,250,1) 100%)'
     },
     [theme.breakpoints.down('xs')]: {
       padding: "20px 0",

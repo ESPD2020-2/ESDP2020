@@ -42,19 +42,15 @@ const OrderRowItem = ({address, title}) => {
       <Table size="small">
         <TableHead>
           <TableRow>
-            <StyledTableCell component="th" scope="row" style={{width: '40%'}}>Улица</StyledTableCell>
-            <StyledTableCell align="right" size='small' style={{width: '20%'}}>Дом</StyledTableCell>
-            <StyledTableCell align="right" size='small' style={{width: '20%'}}>Корпус</StyledTableCell>
-            <StyledTableCell align="right" size='small' style={{width: '20%'}}>Картира/Офис</StyledTableCell>
+            <StyledTableCell component="th" scope="row" style={{width: '60%'}}>Адрес</StyledTableCell>
+            <StyledTableCell align="right" size='small' style={{width: '40%'}}>Картира/Офис</StyledTableCell>
           </TableRow>
         </TableHead>
         <TableBody>
           {address.map((el,i) => (
             <StyledTableRow key={i}>
-              <TableCell component="th" scope="row" style={{width: '40%'}}>{el.street}</TableCell>
-              <TableCell align="right" size='small' style={{width: '20%'}}>{el.house}</TableCell>
-              <TableCell align="right" size='small' style={{width: '20%'}}>{el.building ? el.building : 'нет'}</TableCell>
-              <TableCell align="right" size='small' style={{width: '20%'}}>{el.apartment}</TableCell>
+              <TableCell component="th" scope="row" style={{width: '60%'}}>{el.street}</TableCell>
+              <TableCell align="right" size='small' style={{width: '40%'}}>{el.apartment ? el.apartment : 'нет'}</TableCell>
             </StyledTableRow>
           ))}
         </TableBody>

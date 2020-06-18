@@ -1,8 +1,11 @@
 const express = require('express');
 const cors = require('cors');
 const mongoose = require('mongoose');
-
+const expressWs = require('express-ws');
 const config = require('./config');
+const app = express();
+expressWs(app);
+
 const users = require('./routes/users');
 const customers = require('./routes/customers');
 const orders = require('./routes/orders');
@@ -10,8 +13,7 @@ const streets = require('./routes/streets');
 const categories = require('./routes/categories');
 const products = require('./routes/products');
 const reviews = require('./routes/reviews');
-
-const app = express();
+const couriers = require('./routes/couriers');
 
 app.use(express.json());
 app.use(cors());
@@ -27,6 +29,7 @@ const run = async () => {
   app.use('/categories', categories);
   app.use('/products', products);
   app.use('/reviews', reviews);
+  app.use('/couriers', couriers);
 
   app.listen(config.port, () => {
     console.log(`HTTP Server started on ${config.port} port!`);

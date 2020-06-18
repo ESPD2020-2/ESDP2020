@@ -1,66 +1,45 @@
-import axiosApi from "../../axiosApi";
+import axios from 'axios';
+import { toast } from "react-toastify";
 
-export const GET_STREETS_REQUEST = 'GET_STREETS_REQUEST';
-export const GET_STREETS_SUCCESS = 'GET_STREETS_SUCCESS';
-export const GET_STREETS_FAILURE = 'GET_STREETS_FAILURE';
+export const GET_ADDRESS_SUCCESS = 'GET_ADDRESS_SUCCESS';
+export const GET_ADDRESS_FAILURE = 'GET_ADDRESS_FAILURE';
+export const GET_ADDRESSES_SUCCESS = 'GET_ADDRESSES_SUCCESS';
+export const GET_ADDRESSES_FAILURE = 'GET_ADDRESSES_FAILURE';
 
-// export const CREATE_ORDER_REQUEST = 'CREATE_ORDER_REQUEST';
-// export const CREATE_ORDER_SUCCESS = 'CREATE_ORDER_SUCCESS';
-// export const CREATE_ORDER_FAILURE = 'CREATE_ORDER_FAILURE';
+export const getAddressSuccess = (address) => ({type: GET_ADDRESS_SUCCESS, address});
+export const getAddressFailure = (error) => ({type: GET_ADDRESS_FAILURE, error});
 
-// export const REMOVE_ORDER_REQUEST = 'REMOVE_ORDER_REQUEST';
-// export const REMOVE_ORDER_SUCCESS = 'REMOVE_ORDER_SUCCESS';
-// export const REMOVE_ORDER_FAILURE = 'REMOVE_ORDER_FAILURE';
+export const getAddressesSuccess = (addresses) => ({type: GET_ADDRESSES_SUCCESS, addresses});
+export const getAddressesFailure = (error) => ({type: GET_ADDRESSES_FAILURE, error});
 
-export const getStreetsRequest = () => ({type: GET_STREETS_REQUEST});
-export const getStreetsSuccess = (streets) => ({type: GET_STREETS_SUCCESS, streets});
-export const getStreetsFailure = (error) => ({type: GET_STREETS_FAILURE, error});
-
-// export const createOrderRequest = () => ({type: CREATE_ORDER_REQUEST});
-// export const createOrderSuccess = () => ({type: CREATE_ORDER_SUCCESS});
-// export const createOrderFailure = (Error1) => ({type: CREATE_ORDER_FAILURE, Error1});
-
-// export const removeOrderRequest = () => ({type: REMOVE_ORDER_REQUEST});
-// export const removeOrderSuccess = () => ({type: REMOVE_ORDER_SUCCESS});
-// export const removeOrderFailure = (Error1) => ({type: TRANSFER_TO_COURIER_FAILURE, Error1});
-
-export const getStreets = (query) => {
+export const getAddressByGeodata = (lat, lng) => {
   return async dispatch => {
     try {
-      let streets;
-      dispatch(getStreetsRequest());
-      if (!query) {
-        streets = await axiosApi.get('/streets/');
-      } else {
-        streets = await axiosApi.get(`/streets?search=${query}`);
-      }
-      dispatch(getStreetsSuccess(streets.data));
+      const url = `https://admin.nambafood.swift.kg/api/search_geo_address/?lat=${lat}&lon=${lng}`
+      const response = await axios.get(url);
+      dispatch(getAddressSuccess(response.data.addresses[0]));
     } catch (error) {
-      dispatch(getStreetsFailure(error));
+      if (error.response) {
+        dispatch(getAddressFailure(error.response.data));
+      } else {
+        toast.error("Network Error or no internet");
+      }
     }
   }
 };
 
-// export const createOrder = data => {
-//   return async dispatch => {
-//     try {
-//       dispatch(createOrderRequest());
-//       await axiosApi.post(`/orders`, data);
-//       dispatch(getOrders());
-//     } catch (Error1) {
-//       dispatch(createOrderFailure(Error1));
-//     }
-//   }
-// };
-
-// export const removeOrder = id => {
-//   return async dispatch => {
-//     try {
-//       dispatch(removeOrderRequest());
-//       await axiosApi.delete(`/orders/${id}`);
-//       dispatch(getOrders());
-//     } catch (Error1) {
-//       dispatch(removeOrderFailure(Error1));
-//     }
-//   }
-// };
+export const getAddressesByName = (value) => {
+  return async dispatch => {
+    try {
+      const url = `https://admin.nambafood.swift.kg/api/search_address/?q=${value}`;
+      const response = await axios.get(url);
+      dispatch(getAddressesSuccess(response.data.addresses));
+    } catch (error) {
+      if (error.response) {
+        dispatch(getAddressesFailure(error.response.data));
+      } else {
+        toast.error("Network Error or no internet");
+      }
+    }
+  }
+};
