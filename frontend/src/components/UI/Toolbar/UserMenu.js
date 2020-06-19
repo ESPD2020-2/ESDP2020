@@ -10,6 +10,8 @@ import Divider from "@material-ui/core/Divider";
 import AccountCircleOutlinedIcon from '@material-ui/icons/AccountCircleOutlined';
 import ReconnectingWebSocket from 'reconnecting-websocket';
 
+const env = process.env.REACT_APP_ENV;
+
 let getLocation;
 const options = {
   connectionTimeout: 1000,
@@ -73,7 +75,11 @@ const UserMenu = ({user, logout}) => {
         getToWorkHandler();
       } 
       if (user && user.role !== 'user') {
-        ws.current = new ReconnectingWebSocket(`ws://localhost:8000/users/couriers?Token=${user.token}`, [], options);
+        let url = `ws://localhost:8000/users/couriers?Token=${user.token}`
+        if (env === 'production') {
+          url = `ws://188.166.69.86:8000/users/couriers?Token=${user.token}`
+        }
+        ws.current = new ReconnectingWebSocket(url, [], options);
       }
       ws.current.onmessage = (couriers) => {
         try {
