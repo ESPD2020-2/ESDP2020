@@ -7,7 +7,7 @@ if (env === 'test') {
 }
 
 if (env === 'production') {
-  apiURL = 'http://188.166.69.86:8000'
+  apiURL = 'https://deliveryforall.sytes.net/api'
 }
 
 const config = {
