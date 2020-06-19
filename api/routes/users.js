@@ -182,7 +182,7 @@ const refreshData = async (courierId, parsed) => {
   }
 };
 
-router.wss("/couriers", wsAuth, function (ws) {
+router.ws("/couriers", wsAuth, function (ws) {
   const user = ws.user;
   connections[user._id] = { user, ws };
   console.log("total clients connected: " + Object.keys(connections).length);
