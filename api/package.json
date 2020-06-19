@@ -6,7 +6,9 @@
   "scripts": {
     "start": "node index.js",
     "dev": "nodemon index.js",
-    "seed": "node fixtures.js"
+    "seed": "node fixtures.js",
+    "seed:test": "NODE_ENV=test node fixtures.js",
+    "start:test": "NODE_ENV=test node index.js"
   },
   "keywords": [],
   "author": "",
@@ -16,7 +18,9 @@
     "bcrypt": "^4.0.1",
     "cors": "^2.8.5",
     "express": "^4.17.1",
+    "express-ws": "^4.0.0",
     "mongoose": "^5.9.10",
+    "mongoose-unique-validator": "^2.0.3",
     "multer": "^1.4.2",
     "nanoid": "^3.1.3"
   },

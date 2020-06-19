@@ -1,0 +1,16 @@
+{
+  "name": "delivery-tests",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "npx codeceptjs run --steps"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "codeceptjs": "^2.6.1",
+    "puppeteer": "^3.0.0"
+  }
+}
