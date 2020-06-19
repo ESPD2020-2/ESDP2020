@@ -6,7 +6,6 @@ const bcrypt = require("bcrypt");
 const auth = require("../middleware/auth");
 const wsAuth = require("../middleware/wsAuth");
 const permit = require("../middleware/permit");
-const wsPermit = require("../middleware/wsPermit");
 
 const User = require("../models/User");
 const Courier = require("../models/Courier");
