@@ -6,7 +6,7 @@ if (env === 'test') {
   apiURL = "http://localhost:8010";
 }
 
-if (env = 'production') {
+if (env === 'production') {
   apiURL = 'http://188.166.69.86:8000'
 }
 
