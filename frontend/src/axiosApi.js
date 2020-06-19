@@ -1,9 +1,9 @@
 import axios from 'axios';
-import {apiURL} from "./constants";
+import config from "./config";
 import store from './store/configureStore';
 
 const axiosApi = axios.create({
-    baseURL: apiURL
+    baseURL: config.apiURL
 });
 
 axiosApi.interceptors.request.use((config)=> {

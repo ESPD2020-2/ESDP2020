@@ -8,7 +8,7 @@ import CardActions from "@material-ui/core/CardActions";
 import IconButton from "@material-ui/core/IconButton";
 import ShoppingBasketIcon from '@material-ui/icons/ShoppingBasket';
 import {Link} from "react-router-dom";
-import {apiURL} from "../../constants";
+import config from "../../config";
 import CardActionArea from "@material-ui/core/CardActionArea";
 import Typography from "@material-ui/core/Typography";
 
@@ -27,7 +27,7 @@ const useStyles = makeStyles((theme) => ({
 const MedicineCard = props => {
 	const classes = useStyles();
 
-	let image = apiURL + '/' + props.image;
+	let image = config.apiURL + '/' + props.image;
 
 	return (
 		<Grid container item xs={6} sm={4} md={3} lg={3} style={{marginTop: '10px'}} justify="space-between">

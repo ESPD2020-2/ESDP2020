@@ -5,7 +5,7 @@ exports.config = {
       url: 'http://localhost:3010',
       show: !process.env.CI,
       headless: !!process.env.CI,
-      windowSize: '800x600'
+      windowSize: '1280x720'
     }
   },
   include: {

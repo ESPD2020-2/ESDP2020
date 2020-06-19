@@ -68,7 +68,7 @@ class Login extends Component {
                       />
                     </Grid>
                     <Grid item xs>
-                      <Button fullWidth type="submit" color="primary" variant="contained">Войти как клиент</Button>
+                      <Button fullWidth type="submit" color="primary" variant="contained">Bойти</Button>
                     </Grid>
                     <Grid item xs>
                       <FacebookLogin/>

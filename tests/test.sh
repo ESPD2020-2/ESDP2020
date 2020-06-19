@@ -4,7 +4,6 @@ REL_PATH=`dirname $0`
 cd ${REL_PATH}
 CURRENT_DIR=`pwd`
 
-echo ${CURRENT_DIR}
 cd ${CURRENT_DIR}
 
 echo '##################'
@@ -16,7 +15,7 @@ echo '# API'
 cd ../api
 
 echo '# Running fixtures'
-NODE_ENV=test npm run seed
+npm run seed:test
 
 echo '# Running API server in test mode'
 pm2 start "npm run start:test" --name="delivery-api-test"
@@ -31,7 +30,6 @@ done
 
 echo "# Running tests"
 cd ../tests
-echo "$@"
 npx codeceptjs run --steps "$@"
 EXIT_CODE=$?
 
