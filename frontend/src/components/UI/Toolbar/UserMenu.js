@@ -77,7 +77,7 @@ const UserMenu = ({user, logout}) => {
       if (user && user.role !== 'user') {
         let url = `ws://localhost:8000/users/couriers?Token=${user.token}`
         if (env === 'production') {
-          url = `http://deliveryforall.sytes.net/api/users/couriers?Token=${user.token}`
+          url = `wss://deliveryforall.sytes.net/api/users/couriers?Token=${user.token}`
         }
         ws.current = new ReconnectingWebSocket(url, [], options);
       }
