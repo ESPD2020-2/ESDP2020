@@ -18,7 +18,7 @@ const run = async () => {
     await mongoose.connection.db.dropCollection(coll.name);
   }
 
-  const [courier, courier2] = await Courier.create({
+  const [courier, courier2, courier3] = await Courier.create({
     displayName: 'Vasya',
     phone: '0555 11-11-11',
     email: 'Vasya@skynet.com',
@@ -26,6 +26,10 @@ const run = async () => {
     displayName: 'Petya',
     phone: '0555 29-29-29',
     email: 'Petya@skynet.com'
+  }, {
+    displayName: 'Roma',
+    phone: '0555 29-59-28',
+    email: 'Roma@skynet.com'
   })
 
   const [user1, user2, user3] = await Customer.create({
@@ -71,6 +75,12 @@ const run = async () => {
     role: 'courier',
     token: nanoid(),
     courier: courier2
+  }, {
+    username: 'courier3',
+    password: '123',
+    role: 'courier',
+    token: nanoid(),
+    courier: courier3
   }, {
     username: 'petr',
     password: '123',
