@@ -20,6 +20,7 @@ const useStyles = makeStyles((theme) => ({
       transform: 'translate(-50%, -50%)',
       padding: '0 16px',
     },
+    
   },
   titleWrap: {
     [theme.breakpoints.down('xs')]: {
@@ -74,8 +75,8 @@ const NewOrder = () => {
       <Backdrop className={classes.backdrop} open={loading !== null &&loading}>
         <CircularProgress color="inherit" />
       </Backdrop>
-      <Grid container direction='column' alignItems='center' className={classes.wrap}>
-        <Grid item xs md={8} lg={5} xl={4}>
+      <Grid container direction='column' alignItems='center' className={classes.wrap} style={{maxWidth: '700px', maxHeight: 'calc(100% - 300px)'}}>
+        <Grid item xs style={{paddingBottom: "16px"}}>
           <Paper elevation={3} className={classes.titleWrap}>
             <Box className={classes.title} px={1}>
               <Typography variant="h4">{history.location.pathname === '/add-order' ? 'Создать заказ' : 'Редактировать'}</Typography>

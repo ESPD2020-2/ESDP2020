@@ -7,27 +7,15 @@ const CustomerSchema = new Schema(
   {
     name: {
       type: String,
-      validate: {
-        validator: function (value) {
-          if (value.length === 0) throw new Error('Heобходимо заполнить');
-        }
-      }
+      required: [true, 'Heобходимо заполнить']
     },
     surname: {
       type: String,
-      validate: {
-        validator: function (value) {
-          if (value.length === 0) throw new Error('Heобходимо заполнить');
-        }
-      }
+      required: [true, 'Heобходимо заполнить']
     },
     patronymic: {
       type: String,
-      validate: {
-        validator: function (value) {
-          if (value.length === 0) throw new Error('Heобходимо заполнить');
-        }
-      }
+      required: [true, 'Heобходимо заполнить']
     },
     phone: {
       type: String,

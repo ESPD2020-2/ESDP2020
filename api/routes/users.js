@@ -9,6 +9,7 @@ const permit = require("../middleware/permit");
 
 const User = require("../models/User");
 const Courier = require("../models/Courier");
+const Customer = require("../models/Customer");
 
 const router = express.Router();
 
@@ -41,25 +42,38 @@ router.get(
 );
 
 router.post("/", async (req, res) => {
-  const userData = {
-    username: req.body.username,
-    password: req.body.password,
-  };
-  if (req.body.role) {
-    userData.role = req.body.role;
-  }
-  if (req.body.customer) {
-    userData.customer = req.body.customer;
-  }
-
-  const user = new User(userData);
-
   try {
+    const userData = {
+      username: req.body.username,
+      password: req.body.password,
+    };
+
+    const customerData = {
+      name: req.body.name,
+      surname: req.body.surname,
+      patronymic: req.body.patronymic,
+      phone: req.body.phone,
+      email: req.body.email,
+    };
+
+    if (req.body.role) {
+      userData.role = req.body.role;
+    }
+
+    const customer = new Customer(customerData);
+    await customer.save();
+    userData.customer = customer._id;
+    
+    const user = new User(userData);
     user.generateToken();
     await user.save();
     return res.send(user);
   } catch (error) {
-    return res.status(400).send(error);
+    if (error instanceof ValidationError) {
+      return res.status(400).send(error);
+    } else {
+      return res.sendStatus(500);
+    }
   }
 });
 
