@@ -44,6 +44,8 @@ const OrderRow = ({pickupAddress, deliveryAddress, ordNum, createdAt, customer, 
   const date = moment(createdAt).calendar();
   moment.locale("ru");
 
+  console.log(customer);
+
   return (
     <React.Fragment >
       <StyledTableRow className={classes.root}>

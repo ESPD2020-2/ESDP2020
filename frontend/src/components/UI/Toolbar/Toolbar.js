@@ -72,7 +72,8 @@ const AppToolbar = () => {
             <NavLink className={classes.pageLink} to='/faq'>faq</NavLink>
             <NavLink className={classes.pageLink} to='/contacts'>контакты</NavLink>
             <NavLink className={classes.pageLink} to='/couriers'>курьер</NavLink>
-            <NavLink className={classes.pageLink} to='/add-review'>Отзыв</NavLink>
+            <NavLink className={classes.pageLink} to='/add-review'>Новый отзыв</NavLink>
+            <NavLink className={classes.pageLink} to='/reviews'>Отзывы</NavLink>
           </MenuList>
 
 

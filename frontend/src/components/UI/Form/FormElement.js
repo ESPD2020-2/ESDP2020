@@ -8,6 +8,8 @@ const FormElement = (props) => {
   let inputComponent = (
     <TextField
       fullWidth
+      multiline={props.multiline}
+      rows={props.rows}
       variant="outlined"
       label={props.title}
       error={!!props.error}
@@ -43,6 +45,8 @@ FormElement.propTypes = {
   onChange: PropTypes.func.isRequired,
   error: PropTypes.string,
   size: PropTypes.string,
+  rows: PropTypes.number,
+  multiline: PropTypes.bool,
 };
 
 export default FormElement;

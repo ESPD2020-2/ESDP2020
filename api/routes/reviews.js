@@ -8,13 +8,13 @@ const permit = require('../middleware/permit');
 const router = express.Router();
 
 router.get('/', async (req, res) => {
-  const reviews = await Review.find();
+  const reviews = await Review.find().populate('customer', 'name surname patronymic');
   return res.send(reviews);
 });
 
-router.get('/:id', async (req, res) => {
+router.get('/:id', [auth, permit('admin','super_admin')], async (req, res) => {
   try {
-    const review = await Review.findById(req.params.id);
+    const review = await Review.findById(req.params.id).populate('customer', 'name surname patronymic');
 
     if (!review) {
       return res.status(404).send({message: "Отзыв не найден"});
@@ -26,20 +26,10 @@ router.get('/:id', async (req, res) => {
   }
 });
 
-router.get('/:author', auth, async (req, res) => {
-  const authorReviews = await Review.find({author: req.user._id});
-
-  if (!authorReviews) {
-    return res.status(404).send({message: "Нет такого автора отзыва!"});
-  } else {
-    return res.status(200).send(authorReviews);
-  }
-});
-
-router.post('/', auth, async (req, res) => {
+router.post('/', [auth, permit('user')], async (req, res) => {
   try {
     const reviewData = {
-      author: req.body.customerId,
+      customer: req.body.customerId,
       comment: req.body.comment,
       rating: req.body.rating,
     };

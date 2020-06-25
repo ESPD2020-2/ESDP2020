@@ -10,6 +10,7 @@ import About from "../containers/About/About";
 import ForCouriers from "../containers/ForCouriers/forCouriers";
 import NewReview from "../containers/NewReview/NewReview";
 import ReviewCard from "../components/ReviewCard/ReviewCard";
+import Reviews from "../containers/Reviews/Reviews";
 
 const Routes = () => {
 
@@ -26,6 +27,7 @@ const Routes = () => {
         <Route path='/about' component={About}/>
         <Route path='/add-review' component={NewReview} />
         <Route path='/review' component={ReviewCard} />
+        <Route path='/reviews' component={Reviews} />
     </Switch>
   );
 };
