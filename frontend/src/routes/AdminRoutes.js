@@ -6,7 +6,7 @@ import Users from "../containers/Users/Users";
 import CourierTrecking from "../containers/Maps/CourierTrecking";
 import Dashboard from "../containers/Dashboard/Dashboard";
 
-const AdminRoutes = ({path}) => {
+const AdminRoutes = ({ path }) => {
   // const username = useSelector(state => state.users.user.username);
   return (
     <Switch>

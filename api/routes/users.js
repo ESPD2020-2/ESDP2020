@@ -59,15 +59,18 @@ router.post("/", async (req, res) => {
     if (req.body.role) {
       userData.role = req.body.role;
     }
-
     const customer = new Customer(customerData);
-    await customer.save();
     userData.customer = customer._id;
-    
     const user = new User(userData);
     user.generateToken();
-    await user.save();
-    return res.send(user);
+    await user.validate();
+    await customer.validate();
+
+    if (user) {
+      await customer.save();
+      await user.save();
+      return res.send(user);
+    }
   } catch (error) {
     if (error instanceof ValidationError) {
       return res.status(400).send(error);

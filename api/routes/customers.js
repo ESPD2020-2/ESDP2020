@@ -24,7 +24,6 @@ router.post('/', async (req, res) => {
   }
 });
 
-
 router.patch('/:id', [auth, permit('operator', 'admin', 'super_admin')], async (req, res) => {
 
   const customer = await Customer.findById(req.params.id)
@@ -45,6 +44,5 @@ router.patch('/:id', [auth, permit('operator', 'admin', 'super_admin')], async (
     return res.status(500).send(e);
   }
 });
-
 
 module.exports = router;
