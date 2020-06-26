@@ -4,9 +4,9 @@ import {connect} from "react-redux";
 import {createCustomer} from "../../store/actions/customersActions";
 import FormElement from '../UI/Form/FormElement';
 import Box from '@material-ui/core/Box';
-import Typography from '@material-ui/core/Typography';
-import Button from '@material-ui/core/Button';
-import ShowTo from '../../hoc/ShowTo';
+// import Typography from '@material-ui/core/Typography';
+// import Button from '@material-ui/core/Button';
+// import ShowTo from '../../hoc/ShowTo';
 import {withRouter} from 'react-router'
 
 class ReviewForm extends Component {
@@ -199,15 +199,15 @@ class ReviewForm extends Component {
                     required
                   />
                 </Grid>
-                <Grid item xs>
-                  <Button
-                    type="submit"
-                    color="primary"
-                    variant="contained"
-                  >
-                    Отправить отзыв
-                  </Button>
-                </Grid>
+                {/*<Grid item xs>*/}
+                {/*  <Button*/}
+                {/*    type="submit"*/}
+                {/*    color="primary"*/}
+                {/*    variant="contained"*/}
+                {/*  >*/}
+                {/*    Отправить отзыв*/}
+                {/*  </Button>*/}
+                {/*</Grid>*/}
               </Grid>
             </Box>
           </Grid>

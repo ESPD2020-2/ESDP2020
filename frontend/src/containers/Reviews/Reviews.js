@@ -1,6 +1,6 @@
 import React, {useEffect} from 'react';
 import {useDispatch, useSelector} from "react-redux";
-import {fetchReviews} from "../../store/actions/reviewActions";
+import {createReview, fetchReviews} from "../../store/actions/reviewActions";
 import Grid from "@material-ui/core/Grid";
 import Spinner from "../../components/UI/Spinner/Spinner";
 import ReviewCard from "../../components/ReviewCard/ReviewCard";
@@ -10,6 +10,8 @@ import Typography from "@material-ui/core/Typography";
 import Box from "@material-ui/core/Box";
 import Button from "@material-ui/core/Button";
 import PostAddIcon from '@material-ui/icons/PostAdd';
+import DialogElement from "../../components/UI/Dialog/DialogElement";
+import ReviewForm from "../../components/ReviewForm/ReviewForm";
 
 const useStyles = makeStyles((theme) => ({
   wrap: {
@@ -50,6 +52,11 @@ const useStyles = makeStyles((theme) => ({
       paddingTop: "0px"
     },
   },
+  formWrap: {
+    [theme.breakpoints.down('xs')]: {
+      paddingTop: "0px"
+    }
+  },
 }));
 
 const Reviews = () => {
@@ -61,6 +68,24 @@ const Reviews = () => {
   useEffect( () => {
     dispatch(fetchReviews());
   }, [dispatch]);
+
+  const [open, setOpen] = React.useState(false);
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  const user = useSelector(state => state.users.user);
+
+  const createReviewHandler = async (reviewData) => {
+    if(reviewData.customerId) {
+      await dispatch(createReview(reviewData));
+    }
+  };
 
   return (
     <>
@@ -74,6 +99,7 @@ const Reviews = () => {
                 color="primary"
                 className={classes.button}
                 startIcon={<PostAddIcon />}
+                onClick={handleClickOpen}
               >
                 Оставить свой отзыв
               </Button>
@@ -94,6 +120,19 @@ const Reviews = () => {
           </Paper>
         </Grid>
       </Grid>
+
+      <DialogElement
+        title="Отзывы"
+        handleClose={handleClose}
+        open={open}
+      >
+        {<Box className={classes.formWrap} pt={5} pb={2}>
+          <ReviewForm
+            create={createReviewHandler}
+            user={user}
+          />
+        </Box>}
+      </DialogElement>
     </>
   );
 };
