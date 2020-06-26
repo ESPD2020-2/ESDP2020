@@ -7,7 +7,7 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import PropTypes from 'prop-types';
 
-const DialogElement = ({open, handleClose, title, subtitle, children}) => {
+const DialogElement = ({open, handleClose, title, subtitle, children, type, value, actionHandler}) => {
   return (
     <>
       <Dialog
@@ -22,8 +22,8 @@ const DialogElement = ({open, handleClose, title, subtitle, children}) => {
           {children}
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose} color="primary" type="submit">
-            Сохранить
+          <Button color="primary" type={type} onClick={actionHandler}>
+            {value}
           </Button>
         </DialogActions>
       </Dialog>
@@ -34,9 +34,12 @@ const DialogElement = ({open, handleClose, title, subtitle, children}) => {
 DialogElement.propTypes = {
   open: PropTypes.bool.isRequired,
   handleClose: PropTypes.func.isRequired,
+  actionHandler: PropTypes.func.isRequired,
   title: PropTypes.string.isRequired,
   subtitle: PropTypes.string,
   children: PropTypes.element.isRequired,
+  type: PropTypes.string,
+  value: PropTypes.string,
 };
 
 export default DialogElement;

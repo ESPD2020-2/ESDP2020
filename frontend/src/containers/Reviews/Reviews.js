@@ -125,6 +125,7 @@ const Reviews = () => {
         title="Отзывы"
         handleClose={handleClose}
         open={open}
+        actionHandler={createReviewHandler}
       >
         {<Box className={classes.formWrap} pt={5} pb={2}>
           <ReviewForm
