@@ -5,6 +5,7 @@ import Orders from "../containers/Orders/Orders";
 import Users from "../containers/Users/Users";
 import CourierTrecking from "../containers/Maps/CourierTrecking";
 import Dashboard from "../containers/Dashboard/Dashboard";
+import NotFound from "../containers/NotFound/NotFound";
 
 const AdminRoutes = ({ path }) => {
   // const username = useSelector(state => state.users.user.username);
@@ -18,7 +19,7 @@ const AdminRoutes = ({ path }) => {
       <Route path={`${path}/trecking`} exact component={CourierTrecking} />
       <Route path={`${path}/`} exact component={Dashboard} />
       {/* <Route path={`${path}/`} exact render={() => <h1>Добро пожаловать, {username}!</h1>} /> */}
-      <Route render={() => <h1>Not found</h1>} />
+      {/*<Route render={() => <NotFound/>} />*/}
     </Switch>
   );
 };

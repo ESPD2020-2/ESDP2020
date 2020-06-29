@@ -6,6 +6,7 @@ import Contacts from "../containers/Contacts/Contacts";
 import About from "../containers/About/About";
 import ForCouriers from "../containers/ForCouriers/forCouriers";
 import ReviewForm from "../components/ReviewForm/ReviewForm";
+import NotFound from "../containers/NotFound/NotFound";
 
 const Routes = () => {
   return (
@@ -17,6 +18,7 @@ const Routes = () => {
         <Route path="/couriers" component={ForCouriers}/>
         <Route path='/about' component={About}/>
         <Route path='/review-form' component={ReviewForm} />
+        {/*<Route render={() => <NotFound/>} />*/}
     </Switch>
   );
 };
