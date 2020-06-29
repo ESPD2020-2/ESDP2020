@@ -7,6 +7,7 @@ const Category = require('./models/Category');
 const Street = require('./models/Street');
 const streets = require('./constant');
 const {nanoid} = require("nanoid");
+const Courier = require('./models/Courier');
 
 const run = async () => {
   await mongoose.connect(config.database, config.databaseOptions);
@@ -16,6 +17,20 @@ const run = async () => {
   for (let coll of collections) {
     await mongoose.connection.db.dropCollection(coll.name);
   }
+
+  const [courier, courier2, courier3] = await Courier.create({
+    displayName: 'Vasya',
+    phone: '0555 11-11-11',
+    email: 'Vasya@skynet.com',
+  }, {
+    displayName: 'Petya',
+    phone: '0555 29-29-29',
+    email: 'Petya@skynet.com'
+  }, {
+    displayName: 'Roma',
+    phone: '0555 29-59-28',
+    email: 'Roma@skynet.com'
+  })
 
   const [user1, user2, user3] = await Customer.create({
     name: 'John',
@@ -53,6 +68,19 @@ const run = async () => {
     password: '123',
     role: 'courier',
     token: nanoid(),
+    courier: courier
+  }, {
+    username: 'courier2',
+    password: '123',
+    role: 'courier',
+    token: nanoid(),
+    courier: courier2
+  }, {
+    username: 'courier3',
+    password: '123',
+    role: 'courier',
+    token: nanoid(),
+    courier: courier3
   }, {
     username: 'petr',
     password: '123',

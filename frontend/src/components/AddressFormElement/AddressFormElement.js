@@ -1,6 +1,4 @@
-import React, {Fragment} from 'react';
-import {useDispatch, useSelector} from "react-redux";
-import { getStreets } from '../../store/actions/streetsActions';
+import React, {Fragment, useState} from 'react';
 import FormElement from '../UI/Form/FormElement';
 import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
@@ -24,6 +22,9 @@ import Typography from '@material-ui/core/Typography';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import Badge from '@material-ui/core/Badge';
 import { makeStyles, withStyles } from '@material-ui/core/styles';
+import AddressSelectDialog from '../UI/Dialog/AddressSelectDialog';
+import { getAddressesByName } from '../../store/actions/streetsActions';
+import { useDispatch, useSelector } from 'react-redux';
 
 const StyledBadge = withStyles((theme) => ({
   badge: {
@@ -34,7 +35,7 @@ const StyledBadge = withStyles((theme) => ({
   },
 }))(Badge);
 
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles((theme) => ({
   ripple: {
     width: '134.11px',
     height: '134.11px',
@@ -57,166 +58,172 @@ const useStyles = makeStyles(() => ({
     opacity: '1',
     borderRadius: '50%',
     backgroundColor: 'currentColor',
+  },
+  autoWrap: {
+    [theme.breakpoints.up('sm')]: {
+      '& .MuiOutlinedInput-adornedEnd' : {
+        paddingRight: '168px !important'
+      }
+    },
+    position: 'relative',
+    
+  },
+  showOnMap: {
+    [theme.breakpoints.down('xs')]: {
+      position: 'inherit',
+      top: 4,
+      left: 14
+    },
+    position: 'absolute',
+    top: 10,
+    right: 46,
+    color: '#3f51b5',
+    transform: 'scale(0.75)',
+    cursor: 'pointer'
   }
 }));
 
-const AddressFormElement = ({ addressChange, inputChangeHandler, addAddress, removeAdress, address, street, house, building, apartment, error, kind}) => {
-  const streets = useSelector(state => state.street.streets);
-  const dispatch = useDispatch();
+const AddressFormElement = ({ addressChange, inputChangeHandler, addAddress, removeAdress, address, street, apartment, error, kind}) => {
   const classes = useStyles();
-  const searchHandler = (event) => {
+  const dispatch = useDispatch();
+  const addresses = useSelector(state => state.street.addresses);
+  const [open, setOpen] =useState(false);
+
+  const searchHandler = async (event) => {
     if (event.target.value.length > 2) {
-      dispatch(getStreets(event.target.value));
+      dispatch(getAddressesByName(event.target.value))
     }
   };
 
   return (
-    <Grid item container xs>
-      <Box p={3} >
-        <Grid item container spacing={2} style=
-        {{
-          border: '1px solid rgba(0, 0, 0, 0.23)',
-          borderRadius: '4px',
-          padding: '8px',
-          position: 'relative'
-        }}>
-          <Box 
-            style={{
-              position: 'absolute',
-              top: '-17px',
-              left: '8%',
-              backgroundColor: '#fff',
-            }}
-            px={1}
-          >
-            <Typography variant='overline' component='h5'>{kind === 'pickup' ? 'Откуда забрать': 'Куда доставить'}</Typography>
-          </Box>
-          {address.length > 0 && (
-            <Grid item xs={12}>
-              <ExpansionPanel >
-                <ExpansionPanelSummary
-                  expandIcon={<ExpandMoreIcon />}
-                  aria-controls="panel1a-content"
-                  id="panel1a-header"
-                >
-                  <Typography><StyledBadge badgeContent={address.length} color="secondary">{kind === 'pickup' ? "Точки получения" : "Точки доставки"}</StyledBadge></Typography>
-                </ExpansionPanelSummary>
-                <ExpansionPanelDetails style={{ justifyContent: "center" }}>
-                  <List style={{ width: "100%" }}>
-                    <Divider />
-                    {address.map((el, i) => (
-                      <Fragment key={i}>
-                        <ListItem>
-                          <ListItemAvatar>
-                            <Avatar>
-                              <HomeIcon />
-                            </Avatar>
-                          </ListItemAvatar>
-                          <ListItemText
-                            primary={
-                              <>
-                                <span>{el.street}</span>
-                                <span> <b> дом - </b> {el.house}</span>
-                                {!!el.building&& (
-                                  <span> <b> корпус - </b> {el.building}</span>
-                                )}
-                                {!!el.apartment && (<span> <b> кв - </b> {el.apartment}</span>
-                                )}
-                              </>
-                            }
-                          />
-                          <ListItemSecondaryAction style={{ right: "8px" }}>
-                            <IconButton
-                              onClick={() => removeAdress(i, kind)}
-                              edge="end"
-                              aria-label="delete"
-                            >
-                              <CloseIcon />
-                            </IconButton>
-                          </ListItemSecondaryAction>
-                        </ListItem>
-                        <Divider />
-                      </Fragment>
-                    ))}
-                  </List>
-                </ExpansionPanelDetails>
-              </ExpansionPanel>
-            </Grid>
-          )}
-          <Grid item xs={12} >
-            <Autocomplete
-              options={streets.map((option) => option.name)}
-              noOptionsText="Для начала поиска необходимо ввести 3 символа"
-              onChange={(e, val) => addressChange(e, val, kind)}
-              value={street}
-              clearOnEscape
-              size='small'
-              clearText="Очистить"
-              openText="Развернуть"
-              closeText="Свернуть"
-              renderInput={(params) => (
-                <TextField
-                  {...params}
-                  label="Улица/Микрорайон"
-                  onChange={(e) => searchHandler(e)}
-                  variant="outlined"
-                  required
-                  error={!!error}
-                  helperText={error}
-                />
-              )}
-            />
-          </Grid>
-          <Grid item xs={12} sm={4}>
-            <FormElement
-              type="text"
-              required
-              size='small'
-              propertyName={kind ==='pickup' ? 'pickupHouse' : 'deliveryHouse'}
-              title="Дом"
-              onChange={(e) => inputChangeHandler(e)}
-              value={house}
-              error={error}
-            />
-          </Grid>
-          <Grid item xs={12} sm={4}>
-            <FormElement
-              type="text"
-              size='small'
-              propertyName={kind ==='pickup' ? 'pickupBuilding' : 'deliveryBuilding'}
-              title="Корпус"
-              onChange={(e) => inputChangeHandler(e)}
-              value={building}
-            />
-          </Grid>
-          <Grid item xs={12} sm={4}>
-            <FormElement
-              type="text"
-              size='small'
-              propertyName={kind ==='pickup' ? 'pickupApartment' : 'deliveryApartment'}
-              title="Квартира"
-              onChange={(e) => inputChangeHandler(e)}
-              value={apartment}
-            />
-          </Grid>
-          <Grid item xs={12}>
-          <Button
-              onClick={addAddress}
-              color="primary"
-              variant="contained"
-              style={{outline: 'none', overflow: 'hidden'}}
+    <>
+      <AddressSelectDialog open={open} handleClose={() => setOpen(false)} addressChange={addressChange} kind={kind}/>
+      <Grid item container xs>
+        <Box p={3} style={{width: '100%'}}>
+          <Grid item container spacing={2} style=
+          {{
+            border: '1px solid rgba(0, 0, 0, 0.23)',
+            borderRadius: '4px',
+            padding: '8px',
+            position: 'relative'
+          }}>
+            <Box 
+              style={{
+                position: 'absolute',
+                top: '-17px',
+                left: '8%',
+                backgroundColor: '#fff',
+              }}
+              px={1}
             >
-             {street && house && (
-                <span className={classes.ripple}>
-                  <span className={classes.childRipple}/>
-                </span>
-              )}
-              Добавить точку
-            </Button>
+              <Typography variant='overline' component='h5'>{kind === 'pickup' ? 'Откуда забрать': 'Куда доставить'}</Typography>
+            </Box>
+            {address.length > 0 && (
+              <Grid item xs={12}>
+                <ExpansionPanel >
+                  <ExpansionPanelSummary
+                    expandIcon={<ExpandMoreIcon />}
+                    aria-controls="panel1a-content"
+                    id="panel1a-header"
+                  >
+                    <Typography><StyledBadge badgeContent={address.length} color="secondary">{kind === 'pickup' ? "Точек получения" : "Точек доставки"}</StyledBadge></Typography>
+                  </ExpansionPanelSummary>
+                  <ExpansionPanelDetails style={{ justifyContent: "center" }}>
+                    <List style={{ width: "100%" }}>
+                      <Divider />
+                      {address.map((el, i) => (
+                        <Fragment key={i}>
+                          <ListItem>
+                            <ListItemAvatar>
+                              <Avatar>
+                                <HomeIcon />
+                              </Avatar>
+                            </ListItemAvatar>
+                            <ListItemText
+                              primary={
+                                <>
+                                  <span>{el.street}</span>
+                                  {!!el.apartment && (<span> <b> кв - </b> {el.apartment}</span>
+                                  )}
+                                </>
+                              }
+                            />
+                            <ListItemSecondaryAction style={{ right: "8px" }}>
+                              <IconButton
+                                onClick={() => removeAdress(i, kind)}
+                                edge="end"
+                                aria-label="delete"
+                              >
+                                <CloseIcon />
+                              </IconButton>
+                            </ListItemSecondaryAction>
+                          </ListItem>
+                          <Divider />
+                        </Fragment>
+                      ))}
+                    </List>
+                  </ExpansionPanelDetails>
+                </ExpansionPanel>
+              </Grid>
+            )}
+            <Grid item xs={12} sm={10} >
+              <Autocomplete
+                options={addresses&&addresses.map((option) => option.title)}
+                noOptionsText="Для начала поиска необходимо ввести 3 символа"
+                onChange={(e, val) => addressChange(e, val, kind)}
+                getOptionSelected={(opt) => opt !== street}
+                value={street}
+                clearOnEscape
+                size='small'
+                clearText="Очистить"
+                openText="Развернуть"
+                closeText="Свернуть"
+                className={classes.autoWrap}
+                renderInput={(params) => (
+                  <>
+                    <TextField
+                      {...params}
+                      label="Улица/Микрорайон"
+                      onChange={(e) => searchHandler(e)}
+                      variant="outlined"
+                      required
+                      error={!!error}
+                      helperText={error}
+                    />
+                    <span onClick={() => setOpen(true)} className={classes.showOnMap}>Указать на карте</span>
+                  </>
+                )}
+              />
+            </Grid>
+            <Grid item xs={12} sm={2}>
+              <FormElement
+                type="text"
+                size='small'
+                propertyName={kind ==='pickup' ? 'pickupApartment' : 'deliveryApartment'}
+                title="Кв"
+                onChange={(e) => inputChangeHandler(e)}
+                value={apartment}
+              />
+            </Grid>
+            <Grid item xs={12}>
+            <Button
+                onClick={addAddress}
+                color="primary"
+                variant="contained"
+                style={{outline: 'none', overflow: 'hidden'}}
+              >
+              {street && (
+                  <span className={classes.ripple}>
+                    <span className={classes.childRipple}/>
+                  </span>
+                )}
+                Добавить точку
+              </Button>
+            </Grid>
           </Grid>
-        </Grid>
-      </Box>
-    </Grid>
+        </Box>
+      </Grid>
+    </>
   )
 }
 

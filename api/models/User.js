@@ -10,7 +10,7 @@ const UserSchema = new Schema(
   {
     username: {
       type: String,
-      required: true,
+      required: [true, 'Heобходимо заполнить'],
       unique: true,
       validate: {
         validator: async function (value) {
@@ -23,13 +23,20 @@ const UserSchema = new Schema(
     },
     password: {
       type: String,
-      required: true,
+      required: [true, 'Heобходимо заполнить'],
     },
     customer: {
       type: Schema.Types.ObjectId,
       ref: "Customer",
       required: function () {
         return this.role === 'user';
+      },
+    },
+    courier: {
+      type: Schema.Types.ObjectId,
+      ref: "Courier",
+      required: function () {
+        return this.role === 'courier';
       },
     },
     token: {

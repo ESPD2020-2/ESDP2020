@@ -14,7 +14,7 @@ const AddressListItem = ({address}) => {
   return (
     <ListItem className={classes.nested}>
       <ListItemText primary={`
-      ${address.street} дом-${address.house}${address.building&&address.building} ${address.apartment && 'кв-' + address.apartment}
+      ${address.street} ${address.apartment && 'кв-' + address.apartment}
       `} />
     </ListItem>
   );
