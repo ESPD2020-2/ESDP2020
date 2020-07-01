@@ -19,7 +19,7 @@ const AdminRoutes = ({ path }) => {
       <Route path={`${path}/trecking`} exact component={CourierTrecking} />
       <Route path={`${path}/`} exact component={Dashboard} />
       {/* <Route path={`${path}/`} exact render={() => <h1>Добро пожаловать, {username}!</h1>} /> */}
-      {/*<Route render={() => <NotFound/>} />*/}
+      <Route render={() => <NotFound type="adm"/>} />
     </Switch>
   );
 };
