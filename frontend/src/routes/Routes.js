@@ -5,7 +5,6 @@ import Register from "../containers/Register/Register";
 import Login from "../containers/Login/Login";
 import AdminLayout from "../containers/Layouts/AdminLayout";
 import MainLayout from "../containers/Layouts/MainLayout";
-import NotFound from "../containers/NotFound/NotFound";
 
 const ProtectedRoute = ({ isAllowed, ...props }) =>
   isAllowed ? <Route {...props} /> : <Redirect to="/" />;
@@ -16,9 +15,8 @@ const Routes = () => {
     <Switch>
       <Route path="/register/" exact component={Register} />
       <Route path="/login" exact component={Login} />
-        <Route path="/" exact component={MainLayout } />
+      <Route path="/" component={MainLayout } />
       <ProtectedRoute isAllowed={user && ['super_admin', 'admin', 'operator', 'courier'].includes(user.role)} path="/adm" component={AdminLayout} />
-        <Route render={() => <NotFound/>} />
     </Switch>
   );
 };
