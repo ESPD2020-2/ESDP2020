@@ -15,8 +15,8 @@ const Routes = () => {
     <Switch>
       <Route path="/register/" exact component={Register} />
       <Route path="/login" exact component={Login} />
-      <Route path="/" component={MainLayout } />
       <ProtectedRoute isAllowed={user && ['super_admin', 'admin', 'operator', 'courier'].includes(user.role)} path="/adm" component={AdminLayout} />
+        <Route path="/" component={MainLayout } />
     </Switch>
   );
 };
