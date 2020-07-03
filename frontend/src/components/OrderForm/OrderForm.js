@@ -298,6 +298,7 @@ class OrderForm extends Component {
                 onClick={() => this.props.history.goBack()}
                 color="secondary"
                 variant="contained"
+                id="sendOrder"
                 style={{marginLeft: '15px'}}
               >
                 Отмена
