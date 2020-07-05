@@ -59,7 +59,7 @@ const AddressSelectDialog = ({open, handleClose, addressChange, kind}) => {
       <DialogContent>
         <Maps addressChange={addressChange} address={address}/>
         <Grid container alignItems="center" justify='center' style={{marginTop: 10}}>
-          <RoomIcon htmlColor='rgb(37, 127, 202)' fontSize='large'/> 
+          <RoomIcon htmlColor='rgb(37, 127, 202)' fontSize='large'/>
           <DialogContentText style={{margin: 0}}>{kind ==='pickup' ? 'Забрать по адресу: ' : 'Доставить по адресу: '}<b>{address ? address.title : 'Укажите адрес на карте'}</b></DialogContentText>
         </Grid>
       </DialogContent>
