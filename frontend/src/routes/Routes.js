@@ -1,6 +1,6 @@
 import React from "react";
-import { Route, Switch, Redirect } from "react-router-dom";
-import { useSelector } from "react-redux";
+import {Redirect, Route, Switch} from "react-router-dom";
+import {useSelector} from "react-redux";
 import Register from "../containers/Register/Register";
 import Login from "../containers/Login/Login";
 import AdminLayout from "../containers/Layouts/AdminLayout";
@@ -15,16 +15,8 @@ const Routes = () => {
     <Switch>
       <Route path="/register/" exact component={Register} />
       <Route path="/login" exact component={Login} />
-      <ProtectedRoute
-        isAllowed={
-          user &&
-          ["super_admin", "admin", "operator", "courier"].includes(user.role)
-        }
-        path="/adm"
-        component={AdminLayout}
-      />
-      <Route path="/" component={MainLayout} />
-      <Route render={() => <h1>Not found</h1>} />
+      <ProtectedRoute isAllowed={user && ['super_admin', 'admin', 'operator', 'courier'].includes(user.role)} path="/adm" component={AdminLayout} />
+        <Route path="/" component={MainLayout } />
     </Switch>
   );
 };
