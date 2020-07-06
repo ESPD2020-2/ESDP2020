@@ -32,7 +32,6 @@ const UserMenu = ({user, logout}) => {
       stopWorkHandler();
       ws.current.close();
     }
-    
   };
 
   const getToWorkHandler = () => {
@@ -59,9 +58,8 @@ const UserMenu = ({user, logout}) => {
     const data = {
       type: 'REFRESH_GEODATA',
       geoData : {
-      lat: position.coords.latitude, 
-      lon: position.coords.longitude, 
-      datetime:''
+        lat: position.coords.latitude, 
+        lon: position.coords.longitude,
       }
     }
     await ws.current.send(JSON.stringify(data))

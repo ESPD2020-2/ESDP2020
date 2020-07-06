@@ -90,9 +90,22 @@ const Users = () => {
         variant='standard'
         onChange={e => props.onChange(e.target.value)}
         error={getFieldError('password')}
-      /> )
-    },
-    { title: 'Role', field: 'role', lookup: { 'super_admin': 'super_admin', 'admin': 'admin', 'operator': 'operator', 'courier': 'courier' }},
+      /> 
+    )},
+    { title: 'Display name', field: 'displayName', 
+    editComponent: props => (
+      <FormElement
+        type="text"
+        propertyName="displayName"
+        value={props.value ? props.value : '' }
+        placeholder="Display name"
+        size="small"
+        variant='standard'
+        onChange={e => props.onChange(e.target.value)}
+        error={getFieldError('displayName')}
+      /> 
+    )},
+    { title: 'Role', field: 'role', initialEditValue: 'courier', lookup: { 'super_admin': 'super_admin', 'admin': 'admin', 'operator': 'operator', 'courier': 'courier' }},
   ];
   
   return (

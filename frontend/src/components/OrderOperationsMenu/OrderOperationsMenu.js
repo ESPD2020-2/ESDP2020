@@ -11,7 +11,7 @@ import {publishOrder, removeOrder, acceptOrder, rejectOrder, cancelOrder, delive
 
 const ITEM_HEIGHT = 48;
 
-const OrderOperationsMenu = ({id}) => {
+const OrderOperationsMenu = ({id, status}) => {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [openAlert, setOpenAlert] = React.useState(false);
   const [action, setAction] = React.useState('');
@@ -75,11 +75,12 @@ const OrderOperationsMenu = ({id}) => {
         open={openAlert} 
         action={action}
         couriers={couriers}
+        author={user.username}
         handleClose={() => setOpenAlert(false)}
         removeOrder={() => dispatch(removeOrder(id))}
         transferOrder={(courier) => dispatch(transferToCourier(id, courier))}
-        rejectOrder={(reason) => dispatch(rejectOrder(id, reason, user._id))}
-        cancelOrder={(reason) => dispatch(cancelOrder(id, reason, user._id))}
+        rejectOrder={(reason) => dispatch(rejectOrder(id, reason))}
+        cancelOrder={(reason) => dispatch(cancelOrder(id, reason))}
         deliveredOrder={(comment) => dispatch(deliveredOrder(id, comment, user._id))}
       />
       <IconButton
@@ -103,22 +104,22 @@ const OrderOperationsMenu = ({id}) => {
       >
         {history.location.pathname === '/adm/orders/created' && (
           <span>
-            <MenuItem onClick={publishOrderHandler}>Опубликовать</MenuItem>
-            <MenuItem onClick={transferToCourierHandler}>Передать курьеру</MenuItem>
-            <MenuItem onClick={editOrderHandler}>Редактрировать</MenuItem>
-            <MenuItem onClick={removeOrderHandler}>Удалить</MenuItem>
+            <MenuItem disabled={status==='canceled'} onClick={publishOrderHandler}>Опубликовать</MenuItem>
+            <MenuItem disabled={status==='canceled'} onClick={transferToCourierHandler}>Передать курьеру</MenuItem>
+            <MenuItem disabled={status==='canceled'} onClick={editOrderHandler}>Редактрировать</MenuItem>
+            {status==='rejected' && ( <MenuItem onClick={cancelOrderHandler}>Отменить</MenuItem>)}
+            <MenuItem disabled={status==='canceled'} onClick={removeOrderHandler}>Удалить</MenuItem>
           </span>
         )}
 
         {history.location.pathname === '/adm/orders/published' && (
           <span>
-            <MenuItem onClick={acceptOrderHandler}>Принять</MenuItem>
+            <MenuItem disabled={user.role !== 'courier'} onClick={acceptOrderHandler}>Принять</MenuItem>
           </span>
         )}
         {history.location.pathname === '/adm/orders/accepted' || history.location.pathname === '/adm/orders/courier/accepted' ? (
           <span>
             <MenuItem onClick={rejectOrderHandler}>Отказаться</MenuItem>
-            <MenuItem onClick={cancelOrderHandler}>Отменен</MenuItem>
             <MenuItem onClick={deliveredOrderHandler}>Доставлен</MenuItem>
           </span>
         ) : (

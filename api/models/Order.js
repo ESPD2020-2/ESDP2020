@@ -8,7 +8,7 @@ const OrderSchema = new Schema(
     orderNumber: {
       type: String,
       required: true,
-      default: () => nanoid(8),
+      default: () => nanoid(7),
     },
     customer: {
       type: Schema.Types.ObjectId,
@@ -36,9 +36,13 @@ const OrderSchema = new Schema(
     createdAt: {
       type: Date,
       required: true,
-      default: Date.now(),
+      default: Date.now,
     },
     acceptedAt: {
+      type: Date,
+      default: null,
+    },
+    canceledAt: {
       type: Date,
       default: null,
     },
@@ -53,10 +57,10 @@ const OrderSchema = new Schema(
       }
     },
     reason: {
-      type: String,
-      required: [function () {
+      type: mongoose.Schema.Types.Mixed,
+      required: function () {
         return this.status === 'rejected' || this.status === 'canceled'
-      }, "Необходимо написать причину отказа, попробуйте еще раз"]
+      }
     },
     courierComment: {
       type: String,
@@ -64,52 +68,16 @@ const OrderSchema = new Schema(
     status: {
       type: String,
       enum: [
-        "created", //создание
+        "created", 
         "published",
-        "transferred", //передача курьеру
-        "accepted", //принятием курьером
-        "rejected", //отказ от выполнения заказа курьером после принятия этого заказа
-        "canceled", //отказ от выполнения заказа клиентом после принятия этого заказа
-        "delivered", //доставлено курьером
+        "transferred",
+        "accepted",
+        "rejected", 
+        "canceled", 
+        "delivered", 
       ],
       default: "created",
     },
-
-    // pickupEntityName: {
-    //   //имя человека или название организации, у которых нужно забрать доставку
-    //   type: String,
-    // },
-    // pickupEntityPhone: {
-    //   type: String,
-    //   validate: {
-    //     validator: function (v) {
-    //       return /\+996\(\d{3}\)\d{2}-\d{2}-\d{2}/.text(v);
-    //     },
-    //     message: (props) => `${props.value} is not a valid phone number!`,
-    //   },
-    //   required: true,
-    // },
-   
-    // deliveryEntityName: {
-    //   //имя человека или название организации, которому осуществляется доставка
-    //   type: String,
-    // },
-    
-    // deliveryEntityPhone: {
-    //   type: String,
-    //   validate: {
-    //     validator: function (v) {
-    //       return /\+996\(\d{3}\)\d{2}-\d{2}-\d{2}/.text(v);
-    //     },
-    //     message: (props) => `${props.value} is not a valid phone number!`,
-    //   },
-    //   required: true,
-    // },
-   
-    // additionalInfo: {
-    //   type: String,
-    //   default: null,
-    // },
   },
   {
     versionKey: false,

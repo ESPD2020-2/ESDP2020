@@ -8,7 +8,6 @@ import ordersReducer from "./reducers/ordersReducer";
 import mainReducer from "./reducers/mainReducer";
 import streetsReducer from "./reducers/streetsReducer";
 import customersReducer from "./reducers/customersReducer";
-import categoriesReducer from "./reducers/categoriesReducer";
 import pharmacyReducer from "./reducers/pharmacyReducer";
 import reviewsReducer from "./reducers/reviewsReducer";
 
@@ -23,7 +22,6 @@ const rootReducer = combineReducers({
   customers: customersReducer,
   ord: ordersReducer,
   street: streetsReducer,
-  categories: categoriesReducer,
   pharmacy: pharmacyReducer,
   reviews: reviewsReducer,
 });

@@ -10,10 +10,8 @@ const users = require('./routes/users');
 const customers = require('./routes/customers');
 const orders = require('./routes/orders');
 const streets = require('./routes/streets');
-const categories = require('./routes/categories');
 const products = require('./routes/products');
 const reviews = require('./routes/reviews');
-const couriers = require('./routes/couriers');
 
 app.use(express.json());
 app.use(cors());
@@ -26,10 +24,8 @@ const run = async () => {
   app.use('/customers', customers);
   app.use('/streets', streets);
   app.use('/orders', orders);
-  app.use('/categories', categories);
   app.use('/products', products);
   app.use('/reviews', reviews);
-  app.use('/couriers', couriers);
 
   app.listen(config.port, () => {
     console.log(`HTTP Server started on ${config.port} port!`);

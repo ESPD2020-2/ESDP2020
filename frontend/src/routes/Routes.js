@@ -13,8 +13,8 @@ const Routes = () => {
   const user = useSelector((state) => state.users.user);
   return (
     <Switch>
-      <Route path="/register/" exact component={Register} />
-      <Route path="/login" exact component={Login} />
+      <Route path="/register" exact component={Register} />
+      <ProtectedRoute isAllowed={user?false:true} path="/login" exact component={Login} />
       <ProtectedRoute
         isAllowed={
           user &&
