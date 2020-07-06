@@ -238,7 +238,7 @@ const Register = () => {
                 </Grid>
                 <Grid item container xs>
                   <Box style={{ width: "100%", textAlign: "center" }}>
-                    <Button type="submit" color="primary" variant="contained">
+                    <Button type="submit" color="primary" variant="contained" id="signUp">
                       Зарегистрироваться
                     </Button>
                   </Box>

@@ -1,6 +1,6 @@
 import React from "react";
-import { Route, Switch, Redirect } from "react-router-dom";
-import { useSelector } from "react-redux";
+import {Redirect, Route, Switch} from "react-router-dom";
+import {useSelector} from "react-redux";
 import Register from "../containers/Register/Register";
 import Login from "../containers/Login/Login";
 import AdminLayout from "../containers/Layouts/AdminLayout";
