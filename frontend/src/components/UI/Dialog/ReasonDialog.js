@@ -8,7 +8,7 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 
-const ReasonDialog = ({open, action, handleClose, removeOrder, rejectOrder, cancelOrder, transferOrder, deliveredOrder, couriers}) => {
+const ReasonDialog = ({open, action, handleClose, removeOrder, rejectOrder, cancelOrder, transferOrder, deliveredOrder, couriers, author}) => {
 
   const [reason, setReason] = useState('');
   const [courierId, setCourierId] = useState('');
@@ -16,8 +16,8 @@ const ReasonDialog = ({open, action, handleClose, removeOrder, rejectOrder, canc
   const orderHandler = () => {
     handleClose();
     action === 'remove' && removeOrder();
-    action === 'reject' && rejectOrder(reason);
-    action === 'cancel' && cancelOrder(reason);
+    action === 'reject' && rejectOrder({author, reason});
+    action === 'cancel' && cancelOrder({author, reason});
     action === 'transfer' && transferOrder(courierId);
     action === 'delivered' && deliveredOrder(reason);
   };
@@ -28,12 +28,12 @@ const ReasonDialog = ({open, action, handleClose, removeOrder, rejectOrder, canc
   }
   
   return (
-    <Dialog open={open} onClose={handleClose}>
+    <Dialog open={open} onClose={handleClose} >
       <DialogTitle id="form-dialog-title">
-        {action === 'remove' && 'Причина Удаления'}
+        {action === 'remove' && 'Причина удаления'}
         {action === 'transfer' && 'Выбор курьера'}
         {action === 'reject' && 'Причина отказа'}
-        {action === 'cancel' && 'Причина отказа'}
+        {action === 'cancel' && 'Причина отмены'}
         {action === 'delivered' && 'Комментарий о клиенте'}
       </DialogTitle>
       <DialogContent>
@@ -41,7 +41,7 @@ const ReasonDialog = ({open, action, handleClose, removeOrder, rejectOrder, canc
         {action === 'remove' && 'Эта оперция необратима, Вы действительно хотите продолжить?'}
         {action === 'transfer' && 'Назначьте нового курьера для выполнения заказа'}
         {action === 'reject' && 'Укажите причину отказа от выполнения заказа'}
-        {action === 'cancel' && 'Укажите причину отказа от выполнения заказа'}
+        {action === 'cancel' && 'Укажите причину отмены заказа'}
         {action === 'delivered' && 'Напишите комментарий о клиенте'}
         </DialogContentText>
         {action !== 'remove' && (
