@@ -15,7 +15,6 @@ const UserSchema = new Schema(
       validate: {
         validator: async function (value) {
           if (!this.isModified("username")) return true;
-
           const user = await User.findOne({ username: value });
           if (user) throw new Error("Пользователь с таким именем уже зарегистрирован");
         },
@@ -32,13 +31,6 @@ const UserSchema = new Schema(
         return this.role === 'user';
       },
     },
-    courier: {
-      type: Schema.Types.ObjectId,
-      ref: "Courier",
-      required: function () {
-        return this.role === 'courier';
-      },
-    },
     token: {
       type: String,
       required: true,
@@ -48,6 +40,13 @@ const UserSchema = new Schema(
       required: true,
       default: "user",
       enum: ["user", "courier", "operator", "admin", "super_admin"],
+    },
+    displayName: {
+      type: String,
+    },
+    geoData: {
+      type: mongoose.Schema.Types.Mixed,
+      default: null
     },
   },
   {

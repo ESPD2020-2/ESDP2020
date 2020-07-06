@@ -101,7 +101,6 @@ const Register = () => {
       direction="column"
       alignItems="center"
       className={classes.wrap}
-      style={{}}
     >
       <Grid item xs style={{ width: "100%" }}>
         <Paper elevation={3} className={classes.titleWrap}>

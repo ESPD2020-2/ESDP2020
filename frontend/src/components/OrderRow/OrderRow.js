@@ -64,7 +64,7 @@ const OrderRow = ({pickupAddress, deliveryAddress, ordNum, createdAt, acceptedAt
         <StyledTableCell align="center">{customer.surname} {customer.name} {customer.patronymic}</StyledTableCell>
         <StyledTableCell align="center">{customer.phone}</StyledTableCell>
         <StyledTableCell align="center">{amount}</StyledTableCell>
-        <StyledTableCell align="right"> <OrderOperationsMenu id={id}/> </StyledTableCell>
+        <StyledTableCell align="right"> <OrderOperationsMenu id={id} status={status}/> </StyledTableCell>
       </StyledTableRow>
       <TableRow >
         <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={7}>
