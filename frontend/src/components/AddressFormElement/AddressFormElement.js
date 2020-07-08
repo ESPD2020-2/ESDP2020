@@ -75,7 +75,7 @@ const useStyles = makeStyles((theme) => ({
       left: 14
     },
     position: 'absolute',
-    top: 10,
+    top: 8,
     right: 46,
     color: '#3f51b5',
     transform: 'scale(0.75)',
@@ -211,6 +211,7 @@ const AddressFormElement = ({ addressChange, inputChangeHandler, addAddress, rem
                 color="primary"
                 variant="contained"
                 style={{outline: 'none', overflow: 'hidden'}}
+                disabled={!street}
               >
               {street && (
                   <span className={classes.ripple}>

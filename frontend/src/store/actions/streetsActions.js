@@ -22,7 +22,7 @@ export const getAddressByGeodata = (lat, lng) => {
       if (error.response) {
         dispatch(getAddressFailure(error.response.data));
       } else {
-        toast.error("Network Error or no internet");
+        toast.error('No connection to server');
       }
     }
   }
@@ -38,7 +38,7 @@ export const getAddressesByName = (value) => {
       if (error.response) {
         dispatch(getAddressesFailure(error.response.data));
       } else {
-        toast.error("Network Error or no internet");
+        toast.error('No connection to server');
       }
     }
   }

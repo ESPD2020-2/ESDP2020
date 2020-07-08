@@ -65,6 +65,9 @@ const OrderSchema = new Schema(
     courierComment: {
       type: String,
     },
+    additionalInfo: {
+      type: String,
+    },
     status: {
       type: String,
       enum: [

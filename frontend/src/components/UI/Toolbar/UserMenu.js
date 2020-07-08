@@ -35,11 +35,17 @@ const UserMenu = ({user, logout}) => {
   };
 
   const getToWorkHandler = () => {
+
+    const options = {
+      enableHighAccuracy: true,
+      timeout: 5000,
+      maximumAge: 0
+    };
     handleClose();
-    navigator.geolocation.getCurrentPosition(success, error)
+    navigator.geolocation.getCurrentPosition(success, error, options)
     localStorage.setItem('onDuty', '1');
     getLocation = setInterval(() => {
-      navigator.geolocation.getCurrentPosition(success, error)
+      navigator.geolocation.getCurrentPosition(success, error, options)
     }, 9000)
   }
 
@@ -73,9 +79,9 @@ const UserMenu = ({user, logout}) => {
         getToWorkHandler();
       } 
       if (user && user.role !== 'user') {
-        let url = `ws://localhost:8000/users/couriers?Token=${user.token}`
+        let url = `ws://localhost:8000/users/couriersGeoData?Token=${user.token}`
         if (env === 'production') {
-          url = `wss://deliveryforall.sytes.net/api/users/couriers?Token=${user.token}`
+          url = `wss://deliveryforall.sytes.net/api/users/couriersGeoData?Token=${user.token}`
         }
         ws.current = new ReconnectingWebSocket(url, [], options);
       }
@@ -116,8 +122,7 @@ const UserMenu = ({user, logout}) => {
         {user.role === 'courier' && (
           <span>
             <MenuItem onClick={handleClose} component={Link} to="/adm/orders/courier/accepted">Мои заказы</MenuItem>
-            <MenuItem onClick={getToWorkHandler}>Заступить на смену</MenuItem>
-            <MenuItem onClick={stopWorkHandler}>Завершить смену</MenuItem>
+            <MenuItem onClick={localStorage.getItem('onDuty') === '0' ? getToWorkHandler: stopWorkHandler}>{localStorage.getItem('onDuty') === '0' ? 'Заступить на смену': 'Завершить смену'}</MenuItem>
           </span>
         )}
         <MenuItem onClick={logoutHandler}>Logout</MenuItem>

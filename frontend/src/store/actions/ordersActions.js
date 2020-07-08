@@ -46,6 +46,10 @@ export const PUBLISH_ORDER_REQUEST = 'PUBLISH_ORDER_REQUEST';
 export const PUBLISH_ORDER_SUCCESS = 'PUBLISH_ORDER_SUCCESS';
 export const PUBLISH_ORDER_FAILURE = 'PUBLISH_ORDER_FAILURE';
 
+export const ADDINFO_ORDER_REQUEST = 'ADDINFO_ORDER_REQUEST';
+export const ADDINFO_ORDER_SUCCESS = 'ADDINFO_ORDER_SUCCESS';
+export const ADDINFO_ORDER_FAILURE = 'ADDINFO_ORDER_FAILURE';
+
 export const ACCEPT_ORDER_REQUEST = 'ACCEPT_ORDER_REQUEST';
 export const ACCEPT_ORDER_SUCCESS = 'ACCEPT_ORDER_SUCCESS';
 export const ACCEPT_ORDER_FAILURE = 'ACCEPT_ORDER_FAILURE';
@@ -93,6 +97,10 @@ export const cancelOrderFailure = (error) => ({type: CANCEL_ORDER_FAILURE, error
 export const publishOrderRequest = () => ({type: PUBLISH_ORDER_REQUEST});
 export const publishOrderSuccess = () => ({type: PUBLISH_ORDER_SUCCESS});
 export const publishOrderFailure = (error) => ({type: PUBLISH_ORDER_FAILURE, error});
+
+export const addInfoOrderRequest = () => ({type: ADDINFO_ORDER_REQUEST});
+export const addInfoOrderSuccess = () => ({type: ADDINFO_ORDER_SUCCESS});
+export const addInfoOrderFailure = (error) => ({type: ADDINFO_ORDER_FAILURE, error});
 
 export const acceptOrderRequest = () => ({type: ACCEPT_ORDER_REQUEST});
 export const acceptOrderSuccess = () => ({type: ACCEPT_ORDER_SUCCESS});
@@ -175,6 +183,21 @@ export const publishOrder = id=> {
       dispatch(getOrders('created,rejected'));
     } catch (error) {
       dispatch(publishOrderFailure(error));
+      toast.error(error.response.data.error);
+    }
+  }
+};
+
+export const addInfoOrder = (id, info) => {
+  console.log(id, info)
+  return async dispatch => {
+    try {
+      dispatch(addInfoOrderRequest());
+      const response = await axiosApi.patch(`/orders/${id}/addInfo`, {info});
+      toast.success(response.data.message);
+      dispatch(getOrders('created,rejected'));
+    } catch (error) {
+      dispatch(addInfoOrderFailure(error));
       toast.error(error.response.data.error);
     }
   }

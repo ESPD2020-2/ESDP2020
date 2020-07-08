@@ -105,6 +105,7 @@ const Orders = () => {
                       amount={ord.paymentAmount}
                       status={ord.status}
                       reason={ord.reason&&ord.reason}
+                      addInfo={ord.additionalInfo}
                     />
                   ))
                 ) : (

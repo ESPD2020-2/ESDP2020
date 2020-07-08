@@ -80,7 +80,7 @@ export const getUsers = () => {
       const response = await axiosApi.get("/users");
       dispatch(getUsersSuccess(response.data));
     } catch (error) {
-      dispatch(getUsersFailure(error.response.data));
+      dispatch(getUsersFailure(error));
     }
   };
 };
