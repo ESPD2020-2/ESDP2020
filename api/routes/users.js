@@ -150,9 +150,9 @@ router.patch(
       user.username = req.body.username;
       await user.save();
       return res.send({ message: "edited" });
-    } catch (e) {
-      if (e instanceof ValidationError) {
-        return res.status(400).send(e);
+    } catch (error) {
+      if (error instanceof ValidationError) {
+        return res.status(400).send(error);
       } else {
         return res.sendStatus(500);
       }
@@ -205,7 +205,7 @@ const refreshData = async (userId, parsed) => {
   }
 };
 
-router.ws("/couriers", wsAuth, function (ws) {
+router.ws("/couriersGeoData", wsAuth, function (ws) {
   const user = ws.user;
   connections[user._id] = { user, ws };
   console.log("total clients connected: " + Object.keys(connections).length);

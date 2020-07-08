@@ -47,7 +47,7 @@ const Users = () => {
         resolve()
         dispatch(getUsers())
       })
-      .catch(error => reject(setError(error.response.data)))
+      .catch(error => reject(setError(error.response&&error.response.data)))
     })
   };
 
@@ -62,7 +62,7 @@ const Users = () => {
         resolve()
         dispatch(getUsers())
       })
-      .catch(error => reject(setError(error.response.data)))
+      .catch(error => reject(setError(error.response&&error.response.data)))
     })
   };
 
@@ -102,7 +102,6 @@ const Users = () => {
         size="small"
         variant='standard'
         onChange={e => props.onChange(e.target.value)}
-        error={getFieldError('displayName')}
       /> 
     )},
     { title: 'Role', field: 'role', initialEditValue: 'courier', lookup: { 'super_admin': 'super_admin', 'admin': 'admin', 'operator': 'operator', 'courier': 'courier' }},

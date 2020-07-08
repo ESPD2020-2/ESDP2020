@@ -135,6 +135,20 @@ router.delete('/:id', [auth, permit('operator', 'admin', 'super_admin')], async 
   }
 });
 
+router.patch('/:id/addInfo', [auth, permit('operator', 'admin', 'super_admin')], async (req, res) => {
+  try {
+    const order = await Order.findById(req.params.id);
+    if (!order) {
+      return res.status(404).send({message: 'Not found'});
+    }
+    order.additionalInfo = req.body.info;
+    await order.save();
+    return res.send({message: `Дополнительная информация успешно добавлена в заказ № ${order.orderNumber}`});
+  } catch (error) {
+    return res.status(400).send(error);
+  }
+});
+
 router.patch('/:id/publish', [auth, permit('operator', 'admin', 'super_admin')], async (req, res) => {
   try {
     const order = await Order.findById(req.params.id);
@@ -260,6 +274,7 @@ router.patch('/:id/edit', [auth, permit('super_admin', 'admin', 'operator')], as
     };
     order.pickupAddress = req.body.pickupAddress;
     order.deliveryAddress = req.body.deliveryAddress;
+    order.paymentAmount = req.body.paymentAmount;
     await order.save();
     return res.send({message: `Заказ № ${order.orderNumber} успешно изменен`});
   } catch (e) {

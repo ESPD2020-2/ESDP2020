@@ -8,7 +8,7 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 
-const ReasonDialog = ({open, action, handleClose, removeOrder, rejectOrder, cancelOrder, transferOrder, deliveredOrder, couriers, author}) => {
+const ReasonDialog = ({open, action, handleClose, removeOrder, rejectOrder, cancelOrder, transferOrder, deliveredOrder, addInfo, couriers, author}) => {
 
   const [reason, setReason] = useState('');
   const [courierId, setCourierId] = useState('');
@@ -18,6 +18,7 @@ const ReasonDialog = ({open, action, handleClose, removeOrder, rejectOrder, canc
     action === 'remove' && removeOrder();
     action === 'reject' && rejectOrder({author, reason});
     action === 'cancel' && cancelOrder({author, reason});
+    action === 'addInfo' && addInfo(reason);
     action === 'transfer' && transferOrder(courierId);
     action === 'delivered' && deliveredOrder(reason);
   };
@@ -30,11 +31,12 @@ const ReasonDialog = ({open, action, handleClose, removeOrder, rejectOrder, canc
   return (
     <Dialog open={open} onClose={handleClose} >
       <DialogTitle id="form-dialog-title">
-        {action === 'remove' && 'Причина удаления'}
+        {action === 'remove' && 'Удаление заказа'}
         {action === 'transfer' && 'Выбор курьера'}
         {action === 'reject' && 'Причина отказа'}
         {action === 'cancel' && 'Причина отмены'}
         {action === 'delivered' && 'Комментарий о клиенте'}
+        {action === 'addInfo' && 'Дополнительная информация'}
       </DialogTitle>
       <DialogContent>
         <DialogContentText>
@@ -43,12 +45,15 @@ const ReasonDialog = ({open, action, handleClose, removeOrder, rejectOrder, canc
         {action === 'reject' && 'Укажите причину отказа от выполнения заказа'}
         {action === 'cancel' && 'Укажите причину отмены заказа'}
         {action === 'delivered' && 'Напишите комментарий о клиенте'}
+        {action === 'addInfo' && 'Введите дополнительную информацию (инфо. о товаре/этаж/код от подъезда/№подъезда и тд) '}
         </DialogContentText>
         {action !== 'remove' && (
           <TextField
             autoFocus
             margin="dense"
             select={action === 'transfer' && true}
+            multiline={action === 'addInfo'}
+            rows={5}
             id="name"
             label={action === 'transfer' ? 'Выберите курьера' : 'Введите текст'}
             type="text"

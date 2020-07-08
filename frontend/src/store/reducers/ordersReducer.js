@@ -7,6 +7,7 @@ import {
   GET_ORDER_FAILURE,
   TRANSFER_TO_COURIER_FAILURE,
   REMOVE_ORDER_FAILURE,
+  ADDINFO_ORDER_FAILURE,
   GET_ORDERS_BYPERIOD_REQUEST,
   GET_ORDERS_BYPERIOD_SUCCESS,
   GET_ORDERS_BYPERIOD_FAILURE,
@@ -48,6 +49,8 @@ const ordersReducer = (state = initialState, action) => {
       return { ...state, loading: false, canceledOrders: action.canceledOrders };
     case GET_ORDERS_BYPERIOD_FAILURE:
       return { ...state, error: action.error, loading: false };
+    case ADDINFO_ORDER_FAILURE:
+      return { ...state, loading: false, error: action.error };
     case TRANSFER_TO_COURIER_FAILURE:
       return { ...state, loading: false, error: action.error };
     case REMOVE_ORDER_FAILURE:
