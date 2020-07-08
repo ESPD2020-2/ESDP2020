@@ -66,7 +66,7 @@ const useStyles = makeStyles((theme) => ({
       }
     },
     position: 'relative',
-    
+
   },
   showOnMap: {
     [theme.breakpoints.down('xs')]: {
@@ -107,7 +107,7 @@ const AddressFormElement = ({ addressChange, inputChangeHandler, addAddress, rem
             padding: '8px',
             position: 'relative'
           }}>
-            <Box 
+            <Box
               style={{
                 position: 'absolute',
                 top: '-17px',
@@ -190,7 +190,7 @@ const AddressFormElement = ({ addressChange, inputChangeHandler, addAddress, rem
                       error={!!error}
                       helperText={error}
                     />
-                    <span onClick={() => setOpen(true)} className={classes.showOnMap}>Указать на карте</span>
+                    <span onClick={() => setOpen(true)} className={classes.showOnMap} id={kind === 'pickup' ? "showOnMap1" : "showOnMap2"}>Указать на карте</span>
                   </>
                 )}
               />
@@ -208,6 +208,7 @@ const AddressFormElement = ({ addressChange, inputChangeHandler, addAddress, rem
             <Grid item xs={12}>
             <Button
                 onClick={addAddress}
+                id={kind === 'pickup' ? "addPickup1" : "addPickup2"}
                 color="primary"
                 variant="contained"
                 style={{outline: 'none', overflow: 'hidden'}}

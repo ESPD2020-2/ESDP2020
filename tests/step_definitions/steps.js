@@ -17,10 +17,19 @@ When('я заполняю поля формы:', table => {
   });
 });
 
+When('выберем позицию на карте', () => {
+  I.click("//div[contains(@class,'leaflet-container')]");
+});
+
 When('нажимаю на кнопку {string}', name => {
+  I.wait(1);
   I.click(name);
 });
 
 Then('я вижу текст {string}', text => {
   I.waitForText(text);
+});
+
+Given('я нахожусь на странице заказа', () => {
+  I.amOnPage('/add-order');
 });
