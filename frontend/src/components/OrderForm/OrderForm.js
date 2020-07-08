@@ -101,7 +101,7 @@ class OrderForm extends Component {
     } else {
       this.props.edit(this.props.order._id, orderData);
     }
-  }
+  };
 
   addressChangeHandler = (e, val, kind) => {
     if (kind === 'pickup') {
@@ -178,7 +178,7 @@ class OrderForm extends Component {
     console.log(this.state.paymentAmount)
     const path = this.props.history.location.pathname;
     return (
-     <form onSubmit={this.submitFormHandler} >
+     <form onSubmit={this.submitFormHandler} id="orderForm" >
         <Grid container direction='column' alignItems='center'>
           <ShowTo user={this.props.user} role='admin'>
             <Grid item container xs>
@@ -344,7 +344,7 @@ class OrderForm extends Component {
       </form>
     );
   }
-};
+}
 
 const mapStateToProps = state => ({
   id: state.customers.customerId,
