@@ -48,7 +48,7 @@ const OrderRowItemReason = ({courier, status, reason,  acceptedAt}) => {
       <Table size="small">
         <TableHead>
           <TableRow>
-            <StyledTableCell component="th" scope="row" style={{width: '20%'}}>Курьер</StyledTableCell>
+            <StyledTableCell component="th" scope="row" style={{width: '20%'}}>Сотрудник</StyledTableCell>
             <StyledTableCell align="right" size='small' style={{width: '20%'}}>Статус</StyledTableCell>
             {reason ? (
               <StyledTableCell align="right" size='small' style={{width: '60%'}}>Причина отказа</StyledTableCell>
@@ -59,10 +59,10 @@ const OrderRowItemReason = ({courier, status, reason,  acceptedAt}) => {
         </TableHead>
         <TableBody>
           <StyledTableRow >
-            <TableCell component="th" scope="row" style={{width: '20%'}}>{courier.username}</TableCell>
+            <TableCell component="th" scope="row" style={{width: '20%'}}>{reason ? reason.author : courier.username}</TableCell>
             <TableCell align="right" size='small' style={{width: '20%'}}>{status}</TableCell>
             {reason ? (
-              <TableCell align="right" size='small' style={{width: '60%'}}>{reason}</TableCell>
+              <TableCell align="right" size='small' style={{width: '60%'}}>{reason.reason}</TableCell>
             ) : (
               <TableCell align="right" size='small' style={{width: '60%'}}>{date}</TableCell>
             )}

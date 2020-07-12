@@ -101,7 +101,6 @@ const Register = () => {
       direction="column"
       alignItems="center"
       className={classes.wrap}
-      style={{}}
     >
       <Grid item xs style={{ width: "100%" }}>
         <Paper elevation={3} className={classes.titleWrap}>
@@ -109,7 +108,7 @@ const Register = () => {
             <Typography variant="h4">Регистрация</Typography>
           </Box>
           <Box className={classes.formWrap} pt={5} pb={2}>
-            <form onSubmit={submitFormHandler}>
+            <form onSubmit={submitFormHandler} id="registerForm">
               <Grid container direction="column" alignItems="center">
                 <Grid item container xs>
                   <Box p={3} style={{ width: "100%" }}>

@@ -7,11 +7,11 @@ import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import MoreVertIcon from '@material-ui/icons/MoreVert'; 
 import ReasonDialog from '../UI/Dialog/ReasonDialog';
-import {publishOrder, removeOrder, acceptOrder, rejectOrder, cancelOrder, deliveredOrder, transferToCourier} from '../../store/actions/ordersActions';
+import {publishOrder, removeOrder, acceptOrder, rejectOrder, cancelOrder, deliveredOrder, transferToCourier, addInfoOrder} from '../../store/actions/ordersActions';
 
 const ITEM_HEIGHT = 48;
 
-const OrderOperationsMenu = ({id}) => {
+const OrderOperationsMenu = ({id, status}) => {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [openAlert, setOpenAlert] = React.useState(false);
   const [action, setAction] = React.useState('');
@@ -63,6 +63,12 @@ const OrderOperationsMenu = ({id}) => {
     setAction('transfer')
   };
 
+  const addInfoHandler = () => {
+    setAnchorEl(null);
+    setOpenAlert(true);
+    setAction('addInfo')
+  };
+
   const deliveredOrderHandler = () => {
     setAnchorEl(null);
     setOpenAlert(true);
@@ -75,11 +81,13 @@ const OrderOperationsMenu = ({id}) => {
         open={openAlert} 
         action={action}
         couriers={couriers}
+        author={user.username}
         handleClose={() => setOpenAlert(false)}
         removeOrder={() => dispatch(removeOrder(id))}
         transferOrder={(courier) => dispatch(transferToCourier(id, courier))}
-        rejectOrder={(reason) => dispatch(rejectOrder(id, reason, user._id))}
-        cancelOrder={(reason) => dispatch(cancelOrder(id, reason, user._id))}
+        addInfo={(info) => dispatch(addInfoOrder(id, info))}
+        rejectOrder={(reason) => dispatch(rejectOrder(id, reason))}
+        cancelOrder={(reason) => dispatch(cancelOrder(id, reason))}
         deliveredOrder={(comment) => dispatch(deliveredOrder(id, comment, user._id))}
       />
       <IconButton
@@ -103,22 +111,23 @@ const OrderOperationsMenu = ({id}) => {
       >
         {history.location.pathname === '/adm/orders/created' && (
           <span>
-            <MenuItem onClick={publishOrderHandler}>Опубликовать</MenuItem>
-            <MenuItem onClick={transferToCourierHandler}>Передать курьеру</MenuItem>
-            <MenuItem onClick={editOrderHandler}>Редактрировать</MenuItem>
-            <MenuItem onClick={removeOrderHandler}>Удалить</MenuItem>
+            <MenuItem disabled={status==='canceled'} onClick={addInfoHandler}>Добавить доп. инфо</MenuItem>
+            <MenuItem disabled={status==='canceled'} onClick={publishOrderHandler}>Опубликовать</MenuItem>
+            <MenuItem disabled={status==='canceled'} onClick={transferToCourierHandler}>Передать курьеру</MenuItem>
+            <MenuItem disabled={status==='canceled'} onClick={editOrderHandler}>Редактрировать</MenuItem>
+            {status==='rejected' && ( <MenuItem onClick={cancelOrderHandler}>Отменить</MenuItem>)}
+            <MenuItem disabled={status==='canceled'} onClick={removeOrderHandler}>Удалить</MenuItem>
           </span>
         )}
 
         {history.location.pathname === '/adm/orders/published' && (
           <span>
-            <MenuItem onClick={acceptOrderHandler}>Принять</MenuItem>
+            <MenuItem disabled={user.role !== 'courier'} onClick={acceptOrderHandler}>Принять</MenuItem>
           </span>
         )}
         {history.location.pathname === '/adm/orders/accepted' || history.location.pathname === '/adm/orders/courier/accepted' ? (
           <span>
             <MenuItem onClick={rejectOrderHandler}>Отказаться</MenuItem>
-            <MenuItem onClick={cancelOrderHandler}>Отменен</MenuItem>
             <MenuItem onClick={deliveredOrderHandler}>Доставлен</MenuItem>
           </span>
         ) : (

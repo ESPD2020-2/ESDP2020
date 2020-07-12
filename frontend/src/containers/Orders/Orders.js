@@ -42,11 +42,12 @@ const Orders = () => {
   const userId = useSelector(state => state.users.user._id);
   const path = useSelector(state => state.router.location.pathname);
   const loading = useSelector(state => state.ord.loading);
+  
   useEffect(() => {
     let status;
     let courier = null;
     if ( path === "/adm/orders/created") {
-      status = 'created,rejected,canceled'
+      status = 'created,rejected'
     }
     if (path === "/adm/orders/published") {
       status = 'published'
@@ -104,6 +105,7 @@ const Orders = () => {
                       amount={ord.paymentAmount}
                       status={ord.status}
                       reason={ord.reason&&ord.reason}
+                      addInfo={ord.additionalInfo}
                     />
                   ))
                 ) : (

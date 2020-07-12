@@ -10,6 +10,7 @@ import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import ShowTo from '../../hoc/ShowTo';
 import { withRouter } from 'react-router'
+import { Divider } from "@material-ui/core";
 
 class OrderForm extends Component {
   state = {
@@ -24,7 +25,7 @@ class OrderForm extends Component {
     deliveryApartment: "",
     pickupAddress: [],
     deliveryAddress: [],
-    paymentAmount: 50,
+    paymentAmount: 0,
     pickupError: null,
     deliveryError: null,
   };
@@ -40,7 +41,7 @@ class OrderForm extends Component {
       const customer = {};
       const order = this.props.order;
       Object.keys(this.props.order.customer).map(el => customer[el] = this.props.order.customer[el]);
-      this.setState({...customer, pickupAddress: order.pickupAddress, deliveryAddress: order.deliveryAddress});
+      this.setState({...customer, pickupAddress: order.pickupAddress, deliveryAddress: order.deliveryAddress, paymentAmount: order.paymentAmount});
       }
   }
 
@@ -79,6 +80,7 @@ class OrderForm extends Component {
     const orderData = {
       pickupAddress: this.state.pickupAddress,
       deliveryAddress: this.state.deliveryAddress,
+      paymentAmount: this.state.paymentAmount,
     };
     const customerData = {
       name: this.state.name,
@@ -99,7 +101,7 @@ class OrderForm extends Component {
     } else {
       this.props.edit(this.props.order._id, orderData);
     }
-  }
+  };
 
   addressChangeHandler = (e, val, kind) => {
     if (kind === 'pickup') {
@@ -121,11 +123,11 @@ class OrderForm extends Component {
     if (kind === 'pickup') {
       const pickupAddress = [...this.state.pickupAddress];
       pickupAddress.splice(index, 1);
-      this.setState({ pickupAddress, paymentAmount: this.state.paymentAmount - 50 });
+      this.setState({ pickupAddress, paymentAmount: parseInt(this.state.paymentAmount) - (this.state.pickupAddress.length<2 ? 75 :  50) });
     } else {
       const deliveryAddress = [...this.state.deliveryAddress];
       deliveryAddress.splice(index, 1);
-      this.setState({ deliveryAddress, paymentAmount: this.state.paymentAmount - 50 });
+      this.setState({ deliveryAddress, paymentAmount: parseInt(this.state.paymentAmount) - (this.state.deliveryAddress.length<2 ? 75 :  50) });
     }
   };
   
@@ -139,7 +141,7 @@ class OrderForm extends Component {
           street: this.state.pickupStreet,
           apartment: this.state.pickupApartment
         }],
-        paymentAmount: this.state.paymentAmount + 50,
+        paymentAmount: parseInt(this.state.paymentAmount) + (this.state.pickupAddress.length===0 ? 75 :  50),
         pickupStreet: null,
         pickupApartment: '',
       });
@@ -157,7 +159,7 @@ class OrderForm extends Component {
           street: this.state.deliveryStreet,
           apartment: this.state.deliveryApartment
         }],
-        paymentAmount: this.state.paymentAmount + 50,
+        paymentAmount: parseInt(this.state.paymentAmount) + (this.state.deliveryAddress.length===0 ? 75 :  50),
         deliveryStreet: null,
         deliveryApartment: ''
       });
@@ -173,9 +175,10 @@ class OrderForm extends Component {
   };
     
   render() {
+    console.log(this.state.paymentAmount)
     const path = this.props.history.location.pathname;
     return (
-     <form onSubmit={this.submitFormHandler} >
+     <form onSubmit={this.submitFormHandler} id="orderForm" >
         <Grid container direction='column' alignItems='center'>
           <ShowTo user={this.props.user} role='admin'>
             <Grid item container xs>
@@ -207,6 +210,7 @@ class OrderForm extends Component {
                       onChange={this.inputChangeHandler}
                       error={this.getFieldError('surname')}
                       value={this.state.surname}
+                      required
                     />
                   </Grid>
                   <Grid item xs={12} sm={4}>
@@ -283,7 +287,38 @@ class OrderForm extends Component {
             apartment={this.state.deliveryApartment}
             error={this.state.deliveryError}
             kind='delivery'
-          />
+          /> 
+          <Grid item container xs>
+            <Box p={3} style={{width: '100%'}}>
+              <Grid item container spacing={2} style=
+              {{
+                border: '1px solid rgba(0, 0, 0, 0.23)',
+                borderRadius: '4px',
+                padding: '8px',
+                position: 'relative'
+              }}>
+                <Box 
+                  style={{
+                    position: 'absolute',
+                    top: '-17px',
+                    left: '8%',
+                    backgroundColor: '#fff',
+                  }}
+                  px={1}
+                >
+                  <Typography variant='overline' component='h5'>Оплата</Typography>
+                </Box>
+                <Box py={1} px={2}>
+                  <Typography variant='body2' color='textSecondary' style={{textAlign: 'justify'}}>После заполнения всех полей заявки, оператор свяжется с Вами, чтобы уточнить Ваши пожелания и дополнительную информацию.</Typography>
+                  <Typography variant='body2' color='textSecondary' style={{textAlign: 'justify'}}>* Ограничение по весу 10 кг, по габаритам 150х150х150.</Typography>
+                  <Typography variant='body2' color='textSecondary' style={{textAlign: 'justify'}}>* За каждую дополнительную точку имеется доплата в размере 50с.</Typography>
+                  <Divider variant='middle' style={{margin: '10px 0'}}/>
+                  <Typography color='primary' style={{textAlign: 'center'}}>Стоимость доставки: <b style={{color:'black'}}>{ this.state.pickupAddress.length > 0 && this.state.deliveryAddress.length > 0 ? this.state.paymentAmount  : ' 150'}c</b></Typography>
+                  <Typography></Typography>
+                </Box>
+              </Grid>
+            </Box>
+          </Grid>
           <Grid item xs>
            <Button
               onClick={path === '/add-order' ? this.submitFormHandler : this.editFormHandler}
@@ -309,7 +344,7 @@ class OrderForm extends Component {
       </form>
     );
   }
-};
+}
 
 const mapStateToProps = state => ({
   id: state.customers.customerId,

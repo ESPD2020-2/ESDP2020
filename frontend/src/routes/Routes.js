@@ -13,10 +13,18 @@ const Routes = () => {
   const user = useSelector((state) => state.users.user);
   return (
     <Switch>
-      <Route path="/register/" exact component={Register} />
-      <Route path="/login" exact component={Login} />
-      <ProtectedRoute isAllowed={user && ['super_admin', 'admin', 'operator', 'courier'].includes(user.role)} path="/adm" component={AdminLayout} />
-        <Route path="/" component={MainLayout } />
+      <Route path="/register" exact component={Register} />
+      <ProtectedRoute isAllowed={user?false:true} path="/login" exact component={Login} />
+      <ProtectedRoute
+        isAllowed={
+          user &&
+          ["super_admin", "admin", "operator", "courier"].includes(user.role)
+        }
+        path="/adm"
+        component={AdminLayout}
+      />
+      <Route path="/" component={MainLayout} />
+      <Route render={() => <h1>Not found</h1>} />
     </Switch>
   );
 };

@@ -10,6 +10,7 @@ import TableCell from '@material-ui/core/TableCell';
 import TableRow from '@material-ui/core/TableRow';  
 import OrderRowItem from "./OrderRowItem";
 import OrderRowItemReason from './OrderRowItemReason';
+import OrderRowItemAddInfo from './OrderRowItemAddInfo';
 import OrderOperationsMenu from '../OrderOperationsMenu/OrderOperationsMenu';
 
 const useRowStyles = makeStyles({
@@ -45,7 +46,7 @@ const StyledTableRow = withStyles((theme) => ({
 }))(TableRow);
 
 
-const OrderRow = ({pickupAddress, deliveryAddress, ordNum, createdAt, acceptedAt, customer, amount, id, courier, status, reason}) => {
+const OrderRow = ({pickupAddress, deliveryAddress, ordNum, createdAt, acceptedAt, customer, amount, id, courier, status, reason, addInfo}) => {
   const [open, setOpen] = React.useState(false);
   const classes = useRowStyles();
   const date = moment(createdAt).calendar();
@@ -64,12 +65,13 @@ const OrderRow = ({pickupAddress, deliveryAddress, ordNum, createdAt, acceptedAt
         <StyledTableCell align="center">{customer.surname} {customer.name} {customer.patronymic}</StyledTableCell>
         <StyledTableCell align="center">{customer.phone}</StyledTableCell>
         <StyledTableCell align="center">{amount}</StyledTableCell>
-        <StyledTableCell align="right"> <OrderOperationsMenu id={id}/> </StyledTableCell>
+        <StyledTableCell align="right"> <OrderOperationsMenu id={id} status={status}/> </StyledTableCell>
       </StyledTableRow>
       <TableRow >
         <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={7}>
           <Collapse in={open} timeout="auto" unmountOnExit>
             {courier && <OrderRowItemReason reason={reason} courier={courier} status={status} acceptedAt={acceptedAt}/>}
+            {addInfo && <OrderRowItemAddInfo addInfo={addInfo} title='Дополнительная информация о заказе'/>}
             <OrderRowItem address={pickupAddress} title='Откуда забрать'/>
             <OrderRowItem address={deliveryAddress} title='Куда доставить'/>
           </Collapse>

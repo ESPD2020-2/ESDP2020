@@ -23,7 +23,6 @@ const CustomerSchema = new Schema(
         validator: function(value) {
           const phoneRegex = /\d{4} \d{2}-\d{2}-\d{2}/;
           return phoneRegex.test(value);
-          
         },
         message: () => 'Вы ввели неверный формат номера телефона'
       },

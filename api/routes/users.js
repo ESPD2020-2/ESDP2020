@@ -8,7 +8,6 @@ const wsAuth = require("../middleware/wsAuth");
 const permit = require("../middleware/permit");
 
 const User = require("../models/User");
-const Courier = require("../models/Courier");
 const Customer = require("../models/Customer");
 
 const router = express.Router();
@@ -17,7 +16,7 @@ router.get("/", [auth, permit("admin", "super_admin")], async (req, res) => {
   try {
     const users = await User.find(
       { role: { $ne: "user" } },
-      "_id username role"
+      "_id username role displayName"
     );
     return res.send(users);
   } catch (error) {
@@ -32,8 +31,8 @@ router.get(
     try {
       const couriers = await User.find(
         { role: "courier" },
-        { username: 1, courier: 1 }
-      ).populate("courier");
+        { username: 1, geoData: 1, displayName:1 }
+      );
       res.send(couriers);
     } catch (error) {
       return res.status(400).send(error);
@@ -43,6 +42,8 @@ router.get(
 
 router.post("/", async (req, res) => {
   try {
+    let customer;
+
     const userData = {
       username: req.body.username,
       password: req.body.password,
@@ -58,19 +59,24 @@ router.post("/", async (req, res) => {
 
     if (req.body.role) {
       userData.role = req.body.role;
-    }
-    const customer = new Customer(customerData);
-    userData.customer = customer._id;
+    };
+    if (req.body.displayName) {
+      userData.displayName = req.body.displayName;
+    };
+    if (!req.body.role) {
+      customer = new Customer(customerData);
+      userData.customer = customer._id;
+    };
     const user = new User(userData);
     user.generateToken();
     await user.validate();
-    await customer.validate();
-
-    if (user) {
+   
+    if (!req.body.role) {
       await customer.save();
-      await user.save();
-      return res.send(user);
-    }
+    };
+
+    await user.save();
+    return res.send(user);
   } catch (error) {
     if (error instanceof ValidationError) {
       return res.status(400).send(error);
@@ -138,12 +144,15 @@ router.patch(
       if (req.body.role) {
         user.role = req.body.role;
       }
+      if(req.body.displayName) {
+        user.displayName = req.body.displayName;
+      }
       user.username = req.body.username;
       await user.save();
       return res.send({ message: "edited" });
-    } catch (e) {
-      if (e instanceof ValidationError) {
-        return res.status(400).send(e);
+    } catch (error) {
+      if (error instanceof ValidationError) {
+        return res.status(400).send(error);
       } else {
         return res.sendStatus(500);
       }
@@ -169,22 +178,19 @@ router.delete(
 
 const connections = {};
 
-const refreshData = async (courierId, parsed) => {
+const refreshData = async (userId, parsed) => {
   try {
-    const courier = await Courier.findById(courierId);
+    const user = await User.findById(userId);
     if (parsed) {
-      courier.geoData = parsed.geoData;
-      if (parsed.geoData) {
-        courier.geoData.datetime = new Date();
-      }
+      user.geoData = parsed.geoData;
     } else {
-      courier && (courier.geoData = null);
+      user.geoData = null;
     }
-    courier && courier.save();
+    await user.save();
     const couriers = await User.find(
       { role: "courier" },
-      { username: 1, courier: 1 }
-    ).populate("courier");
+      { username: 1, geoData: 1, displayName: 1}
+    );
     Object.keys(connections).forEach((id) => {
       const connection = connections[id];
       return connection.ws.send(
@@ -199,7 +205,7 @@ const refreshData = async (courierId, parsed) => {
   }
 };
 
-router.ws("/couriers", wsAuth, function (ws) {
+router.ws("/couriersGeoData", wsAuth, function (ws) {
   const user = ws.user;
   connections[user._id] = { user, ws };
   console.log("total clients connected: " + Object.keys(connections).length);
@@ -208,7 +214,7 @@ router.ws("/couriers", wsAuth, function (ws) {
     const parsed = JSON.parse(msg);
     switch (parsed.type) {
       case "REFRESH_GEODATA":
-        refreshData(user.courier, parsed);
+        refreshData(user._id, parsed);
         break;
       default:
         console.log("NO TYPE: " + parsed.type);
@@ -218,7 +224,7 @@ router.ws("/couriers", wsAuth, function (ws) {
   ws.on("close", async (msg) => {
     console.log("close", user.username);
     delete connections[user._id];
-    refreshData(user.courier);
+    await refreshData(user._id);
   });
 });
 

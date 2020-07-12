@@ -6,6 +6,14 @@ export const GET_ORDERS_REQUEST = 'GET_ORDERS_REQUEST';
 export const GET_ORDERS_SUCCESS = 'GET_ORDERS_SUCCESS';
 export const GET_ORDERS_FAILURE = 'GET_ORDERS_FAILURE';
 
+export const GET_ORDERS_BYPERIOD_REQUEST = 'GET_ORDERS_BYPERIOD_REQUEST';
+export const GET_ORDERS_BYPERIOD_SUCCESS = 'GET_ORDERS_BYPERIOD_SUCCESS';
+export const GET_ORDERS_BYPERIOD_FAILURE = 'GET_ORDERS_BYPERIOD_FAILURE';
+
+export const GET_DELIVERED_ORDERS_BYPERIOD_SUCCESS = 'GET_DELIVERED_ORDERS_BYPERIOD_SUCCESS';
+
+export const GET_CANCELED_ORDERS_BYPERIOD_SUCCESS = 'GET_CANCELED_ORDERS_BYPERIOD_SUCCESS';
+
 export const GET_ORDER_REQUEST = 'GET_ORDER_REQUEST';
 export const GET_ORDER_SUCCESS = 'GET_ORDER_SUCCESS';
 export const GET_ORDER_FAILURE = 'GET_ORDER_FAILURE';
@@ -38,6 +46,10 @@ export const PUBLISH_ORDER_REQUEST = 'PUBLISH_ORDER_REQUEST';
 export const PUBLISH_ORDER_SUCCESS = 'PUBLISH_ORDER_SUCCESS';
 export const PUBLISH_ORDER_FAILURE = 'PUBLISH_ORDER_FAILURE';
 
+export const ADDINFO_ORDER_REQUEST = 'ADDINFO_ORDER_REQUEST';
+export const ADDINFO_ORDER_SUCCESS = 'ADDINFO_ORDER_SUCCESS';
+export const ADDINFO_ORDER_FAILURE = 'ADDINFO_ORDER_FAILURE';
+
 export const ACCEPT_ORDER_REQUEST = 'ACCEPT_ORDER_REQUEST';
 export const ACCEPT_ORDER_SUCCESS = 'ACCEPT_ORDER_SUCCESS';
 export const ACCEPT_ORDER_FAILURE = 'ACCEPT_ORDER_FAILURE';
@@ -45,6 +57,14 @@ export const ACCEPT_ORDER_FAILURE = 'ACCEPT_ORDER_FAILURE';
 export const getOrdersRequest = () => ({type: GET_ORDERS_REQUEST});
 export const getOrdersSuccess = (orders) => ({type: GET_ORDERS_SUCCESS, orders});
 export const getOrdersFailure = (error) => ({type: GET_ORDERS_FAILURE, error});
+
+export const getOrdersByPeriodRequest = () => ({type: GET_ORDERS_BYPERIOD_REQUEST});
+export const getOrdersByPeriodSuccess = (orders) => ({type: GET_ORDERS_BYPERIOD_SUCCESS, orders});
+export const getOrdersByPeriodFailure = (error) => ({type: GET_ORDERS_BYPERIOD_FAILURE, error});
+
+export const getDeliveredOrdersByPeriodSuccess = (deliveredOrders) => ({type: GET_DELIVERED_ORDERS_BYPERIOD_SUCCESS, deliveredOrders});
+
+export const getCanceledOrdersByPeriodSuccess = (canceledOrders) => ({type: GET_CANCELED_ORDERS_BYPERIOD_SUCCESS, canceledOrders});
 
 export const getOrderRequest = () => ({type: GET_ORDER_REQUEST});
 export const getOrderSuccess = (order) => ({type: GET_ORDER_SUCCESS, order});
@@ -78,6 +98,10 @@ export const publishOrderRequest = () => ({type: PUBLISH_ORDER_REQUEST});
 export const publishOrderSuccess = () => ({type: PUBLISH_ORDER_SUCCESS});
 export const publishOrderFailure = (error) => ({type: PUBLISH_ORDER_FAILURE, error});
 
+export const addInfoOrderRequest = () => ({type: ADDINFO_ORDER_REQUEST});
+export const addInfoOrderSuccess = () => ({type: ADDINFO_ORDER_SUCCESS});
+export const addInfoOrderFailure = (error) => ({type: ADDINFO_ORDER_FAILURE, error});
+
 export const acceptOrderRequest = () => ({type: ACCEPT_ORDER_REQUEST});
 export const acceptOrderSuccess = () => ({type: ACCEPT_ORDER_SUCCESS});
 export const acceptOrderFailure = (error) => ({type: ACCEPT_ORDER_FAILURE, error});
@@ -97,6 +121,29 @@ export const getOrders = (status, courierId) => {
       dispatch(getOrdersSuccess(orders.data));
     } catch (error) {
       dispatch(getOrdersFailure(error));
+    }
+  }
+};
+
+export const getOrdersByPeriod = (period, status) => {
+  return async dispatch => {
+    try {
+      let orders;
+      dispatch(getOrdersByPeriodRequest());
+      if (!status) {
+        orders = await axiosApi.get(`/orders/statistics/?period=${period}&status=created`);
+        dispatch(getOrdersByPeriodSuccess(orders.data));
+      } 
+      if (status === 'delivered') {
+        orders = await axiosApi.get(`/orders/statistics/?period=${period}&status=delivered`);
+        dispatch(getDeliveredOrdersByPeriodSuccess(orders.data));
+      }
+      if (status === 'canceled') {
+        orders = await axiosApi.get(`/orders/statistics/?period=${period}&status=canceled`);
+        dispatch(getCanceledOrdersByPeriodSuccess(orders.data));
+      }
+    } catch (error) {
+      dispatch(getOrdersByPeriodFailure(error));
     }
   }
 };
@@ -133,9 +180,24 @@ export const publishOrder = id=> {
       dispatch(publishOrderRequest());
       const response = await axiosApi.patch(`/orders/${id}/publish`);
       toast.success(response.data.message);
-      dispatch(getOrders('created,rejected,canceled'));
+      dispatch(getOrders('created,rejected'));
     } catch (error) {
       dispatch(publishOrderFailure(error));
+      toast.error(error.response.data.error);
+    }
+  }
+};
+
+export const addInfoOrder = (id, info) => {
+  console.log(id, info)
+  return async dispatch => {
+    try {
+      dispatch(addInfoOrderRequest());
+      const response = await axiosApi.patch(`/orders/${id}/addInfo`, {info});
+      toast.success(response.data.message);
+      dispatch(getOrders('created,rejected'));
+    } catch (error) {
+      dispatch(addInfoOrderFailure(error));
       toast.error(error.response.data.error);
     }
   }
@@ -174,7 +236,7 @@ export const removeOrder = id => {
       dispatch(removeOrderRequest());
       const response = await axiosApi.delete(`/orders/${id}`);
       toast.success(response.data.message);
-      dispatch(getOrders('created,rejected,canceled'));
+      dispatch(getOrders('created,rejected'));
     } catch (error) {
       dispatch(removeOrderFailure(error));
       toast.error(error.response.data.error);
@@ -188,37 +250,37 @@ export const transferToCourier = (id, courierId) => {
       dispatch(transferToCourierRequest());
       const response = await axiosApi.patch(`/orders/${id}/transfer`, {courierId});
       toast.success(response.data.message);
-      dispatch(getOrders('created,rejected,canceled'));
+      dispatch(getOrders('created,rejected'));
     } catch (error) {
-      toast.error('Вы не выбрали курьера');
+      toast.error(error.response.data.error);
       dispatch(transferToCourierFailure(error));
     }
   }
 };
 
-export const rejectOrder = (id, reason, courierId) => {
+export const rejectOrder = (id, reason) => {
   return async dispatch => {
     try {
       dispatch(rejectOrderRequest());
       const response = await axiosApi.patch(`/orders/${id}/reject`, {reason});
       toast.success(response.data.message);
-      dispatch(getOrders('accepted', courierId)); 
+      dispatch(getOrders('accepted')); 
     } catch (error) {
-      toast.error(error.response.data.errors.reason.message);
+      toast.error(error.response.data.error);
       dispatch(rejectOrderFailure(error));
     }
   }
 };
 
-export const cancelOrder = (id, reason, courierId) => {
+export const cancelOrder = (id, reason) => {
   return async dispatch => {
     try {
       dispatch(cancelOrderRequest());
       const response = await axiosApi.patch(`/orders/${id}/cancel`, {reason});
       toast.success(response.data.message);
-      dispatch(getOrders('accepted', courierId));
+      dispatch(getOrders('created,rejected'));
     } catch (error) {
-      toast.error(error.response.data.errors.reason.message);
+      toast.error(error.response.data.error);
       dispatch(cancelOrderFailure(error));
     }
   }
