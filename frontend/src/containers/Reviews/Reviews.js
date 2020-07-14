@@ -12,6 +12,9 @@ import Button from "@material-ui/core/Button";
 import PostAddIcon from '@material-ui/icons/PostAdd';
 import DialogElement from "../../components/UI/Dialog/DialogElement";
 import ReviewForm from "../../components/ReviewForm/ReviewForm";
+import Dialog from "@material-ui/core/Dialog";
+import DialogTitle from "@material-ui/core/DialogTitle";
+import DialogContent from "@material-ui/core/DialogContent";
 
 const useStyles = makeStyles((theme) => ({
   wrap: {
@@ -79,13 +82,10 @@ const Reviews = () => {
     setOpen(false);
   };
 
-  const user = useSelector(state => state.users.user);
+  // const createReviewHandler = async (reviewData) => {
+  //   await dispatch(createReview(reviewData));
+  // };
 
-  const createReviewHandler = async (reviewData) => {
-    if(reviewData.customerId) {
-      await dispatch(createReview(reviewData));
-    }
-  };
 
   return (
     <>
@@ -121,18 +121,26 @@ const Reviews = () => {
         </Grid>
       </Grid>
 
+      {/*<Dialog onClose={handleClose} aria-labelledby="customized-dialog-title" open={open}>*/}
+      {/*  <DialogTitle id="customized-dialog-title" onClose={handleClose}>*/}
+      {/*    Отзывы*/}
+      {/*  </DialogTitle>*/}
+      {/*  <DialogContent dividers>*/}
+      {/*    <Box className={classes.formWrap} pt={5} pb={2}>*/}
+      {/*      <ReviewForm*/}
+      {/*        onSubmit={createReviewHandler}*/}
+      {/*      />*/}
+      {/*    </Box>*/}
+      {/*  </DialogContent>*/}
+      {/*</Dialog>*/}
+
       <DialogElement
         title="Отзывы"
         handleClose={handleClose}
         open={open}
-        actionHandler={createReviewHandler}
+        onSubmit={createReviewHandler}
       >
-        {<Box className={classes.formWrap} pt={5} pb={2}>
-          <ReviewForm
-            create={createReviewHandler}
-            user={user}
-          />
-        </Box>}
+        <ReviewForm />
       </DialogElement>
     </>
   );

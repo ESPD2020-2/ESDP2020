@@ -29,7 +29,7 @@ router.get('/:id', [auth, permit('admin','super_admin')], async (req, res) => {
 router.post('/', [auth, permit('user')], async (req, res) => {
   try {
     const reviewData = {
-      customer: req.body.customerId,
+      user: req.user._id,
       comment: req.body.comment,
       rating: req.body.rating,
     };

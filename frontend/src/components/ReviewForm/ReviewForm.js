@@ -15,16 +15,16 @@ class ReviewForm extends Component {
     rating: '',
   };
 
-  submitFormHandler = (event) => {
+  submitFormHandler = event => {
     event.preventDefault();
 
     const formData = new FormData();
 
     Object.keys(this.state).forEach(key => {
-      let value = this.state[key];
-
-      formData.append(key, value);
+      formData.append(key, this.state[key]);
     });
+
+    console.log(formData);
 
     this.props.onSubmit(formData);
   };
@@ -33,14 +33,6 @@ class ReviewForm extends Component {
     this.setState({
       [event.target.name]: event.target.value,
     });
-  };
-
-  getFieldError = fieldName => {
-    try {
-      return this.props.customerError.errors[fieldName].message;
-    } catch (error) {
-      return undefined;
-    }
   };
 
   render() {
@@ -64,7 +56,6 @@ class ReviewForm extends Component {
                     size='small'
                     value={this.state.advantages}
                     onChange={this.inputChangeHandler}
-                    error={this.getFieldError('advantages')}
                   />
                 </Grid>
                 <Grid item xs={12}>
@@ -75,7 +66,6 @@ class ReviewForm extends Component {
                     size='small'
                     value={this.state.disadvantages}
                     onChange={this.inputChangeHandler}
-                    error={this.getFieldError('disadvantages')}
                   />
                 </Grid>
                 <Grid item xs={12}>
@@ -88,19 +78,18 @@ class ReviewForm extends Component {
                     size='small'
                     value={this.state.comment}
                     onChange={this.inputChangeHandler}
-                    error={this.getFieldError('comment')}
                     required
                   />
                 </Grid>
-                <Grid item xs>
-                  <Button
-                    type="submit"
-                    color="primary"
-                    variant="contained"
-                  >
-                    Отправить отзыв
-                  </Button>
-                </Grid>
+                {/*<Grid item xs>*/}
+                {/*  <Button*/}
+                {/*    type="submit"*/}
+                {/*    color="primary"*/}
+                {/*    variant="contained"*/}
+                {/*  >*/}
+                {/*    Отправить отзыв*/}
+                {/*  </Button>*/}
+                {/*</Grid>*/}
               </Grid>
             </Box>
           </Grid>
@@ -110,13 +99,4 @@ class ReviewForm extends Component {
   }
 }
 
-const mapStateToProps = state => ({
-  id: state.customers.customerId,
-  customerError: state.customers.error,
-});
-
-const mapDispatchToProps = dispatch => ({
-  createCustomer: customerData => dispatch(createCustomer(customerData)),
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(withRouter(ReviewForm));
+export default ReviewForm;

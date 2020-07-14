@@ -9,16 +9,16 @@ const ReviewSchema = new Schema({
       required: true,
       default: () => nanoid(6),
     },
-    customer: {
-      type: Schema.Types.ObjectId,
-      ref: "Customer",
-      required: true,
-    },
-    // user: {
+    // customer: {
     //   type: Schema.Types.ObjectId,
-    //   ref: "User",
+    //   ref: "Customer",
     //   required: true,
     // },
+    user: {
+      type: Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
+    },
     advantages: {
       type: String,
     },

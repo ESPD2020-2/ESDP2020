@@ -23,6 +23,13 @@ const AdminLayout = () => {
       >
         Курьеры
       </MenuItem>
+      <MenuItem
+        component={NavLink}
+        to={`${url}/reviews`}
+        activeClassName="Mui-selected"
+      >
+        Отзывы пользователей
+      </MenuItem>
     </MenuList>
   );
   return (

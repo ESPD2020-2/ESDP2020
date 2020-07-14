@@ -6,8 +6,14 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import PropTypes from 'prop-types';
+import Box from "@material-ui/core/Box";
+import {createReview} from "../../../store/actions/reviewActions";
 
-const DialogElement = ({open, handleClose, title, subtitle, children, type, value, actionHandler}) => {
+const DialogElement = ({open, handleClose, title, subtitle, children, onSubmit, value}) => {
+  const createReviewHandler = async (reviewData) => {
+    await dispatch(createReview(reviewData));
+  };
+
   return (
     <>
       <Dialog
@@ -19,10 +25,12 @@ const DialogElement = ({open, handleClose, title, subtitle, children, type, valu
         <DialogTitle id="form-dialog-title">{title}</DialogTitle>
         <DialogContent>
           <DialogContentText>{subtitle}</DialogContentText>
-          {children}
+          <Box className={classes.formWrap} pt={5} pb={2}>
+            {children}
+          </Box>
         </DialogContent>
         <DialogActions>
-          <Button color="primary" type={type} onClick={actionHandler}>
+          <Button color="primary" onClick={onSubmit}>
             {value}
           </Button>
         </DialogActions>
@@ -34,12 +42,11 @@ const DialogElement = ({open, handleClose, title, subtitle, children, type, valu
 DialogElement.propTypes = {
   open: PropTypes.bool.isRequired,
   handleClose: PropTypes.func.isRequired,
-  actionHandler: PropTypes.func.isRequired,
   title: PropTypes.string.isRequired,
   subtitle: PropTypes.string,
   children: PropTypes.element.isRequired,
-  type: PropTypes.string,
   value: PropTypes.string,
+  onSubmit: PropTypes.func.isRequired,
 };
 
 export default DialogElement;
