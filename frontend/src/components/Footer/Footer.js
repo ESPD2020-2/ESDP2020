@@ -7,6 +7,7 @@ import {links} from "../../constants";
 import PhoneIcon from '@material-ui/icons/Phone';
 import MailIcon from '@material-ui/icons/Mail';
 import {Box} from "@material-ui/core";
+import RoomIcon from '@material-ui/icons/Room';
 
 function Copyright() {
   return (
@@ -93,6 +94,16 @@ const Footer = () => {
             </Grid>
             <Grid item xs>
               <Link style={{textDecoration: 'none'}} href="mailto:example@gmail.com">example@gmail.com</Link>
+            </Grid>
+          </Grid>
+        </Grid>
+        <Grid container item direction="column" xs={3}>
+          <Grid container item direction="row">
+            <Grid item xs={1}>
+              <RoomIcon/>
+            </Grid>
+            <Grid item xs>
+              <Typography variant="body1" className={classes.phrase}>Кыргызская Республика, 720000 г.Бишкек, ул. Фрунзе 1, офис 2</Typography>
             </Grid>
           </Grid>
         </Grid>
