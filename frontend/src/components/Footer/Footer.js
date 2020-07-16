@@ -39,7 +39,10 @@ const useStyles = makeStyles((theme) => ({
   link: {
     color: 'white',
     textDecoration: 'none',
-  }
+  },
+  linkHeader: {
+    fontStyle: 'italic',
+  },
 }));
 
 const Footer = () => {
@@ -50,15 +53,15 @@ const Footer = () => {
       <Grid container>
         <Grid item container xs justify="space-evenly" spacing={0} className={classes.columns}>
           <Grid container item xs={4}>
-            <Typography variant="h6">О компании</Typography>
+            <Typography variant="h6" className={classes.linkHeader}>О компании</Typography>
             <Typography variant="body1" className={classes.phrase}>
-              Delivery For All - Мы осуществляем доставки по всему городу!
+              Delivery For All - Мы осуществляем доставки по всему Бишкеку.
             </Typography>
             <Typography variant="body1">Доверьтесь нам и мы позаботимся о вас!</Typography>
           </Grid>
           <Grid container item xs={3} direction="column">
             <Grid item>
-              <Typography variant="h6">Контакты</Typography>
+              <Typography variant="h6" className={classes.linkHeader}>Контакты</Typography>
             </Grid>
             <Grid item xs container>
               <Link className={classes.link} href="tel:996772303303"><PhoneIcon/> +996 (772) 30-33-03</Link>
@@ -72,9 +75,9 @@ const Footer = () => {
               </Grid>
             </Grid>
           </Grid>
-          <Grid container item direction="column" xs={3}>
+          <Grid container item direction="column" xs={2}>
             <Grid item>
-              <Typography variant="h6" style={{paddingLeft: '5px'}}>Адрес</Typography>
+              <Typography variant="h6" className={classes.linkHeader} style={{paddingLeft: '5px'}}>Адрес</Typography>
             </Grid>
             <Grid container item>
               <Grid item>
@@ -96,7 +99,7 @@ const Footer = () => {
           <Divider/>
         </Grid>
       </Grid>
-      <Grid container item xs justify="center">
+      <Grid container item xs justify="center" style={{paddingTop: '15px'}}>
         <Copyright/>
       </Grid>
     </footer>
