@@ -26,6 +26,10 @@ When('нажимаю на кнопку {string}', name => {
   I.click(name);
 });
 
+When('нажимаю на иконку еще', () => {
+  I.click();
+});
+
 Then('я вижу текст {string}', text => {
   I.waitForText(text);
 });
