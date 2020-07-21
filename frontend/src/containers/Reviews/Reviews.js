@@ -10,11 +10,7 @@ import Typography from "@material-ui/core/Typography";
 import Box from "@material-ui/core/Box";
 import Button from "@material-ui/core/Button";
 import PostAddIcon from '@material-ui/icons/PostAdd';
-import DialogElement from "../../components/UI/Dialog/DialogElement";
-import ReviewForm from "../../components/ReviewForm/ReviewForm";
-import Dialog from "@material-ui/core/Dialog";
-import DialogTitle from "@material-ui/core/DialogTitle";
-import DialogContent from "@material-ui/core/DialogContent";
+import ReviewFormDialog from "../../components/UI/Dialog/ReviewFormDialog";
 
 const useStyles = makeStyles((theme) => ({
   wrap: {
@@ -78,17 +74,15 @@ const Reviews = () => {
     setOpen(true);
   };
 
-  const handleClose = () => {
-    setOpen(false);
+  const createReviewHandler = async (reviewData) => {
+    await dispatch(createReview(reviewData));
   };
-
-  // const createReviewHandler = async (reviewData) => {
-  //   await dispatch(createReview(reviewData));
-  // };
 
 
   return (
     <>
+      <ReviewFormDialog open={open} handleClose={() => setOpen(false)} createReview={createReviewHandler} />
+
       <Grid item container direction="column" alignItems="center" className={classes.wrap}>
         <Grid item xs={10}>
           <Paper elevation={3} className={classes.titleWrap}>
@@ -120,28 +114,6 @@ const Reviews = () => {
           </Paper>
         </Grid>
       </Grid>
-
-      {/*<Dialog onClose={handleClose} aria-labelledby="customized-dialog-title" open={open}>*/}
-      {/*  <DialogTitle id="customized-dialog-title" onClose={handleClose}>*/}
-      {/*    Отзывы*/}
-      {/*  </DialogTitle>*/}
-      {/*  <DialogContent dividers>*/}
-      {/*    <Box className={classes.formWrap} pt={5} pb={2}>*/}
-      {/*      <ReviewForm*/}
-      {/*        onSubmit={createReviewHandler}*/}
-      {/*      />*/}
-      {/*    </Box>*/}
-      {/*  </DialogContent>*/}
-      {/*</Dialog>*/}
-
-      <DialogElement
-        title="Отзывы"
-        handleClose={handleClose}
-        open={open}
-        onSubmit={createReviewHandler}
-      >
-        <ReviewForm />
-      </DialogElement>
     </>
   );
 };

@@ -1,44 +1,44 @@
-import React from 'react';
-import makeStyles from "@material-ui/core/styles/makeStyles";
-import {useDispatch, useSelector} from "react-redux";
-import {createReview} from "../../store/actions/reviewActions";
-
-const useStyles = makeStyles((theme) => ({
-  formWrap: {
-    [theme.breakpoints.down('xs')]: {
-      paddingTop: "0px"
-    }
-  },
-}));
-
-const NewReview = () => {
-  const classes = useStyles();
-  const dispatch = useDispatch();
-  const user = useSelector(state => state.users.user);
-
-  const createReviewHandler = async (reviewData) => {
-    if (reviewData.customerId) {
-      await dispatch(createReview(reviewData));
-    }
-  };
-
-  const [open, setOpen] = React.useState(false);
-
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
-  const handleClose = () => {
-    setOpen(false);
-  };
-
-  return (
-    <div>
-
-    </div>
-  );
-};
-
-export default NewReview;
+// import React from 'react';
+// import makeStyles from "@material-ui/core/styles/makeStyles";
+// import {useDispatch, useSelector} from "react-redux";
+// import {createReview} from "../../store/actions/reviewActions";
+//
+// const useStyles = makeStyles((theme) => ({
+//   formWrap: {
+//     [theme.breakpoints.down('xs')]: {
+//       paddingTop: "0px"
+//     }
+//   },
+// }));
+//
+// const NewReview = () => {
+//   const classes = useStyles();
+//   const dispatch = useDispatch();
+//   const user = useSelector(state => state.users.user);
+//
+//   const createReviewHandler = async (reviewData) => {
+//     if (reviewData.customerId) {
+//       await dispatch(createReview(reviewData));
+//     }
+//   };
+//
+//   const [open, setOpen] = React.useState(false);
+//
+//   const handleClickOpen = () => {
+//     setOpen(true);
+//   };
+//   const handleClose = () => {
+//     setOpen(false);
+//   };
+//
+//   return (
+//     <div>
+//
+//     </div>
+//   );
+// };
+//
+// export default NewReview;
 
 // import React from 'react';
 // import {useDispatch, useSelector} from "react-redux";

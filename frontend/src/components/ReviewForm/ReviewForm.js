@@ -1,11 +1,11 @@
 import React, {Component} from "react";
 import Grid from '@material-ui/core/Grid';
-import {connect} from "react-redux";
-import {createCustomer} from "../../store/actions/customersActions";
+// import {connect} from "react-redux";
+// import {createCustomer} from "../../store/actions/customersActions";
 import FormElement from '../UI/Form/FormElement';
 import Box from '@material-ui/core/Box';
-import Button from '@material-ui/core/Button';
-import {withRouter} from 'react-router'
+// import Button from '@material-ui/core/Button';
+// import {withRouter} from 'react-router'
 
 class ReviewForm extends Component {
   state = {
@@ -37,7 +37,7 @@ class ReviewForm extends Component {
 
   render() {
     return (
-      <form onSubmit={this.submitFormHandler}>
+      <form id="reviewForm" onSubmit={this.submitFormHandler}>
         <Grid container direction='column' alignItems='center'>
           <Grid item container xs>
             <Box p={3} style={{width: '100%'}}>
