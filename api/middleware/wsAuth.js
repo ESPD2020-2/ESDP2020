@@ -25,7 +25,7 @@ const auth = async (ws, res, next) => {
   const user = await User.findOne({token});
 
   if (!user) {
-    authError.error='No user found with this token. Token incorrect'
+    // authError.error='No user found with this token. Token incorrect'
     ws.send(JSON.stringify(authError));
     return ws.close()
   }
