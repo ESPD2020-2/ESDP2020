@@ -3,7 +3,6 @@ export const links = [
   {path: '/about', name: 'о нас'},
   {path: '/faq', name: 'faq'},
   {path: '/contacts', name: 'контакты'},
-  {path: '/couriers', name: 'курьеру'},
 ];
 
 export const admLinks = [
