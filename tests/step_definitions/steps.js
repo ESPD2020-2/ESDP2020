@@ -33,6 +33,7 @@ When('нажимаю на кнопку добавления заказа', () =>
 
 When('нажимаю на кнопку еще', () => {
   I.click('//div[1]/div[3]/main/div[2]/div[2]/div/table/tbody/tr[1]/td[7]/div/button');
+  I.click('//div[1]/div[3]/main/div[2]/div[2]/div/table/tbody/tr[1]/td[7]/div/button');
 });
 
 When('нажимаю на кнопку опубликовать', () => {
@@ -57,7 +58,7 @@ When('нажимаю на сам инпут', () => {
 
 Then('я вижу текст {string}', text => {
   I.waitForText(text);
-  I.wait(3)
+  I.wait(2)
 });
 
 Given('я нахожусь на странице заказа', () => {
