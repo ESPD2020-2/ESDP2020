@@ -69,7 +69,7 @@ export default function About() {
       <Paper className={classes.paper} elevation={0}>
         <Grid container wrap="nowrap" spacing={5}>
 
-          <Grid item lg>
+          <Grid item xs>
             <Typography variant="h6" gutterBottom className={classes.text__theme}>
               О нас
             </Typography>
@@ -99,7 +99,7 @@ export default function About() {
         <Typography className={classes.advantage__title} variant="h4" gutterBottom>
           Преимущества
         </Typography>
-        <Grid container xs className={classes.advantage}>
+        <Grid container className={classes.advantage}>
           <Grid item xs style={{textAlign: 'center'}}>
             <Paper className={classes.advantage__block} elevation={0}>
               <LiveHelpIcon className={classes.iconStyle}/>
@@ -128,7 +128,7 @@ export default function About() {
       </Paper>
 
       <Grid container direction="column" justify="center" alignItems="center" style={{textAlign: 'center'}}>
-        <Grid item>
+        <Grid item xs>
           <Typography className={classes.advantage__title} variant="h4" gutterBottom>
             Команда
           </Typography>
@@ -137,7 +137,7 @@ export default function About() {
             мнении: "Самое дорогое - это время". Только на одних суши, пиццах и фаст-фуде долго не протянешь, особенно,
             когда не всегда есть время готовить самостоятельно.</Typography>
         </Grid>
-        <Grid item>
+        <Grid item xs>
           <img src="https://squalio.com/wp-content/uploads/2018/08/Teams.png" alt="team"/>
         </Grid>
       </Grid>

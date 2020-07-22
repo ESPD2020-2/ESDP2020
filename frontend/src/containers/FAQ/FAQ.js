@@ -1,78 +1,84 @@
 import React from 'react';
-import Container from "@material-ui/core/Container";
-import Typography from "@material-ui/core/Typography";
-import Grid from "@material-ui/core/Grid";
-import makeStyles from "@material-ui/core/styles/makeStyles";
+import {makeStyles} from '@material-ui/core/styles';
+import Accordion from '@material-ui/core/Accordion';
+import AccordionSummary from '@material-ui/core/AccordionSummary';
+import AccordionDetails from '@material-ui/core/AccordionDetails';
+import Typography from '@material-ui/core/Typography';
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 
 const useStyles = makeStyles((theme) => ({
-	faqTitle: {
-		padding: '20px 0',
-		fontWeight: 'bold'
-	},
-	hrLine: {
-		border: '1px #ff5a5e solid',
-	}
+    root: {
+        width: '100%',
+    },
+    heading: {
+        fontSize: theme.typography.pxToRem(15),
+        fontWeight: theme.typography.fontWeightRegular,
+    },
 }));
 
-const Faq = () => {
-	const classes = useStyles();
+export default function FAQ() {
+    const classes = useStyles();
 
-	return (
-		<Container>
-			<Grid>
-				<Typography variant="h3">Вопросы</Typography>
-				<Typography className={classes.faqTitle} variant="h5">Как можно сделать заказ?</Typography>
-				<p>Заказ можно сделать на нашем сайте, заполнив форму заказа, а также по телефону,
-					через оператора. Если вы сделали заказ через сайт, то в течение 10 минут вам
-					перезвонить оператор и подтвердит заказ. Если же вы делаете заказ через оператора,
-					то все детали заказа будут обсуждаться во время этого разговора с оператором.</p>
-				<hr className={classes.hrLine}/>
-			</Grid>
-			<Grid>
-				<Typography className={classes.faqTitle} variant="h5">Сколько будет стоить доставка?</Typography>
-				<p>На сайте указаны цены, в зависимости от количества точек, которые нужно посетить
-					курьеру, но в случае, если определить конкретную стоимость заказа окажется сложно,
-					то цену назовет наш оператор, при подтверждении заказа или уточнении его деталей.</p>
-				<hr className={classes.hrLine}/>
-			</Grid>
-			<Grid>
-				<Typography className={classes.faqTitle} variant="h5">Работает ли служба по выходным и праздникам?</Typography>
-				<p>Да, мы принимаем заказы семь дней в неделю, без выходных и праздников.</p>
-				<hr className={classes.hrLine}/>
-			</Grid>
-			<Grid>
-				<Typography className={classes.faqTitle} variant="h5">А какие габариты могут быть у заказа?</Typography>
-				<p>Вес заказа - до 10 кг, а размеры: длина - 60 см, ширина - 60 см, высота - 60 см.</p>
-				<hr className={classes.hrLine}/>
-			</Grid>
-			<Grid>
-				<Typography className={classes.faqTitle} variant="h5">Возможна ли доставка на следующий день?</Typography>
-				<p>Да, на сайте можно выбрать вариант доставки "Ко времени", или сообщить оператору,
-					когда он свяжется с вами для получения заказа, как именно вы хотите, чтобы ваш
-					заказ был выполнен.</p>
-				<hr className={classes.hrLine}/>
-			</Grid>
-			<Grid>
-				<Typography className={classes.faqTitle} variant="h5">А с курьером можно карточкой расплатиться?</Typography>
-				<p>В настоящее время это невозможно, однако в будущем этот сервис будет
-					предоставляться.</p>
-				<hr className={classes.hrLine}/>
-			</Grid>
-			<Grid>
-				<Typography className={classes.faqTitle} variant="h5">Вы принимаете возврат заказов?</Typography>
-				<p>Возврат заказа будет возможен в том случае, если содержимое заказа пострадает во
-					время перевозки курьером.</p>
-				<hr className={classes.hrLine}/>
-			</Grid>
-			<Grid>
-				<Typography className={classes.faqTitle} variant="h5">Здесь нет ответа на мой вопрос.</Typography>
-				<p>Вы можете обратиться в нашу службу поддержки со всеми вопросами, ответы на
-					которые вы не нашли на сайте, по телефону:...</p>
-				<hr className={classes.hrLine}/>
-			</Grid>
+    const information = [
+        {
+            title: 'Как можно сделать заказ?',
+            text: 'Заказ можно сделать на нашем сайте, заполнив форму заказа, а также по телефону,\n' +
+                '\t\t\t\t\tчерез оператора. Если вы сделали заказ через сайт, то в течение 10 минут вам\n' +
+                '\t\t\t\t\tперезвонить оператор и подтвердит заказ. Если же вы делаете заказ через оператора,\n' +
+                '\t\t\t\t\tто все детали заказа будут обсуждаться во время этого разговора с оператором.'
+        },
+        {
+            title: 'Сколько будет стоить доставка?',
+            text: 'На сайте указаны цены, в зависимости от количества точек, которые нужно посетить\n' +
+                '\t\t\t\t\tкурьеру, но в случае, если определить конкретную стоимость заказа окажется сложно,\n' +
+                '\t\t\t\t\tто цену назовет наш оператор, при подтверждении заказа или уточнении его деталей.'
+        },
+        {
+            title: 'Работает ли служба по выходным и праздникам?',
+            text: 'Да, мы принимаем заказы семь дней в неделю, без выходных и праздников.'
+        },
+        {
+            title: 'А какие габариты могут быть у заказа?',
+            text: 'Вес заказа - до 10 кг, а размеры: длина - 60 см, ширина - 60 см, высота - 60 см.'
+        },
+        {
+            title: 'Возможна ли доставка на следующий день?',
+            text: 'Да, на сайте можно выбрать вариант доставки "Ко времени", или сообщить оператору,\n' +
+                '\t\t\t\t\tкогда он свяжется с вами для получения заказа, как именно вы хотите, чтобы ваш\n' +
+                '\t\t\t\t\tзаказ был выполнен.'
+        },
+        {
+            title: 'А с курьером можно карточкой расплатиться?',
+            text: 'В настоящее время это невозможно, однако в будущем этот сервис будет\n' +
+                '\t\t\t\t\tпредоставляться.'
+        },
+        {
+            title: 'Вы принимаете возврат заказов?',
+            text: 'Возврат заказа будет возможен в том случае, если содержимое заказа пострадает во\n' +
+                '\t\t\t\t\tвремя перевозки курьером.'
+        },
+        {
+            title: 'Здесь нет ответа на мой вопрос.',
+            text: 'Вы можете обратиться в нашу службу поддержки со всеми вопросами, ответы на\n' +
+                '\t\t\t\t\tкоторые вы не нашли на сайте, по телефону:...'
+        },
+    ];
 
-		</Container>
-	);
-};
-
-export default Faq;
+    return (
+        <div className={classes.root}>
+            <Typography align="center" variant="h3">Вопросы</Typography>
+            {information.map((info, index) => (
+                <Accordion key={index}>
+                    <AccordionSummary
+                        expandIcon={<ExpandMoreIcon/>}
+                    >
+                        <Typography className={classes.heading}>{info.title}</Typography>
+                    </AccordionSummary>
+                    <AccordionDetails>
+                        <Typography>{info.text}</Typography>
+                    </AccordionDetails>
+                </Accordion>
+            ))}
+        </div>
+    );
+}

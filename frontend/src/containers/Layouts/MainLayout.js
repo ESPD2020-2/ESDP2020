@@ -31,6 +31,7 @@ const MainLayout = () => {
     <>
       <MainDrawerLayout drawerContent={drawerContent}>
         <MainRoutes/>
+        <div></div>
       </MainDrawerLayout>
       <Footer/>
     </>
