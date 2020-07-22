@@ -1,0 +1,53 @@
+.block1 {
+    display:flex;
+    flex-wrap:wrap;
+    justify-content:space-around;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.title {
+    text-align: center;
+}
+
+.block2{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    align-items: center;
+    align-content: center;
+    background-color: orange;
+    padding: 10px 20px 0;
+    text-align: center;
+    margin-bottom: 5%;
+    margin-top: 25px;
+}
+
+.block2 .flex-item {
+    width: 20%;
+    color: white;
+}
+
+.iconStyle {
+    font-size: 40px;
+    color: white;
+}
+
+.teamImg {
+    width: 100%;
+}
+
+@media (max-width: 545px) {
+    .block1Text {
+        font-size: 23px;
+    }
+    .block2 {
+        flex-direction: column;
+    }
+    .block2 .flex-item {
+        width: 50%;
+    }
+}
+
+
