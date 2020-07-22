@@ -14,8 +14,8 @@ import CircularProgress from "@material-ui/core/CircularProgress";
 const useStyles = makeStyles((theme) => ({
   wrap: {
     [theme.breakpoints.up("sm")]: {
-      position: "absolute",
-      top: "50%",
+      position: "relative",
+      top: "30%",
       left: "50%",
       transform: "translate(-50%, -50%)",
       padding: "0 16px",

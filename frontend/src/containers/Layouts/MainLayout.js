@@ -1,12 +1,13 @@
 import React from "react";
-import { NavLink } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import {NavLink} from "react-router-dom";
+import {useDispatch} from "react-redux";
 import MainRoutes from "../../routes/MainRoutes";
 import MainDrawerLayout from "../../components/UI/DrawerLayout/MainDrawerLayout";
 import MenuList from "@material-ui/core/MenuList";
 import MenuItem from "@material-ui/core/MenuItem";
-import { toggleDrawer } from "../../store/actions/mainActions";
-import { links } from "../../constants";
+import {toggleDrawer} from "../../store/actions/mainActions";
+import {links} from "../../constants";
+import Footer from "../../components/Footer/Footer";
 
 const MainLayout = () => {
   const dispatch = useDispatch();
@@ -27,9 +28,13 @@ const MainLayout = () => {
   );
 
   return (
-    <MainDrawerLayout drawerContent={drawerContent}>
-      <MainRoutes />
-    </MainDrawerLayout>
+    <>
+      <MainDrawerLayout drawerContent={drawerContent}>
+        <MainRoutes/>
+        <div></div>
+      </MainDrawerLayout>
+      <Footer/>
+    </>
   );
 };
 

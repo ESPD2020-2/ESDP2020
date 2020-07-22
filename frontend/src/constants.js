@@ -1,7 +1,6 @@
 export const links = [
   {path: '/add-order', name: 'Заказать доставку'},
   {path: '/reviews', name: 'Отзывы'},
-  {path: '/about', name: 'О нас'},
   {path: '/faq', name: 'FAQ'},
   {path: '/contacts', name: 'Контакты'},
 ];

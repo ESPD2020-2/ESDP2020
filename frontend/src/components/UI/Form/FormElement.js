@@ -18,6 +18,8 @@ const FormElement = (props) => {
   let inputComponent = (
     <TextField
       fullWidth
+      multiline={props.multiline}
+      rows={props.rows}
       variant={props.variant ==='standard' ? props.variant : 'outlined' }
       label={props.title}
       error={!!props.error}
