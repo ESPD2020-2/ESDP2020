@@ -24,7 +24,7 @@ const CourierTrecking = () => {
                 key={el._id}
                 position={[el.geoData.lat, el.geoData.lon]}
               >
-                <Tooltip permanent>{el.displayName || el.username}</Tooltip>
+                <Tooltip permanent>{el.displayName || el.username} ({el.status === 'avaliable' ? <b style={{color: 'green'}}>свободен</b> : <b style={{color: 'red'}}>в процессе выполнения</b>})</Tooltip>
               </Marker>
             )
         )}

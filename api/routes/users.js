@@ -4,7 +4,6 @@ const express = require("express");
 const bcrypt = require("bcrypt");
 
 const auth = require("../middleware/auth");
-const wsAuth = require("../middleware/wsAuth");
 const permit = require("../middleware/permit");
 
 const User = require("../models/User");
@@ -31,7 +30,7 @@ router.get(
     try {
       const couriers = await User.find(
         { role: "courier" },
-        { username: 1, geoData: 1, displayName:1 }
+        { username: 1, geoData: 1, displayName: 1, status: 1 }
       );
       res.send(couriers);
     } catch (error) {
@@ -175,57 +174,5 @@ router.delete(
     }
   }
 );
-
-const connections = {};
-
-const refreshData = async (userId, parsed) => {
-  try {
-    const user = await User.findById(userId);
-    if (parsed) {
-      user.geoData = parsed.geoData;
-    } else {
-      user.geoData = null;
-    }
-    await user.save();
-    const couriers = await User.find(
-      { role: "courier" },
-      { username: 1, geoData: 1, displayName: 1}
-    );
-    Object.keys(connections).forEach((id) => {
-      const connection = connections[id];
-      return connection.ws.send(
-        JSON.stringify({
-          type: "GET_COURIERS_SUCCESS",
-          couriers,
-        })
-      );
-    });
-  } catch (error) {
-    console.log(error);
-  }
-};
-
-router.ws("/couriersGeoData", wsAuth, function (ws) {
-  const user = ws.user;
-  connections[user._id] = { user, ws };
-  console.log("total clients connected: " + Object.keys(connections).length);
-
-  ws.on("message", async (msg) => {
-    const parsed = JSON.parse(msg);
-    switch (parsed.type) {
-      case "REFRESH_GEODATA":
-        refreshData(user._id, parsed);
-        break;
-      default:
-        console.log("NO TYPE: " + parsed.type);
-    }
-  });
-
-  ws.on("close", async (msg) => {
-    console.log("close", user.username);
-    delete connections[user._id];
-    await refreshData(user._id);
-  });
-});
 
 module.exports = router;

@@ -46,7 +46,20 @@ const UserSchema = new Schema(
     },
     geoData: {
       type: mongoose.Schema.Types.Mixed,
-      default: null
+      default: function() {
+        if (this.role === 'courier') {
+          return null;
+        }
+      }
+    },
+    status: {
+      type: String,
+      default: function() {
+        if (this.role === 'courier') {
+          return "avaliable";
+        }
+      },
+      enum: ["avaliable", "notAvailable"]
     },
   },
   {

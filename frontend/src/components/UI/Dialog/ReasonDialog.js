@@ -8,7 +8,7 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 
-const ReasonDialog = ({open, action, handleClose, removeOrder, rejectOrder, cancelOrder, transferOrder, deliveredOrder, addInfo, couriers, author}) => {
+const ReasonDialog = ({open, action, handleClose, removeOrder, rejectOrder, cancelOrder, transferOrder, deliveredOrder, addToBlackList, addInfo, couriers, author}) => {
 
   const [reason, setReason] = useState('');
   const [courierId, setCourierId] = useState('');
@@ -18,6 +18,7 @@ const ReasonDialog = ({open, action, handleClose, removeOrder, rejectOrder, canc
     action === 'remove' && removeOrder();
     action === 'reject' && rejectOrder({author, reason});
     action === 'cancel' && cancelOrder({author, reason});
+    action === 'blackList' && addToBlackList({addedToBlackList:{author, reason}});
     action === 'addInfo' && addInfo(reason);
     action === 'transfer' && transferOrder(courierId);
     action === 'delivered' && deliveredOrder(reason);
@@ -35,6 +36,7 @@ const ReasonDialog = ({open, action, handleClose, removeOrder, rejectOrder, canc
         {action === 'transfer' && 'Выбор курьера'}
         {action === 'reject' && 'Причина отказа'}
         {action === 'cancel' && 'Причина отмены'}
+        {action === 'blackList' && 'Добавить в черный список'}
         {action === 'delivered' && 'Комментарий о клиенте'}
         {action === 'addInfo' && 'Дополнительная информация'}
       </DialogTitle>
@@ -44,6 +46,7 @@ const ReasonDialog = ({open, action, handleClose, removeOrder, rejectOrder, canc
         {action === 'transfer' && 'Назначьте нового курьера для выполнения заказа'}
         {action === 'reject' && 'Укажите причину отказа от выполнения заказа'}
         {action === 'cancel' && 'Укажите причину отмены заказа'}
+        {action === 'blackList' && 'Вы действительно хотите добавить клиента в черный список?'}
         {action === 'delivered' && 'Напишите комментарий о клиенте'}
         {action === 'addInfo' && 'Введите дополнительную информацию (инфо. о товаре/этаж/код от подъезда/№подъезда и тд) '}
         </DialogContentText>
@@ -64,7 +67,7 @@ const ReasonDialog = ({open, action, handleClose, removeOrder, rejectOrder, canc
             {action === 'transfer' ? (
              couriers.map(el => (
               <MenuItem key={el._id} value={el._id}>
-                {el.username}
+                {el.displayName || el.username} ({el.status === 'avaliable' ? <b style={{color: 'green'}}>свободен</b> : <b style={{color: 'red'}}>в процессе выполнения</b>})
               </MenuItem>
              ))
             ) : (

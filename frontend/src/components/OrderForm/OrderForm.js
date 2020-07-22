@@ -175,7 +175,6 @@ class OrderForm extends Component {
   };
     
   render() {
-    console.log(this.state.paymentAmount)
     const path = this.props.history.location.pathname;
     return (
      <form onSubmit={this.submitFormHandler} id="orderForm" >
