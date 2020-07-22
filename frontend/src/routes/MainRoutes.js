@@ -6,6 +6,8 @@ import About from "../containers/About/About";
 import ReviewForm from "../components/ReviewForm/ReviewForm";
 import NotFound from "../containers/NotFound/NotFound";
 import FAQ from "../containers/FAQ/FAQ";
+import Reviews from "../containers/Reviews/Reviews";
+import NewReview from "../containers/NewReview/NewReview";
 
 
 const Routes = () => {
@@ -16,7 +18,8 @@ const Routes = () => {
             <Route path="/faq" exact component={FAQ}/>
             <Route path="/contacts" exact component={Contacts}/>
             <Route path='/about' exact component={About}/>
-            <Route path='/review-form' exact component={ReviewForm}/>
+            <Route path='/reviews' exact component={Reviews}/>
+            <Route path='/add-review' exact component={NewReview}/>
             <Route path='/' exact render={() => <h1>Main Page</h1>}/>
             <Route render={() => <NotFound/>}/>
         </Switch>

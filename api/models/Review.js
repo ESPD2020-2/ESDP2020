@@ -1,15 +1,22 @@
 const mongoose = require("mongoose");
+const {nanoid} = require('nanoid');
 
 const Schema = mongoose.Schema;
 
 const ReviewSchema = new Schema({
     reviewNumber: {
-      type: Number,
+      type: String,
       required: true,
+      default: () => nanoid(6),
     },
-    author: {
+    customer: {
       type: Schema.Types.ObjectId,
       ref: "Customer",
+      required: true,
+    },
+    user: {
+      type: Schema.Types.ObjectId,
+      ref: "User",
       required: true,
     },
     advantages: {

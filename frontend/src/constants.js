@@ -1,8 +1,9 @@
 export const links = [
-  {path: '/add-order', name: 'заказать доставку'},
-  {path: '/about', name: 'о нас'},
-  {path: '/faq', name: 'faq'},
-  {path: '/contacts', name: 'контакты'},
+  {path: '/add-order', name: 'Заказать доставку'},
+  {path: '/reviews', name: 'Отзывы'},
+  {path: '/about', name: 'О нас'},
+  {path: '/faq', name: 'FAQ'},
+  {path: '/contacts', name: 'Контакты'},
 ];
 
 export const admLinks = [
