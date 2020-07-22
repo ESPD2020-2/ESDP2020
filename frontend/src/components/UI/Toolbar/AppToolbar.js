@@ -1,19 +1,27 @@
-import React from "react";
-import { NavLink } from "react-router-dom";
+import React, { useState } from "react";
+import { NavLink} from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { makeStyles } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
+import Menu from "@material-ui/core/Menu";
+import Typography from "@material-ui/core/Typography";
+import Badge from '@material-ui/core/Badge';
+import Button from "@material-ui/core/Button";
 import IconButton from "@material-ui/core/IconButton";
 import MenuIcon from "@material-ui/icons/Menu";
-import Typography from "@material-ui/core/Typography";
-import Button from "@material-ui/core/Button";
-import { logoutUser } from "../../../store/actions/usersActions";
-import { toggleDrawer } from "../../../store/actions/mainActions";
-import { links } from "../../../constants";
-import ShowTo from "../../../hoc/ShowTo";
+import List from "@material-ui/core/List";
+import MenuItem from "@material-ui/core/MenuItem";
+import ListItem from "@material-ui/core/ListItem";
+import NotificationsIcon from '@material-ui/icons/Notifications';
 import UserMenu from "./UserMenu";
 import AnonymousMenu from "./AnonymousMenu";
+import Notice from "../../Notice/Notice";
+import { setNotificationsWasRead } from "../../../store/actions/notificationsActions";
+import { logoutUser } from "../../../store/actions/usersActions";
+import { toggleDrawer } from "../../../store/actions/mainActions";
+import ShowTo from "../../../hoc/ShowTo";
+import { links } from "../../../constants";
 
 const useStyles = makeStyles((theme) => ({
   appBar: {
@@ -56,9 +64,20 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const AppToolbar = () => {
-  const user = useSelector((state) => state.users.user);
-  const dispatch = useDispatch();
   const classes = useStyles();
+  const dispatch = useDispatch();
+  const [anchorEl, setAnchorEl] = useState(null);
+  const user = useSelector((state) => state.users.user);
+  const notice = useSelector(state => state.notifications.newNotifications);
+  const path = useSelector(state => state.router.location.pathname);
+  const handleClick = (e) => setAnchorEl(e.currentTarget);
+
+  const handleClose = async () => {
+    if (notice.length > 0) {
+      await dispatch(setNotificationsWasRead());
+    }
+    setAnchorEl(null);
+  };
 
   return (
     <>
@@ -95,6 +114,39 @@ const AppToolbar = () => {
               ))}
             </nav>
           </ShowTo>
+          {user&&user.role !== 'user' &&  (
+            <>
+              <IconButton color="inherit" disabled={path === '/adm/notifications'} onClick={handleClick}>
+                <Badge badgeContent={notice && notice.length} color="secondary">
+                  <NotificationsIcon />
+                </Badge>
+              </IconButton>      
+              <Menu anchorEl={anchorEl} keepMounted open={Boolean(anchorEl)} onClose={handleClose}>
+                <List>
+                  {notice&&notice.map(el => (
+                    <ListItem key={el._id}>
+                      <Notice 
+                        author={el.user.username}
+                        createdAt={el.createdAt}
+                        message={el.message}
+                      />  
+                    </ListItem> 
+                  ))}
+                  <ListItem>
+                    <MenuItem 
+                      component={NavLink}
+                      to={`/adm/notifications`}
+                      style={{width: '100%', display: 'block', textAlign: 'center'}}
+                      className={classes.navLink}
+                      onClick={() => setAnchorEl(null)}
+                    >
+                        Посмотреть все уведомления
+                    </MenuItem>
+                  </ListItem>
+                </List>
+              </Menu>
+            </>
+          )}
           {user ? (
             <UserMenu user={user} logout={() => dispatch(logoutUser())} />
           ) : (

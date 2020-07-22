@@ -1,10 +1,12 @@
 const express = require('express');
 const moment = require('moment');
 const Order = require('../models/Order');
+const User = require('../models/User');
 const router = express.Router();
 const auth = require('../middleware/auth');
 const permit = require('../middleware/permit');
 const timezone = require('../constant');
+
 
 router.get('/statistics', async (req, res) => {
 
@@ -128,8 +130,12 @@ router.post('/', async (req, res) => {
 
 router.delete('/:id', [auth, permit('operator', 'admin', 'super_admin')], async (req, res) => {
   try {
-    await Order.findByIdAndRemove(req.params.id);
-    return res.send({message: `Заказ успешно удален`});
+    const order = await Order.findByIdAndRemove(req.params.id);
+    if (!order) {
+      return res.status(404).send({error: `Заказ не найден`});
+    } else {
+      return res.send({message: `Заказ успешно удален`});
+    }
   } catch (error) {
     res.status(400).send({error});
   }
@@ -173,6 +179,7 @@ router.patch('/:id/accept', [auth, permit('super_admin', 'admin', 'courier')], a
     order.acceptedAt = new Date;
     order.courier = req.user._id;
     await order.save();
+    await User.findByIdAndUpdate(req.user._id, { $set: { status: "notAvailable" }});
     return res.send({message: `Заказ № ${order.orderNumber} успешно принят`});
   } catch (error) {
     return res.status(400).send(error);
@@ -198,6 +205,7 @@ router.patch('/:id/reject', [auth, permit('super_admin', 'admin', 'courier')], a
       status: 'rejected'
     })
     await order.save();
+    await User.findByIdAndUpdate(req.user._id, { $set: { status: "avaliable" }});
     return res.send({message: `Заказ № ${order.orderNumber} переведен в статус "Rejected"`});
   } catch (error) {
     return res.status(400).send(error);
@@ -244,6 +252,7 @@ router.patch('/:id/transfer', [auth, permit('super_admin', 'admin', 'operator')]
     order.reason = null;
     order.courier = req.body.courierId;
     await order.save();
+    await User.findByIdAndUpdate(req.body.courierId, { $set: { status: "notAvailable" }});
     return res.send({message: `Заказ № ${order.orderNumber} успешно передан курьеру`});
   } catch (error) {
     return res.status(500).send(error);
@@ -260,6 +269,7 @@ router.patch('/:id/delivered', [auth, permit('super_admin', 'admin', 'courier')]
     order.deliveredAt = new Date;
     order.courierComment = req.body.comment;
     await order.save();
+    await User.findByIdAndUpdate(req.user._id, { $set: { status: "avaliable" }});
     return res.send({message: `Заказ № ${order.orderNumber} успешно доставлен`});
   } catch (error) {
     return res.status(400).send(error);

@@ -104,13 +104,15 @@ export const registerUser = (userData) => {
       await axiosApi.post("/users", userData);
       dispatch(registerUserSuccess());
       dispatch(push("/"));
-      toast.success("Registered successfully");
+      toast.success("Registered successfully", {
+        position: toast.POSITION.BOTTOM_LEFT,
+      });
     } catch (error) {
       if (error.response) {
         dispatch(registerUserFailure(error.response.data));
       } else {
         dispatch(
-          registerUserFailure({ global: "Network Error1 or no internet" })
+          registerUserFailure({ global: "Network Error or no internet" })
         );
       }
     }
@@ -123,7 +125,9 @@ export const loginUser = (userData) => {
       dispatch(loginUserRequest());
       const response = await axiosApi.post("/users/sessions", userData);
       dispatch(loginUserSuccess(response.data));
-      toast.success("Logged in successfully");
+      toast.success("Logged in successfully", {
+        position: toast.POSITION.BOTTOM_LEFT,
+      });
       response.data.role === "user"
         ? dispatch(push("/"))
         : dispatch(push("/adm"));

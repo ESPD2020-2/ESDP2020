@@ -14,9 +14,10 @@ import Button from '@material-ui/core/Button';
 import Backdrop from '@material-ui/core/Backdrop';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { getOrders } from "../../store/actions/ordersActions";
-import { getCouriers } from '../../store/actions/usersActions';
-import OrderRow from "../../components/OrderRow/OrderRow";
+import { getNewNotifications } from "../../store/actions/notificationsActions";
 import ShowToAdmin from '../../hoc/ShowToAdmin';
+import SocketContext from '../../socetContext';
+import OrderRow from "../../components/OrderRow/OrderRow";
 
 const useStyles = makeStyles((theme) => ({
   backdrop: {
@@ -35,14 +36,14 @@ const StyledTableCell = withStyles((theme) => ({
   },
 }))(TableCell);
 
-const Orders = () => {
+const Orders = ({ws}) => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const orders = useSelector(state => state.ord.orders);
   const userId = useSelector(state => state.users.user._id);
   const path = useSelector(state => state.router.location.pathname);
   const loading = useSelector(state => state.ord.loading);
-  
+
   useEffect(() => {
     let status;
     let courier = null;
@@ -60,9 +61,28 @@ const Orders = () => {
       courier = userId
     }
       dispatch(getOrders(status, courier));
-      dispatch(getCouriers());
-    
-  },[dispatch, path, userId]);
+      ws.onmessage = (couriers) => {
+        try {
+          const data = JSON.parse(couriers.data);
+          switch (data.type) {
+            case 'GET_COURIERS_SUCCESS':
+              dispatch(data)
+              break;
+            case 'NEW_NOTIFICATION':
+              dispatch(getOrders(status, courier))
+              dispatch(getNewNotifications())
+              break;
+            case 'ORDER_ACTION':
+              dispatch(getOrders(status, courier))
+              break;
+            default: 
+              console.log('default')
+          }
+        } catch (e) {
+          console.log('Something went wrong', e);
+        }
+      }
+  },[dispatch, path, userId, ws]);
 
   return (
     <>
@@ -122,4 +142,10 @@ const Orders = () => {
   );
 }
 
-export default Orders;
+const OrdersWithWS = props => (
+  <SocketContext.Consumer>
+  {ws => <Orders {...props} ws={ws} />}
+  </SocketContext.Consumer>
+)
+
+export default OrdersWithWS;

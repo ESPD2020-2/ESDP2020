@@ -8,6 +8,7 @@ import {getUsers, deleteUser} from '../../store/actions/usersActions';
 import {tableIcons} from './TableIcons';
 import axiosApi from "../../axiosApi";
 import FormElement from '../../components/UI/Form/FormElement';
+import { localization } from '../../constants';
 
 const useStyles = makeStyles((theme) => ({
   backdrop: {
@@ -67,44 +68,44 @@ const Users = () => {
   };
 
   const columns = [
-    { title: 'Username', field: 'username',
+    { title: 'Логин', field: 'username',
     editComponent: props => (
       <FormElement
         type="text"
         propertyName="username"
         value={props.value ? props.value : '' }
-        placeholder="Username"
+        placeholder="Введите логин"
         size="small"
         variant='standard'
         onChange={e => props.onChange(e.target.value)}
         error={getFieldError('username')}
       />
     )},
-    { title: 'Password', field: 'password', emptyValue: '*******', 
+    { title: 'Пароль', field: 'password', emptyValue: '*******', 
     editComponent: props => (
       <FormElement
         type="password"
         propertyName="password"
-        placeholder="Password"
+        placeholder="Введите пароль"
         size="small"
         variant='standard'
         onChange={e => props.onChange(e.target.value)}
         error={getFieldError('password')}
       /> 
     )},
-    { title: 'Display name', field: 'displayName', 
+    { title: 'Имя', field: 'displayName', 
     editComponent: props => (
       <FormElement
         type="text"
         propertyName="displayName"
         value={props.value ? props.value : '' }
-        placeholder="Display name"
+        placeholder="Введите имя"
         size="small"
         variant='standard'
         onChange={e => props.onChange(e.target.value)}
       /> 
     )},
-    { title: 'Role', field: 'role', initialEditValue: 'courier', lookup: { 'super_admin': 'super_admin', 'admin': 'admin', 'operator': 'operator', 'courier': 'courier' }},
+    { title: 'Роль', field: 'role', initialEditValue: 'courier', lookup: { 'super_admin': 'super_admin', 'admin': 'admin', 'operator': 'operator', 'courier': 'courier' }},
   ];
   
   return (
@@ -113,13 +114,14 @@ const Users = () => {
         <CircularProgress color="inherit" />
       </Backdrop>
       <MaterialTable
-        title="Users"
+        title="Сотрудники"
         icons={tableIcons}
         columns={columns}
         data={data}
         options={{
           actionsColumnIndex: -1,
         }}
+        localization={localization}
         editable={['super_admin', 'admin'].includes(role) ? { 
           onRowAdd: newData => addUserHandler(newData),
           onRowUpdate: newData => editUserHandler(newData),
