@@ -3,10 +3,8 @@ import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
 import Link from "@material-ui/core/Link";
 import makeStyles from "@material-ui/core/styles/makeStyles";
-import {links} from "../../constants";
 import PhoneIcon from '@material-ui/icons/Phone';
 import MailIcon from '@material-ui/icons/Mail';
-import {Box} from "@material-ui/core";
 import RoomIcon from '@material-ui/icons/Room';
 import Divider from "@material-ui/core/Divider";
 

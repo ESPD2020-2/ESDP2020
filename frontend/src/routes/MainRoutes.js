@@ -2,7 +2,6 @@ import React from "react";
 import {Route, Switch} from "react-router-dom";
 import NewOrder from "../containers/NewOrder/NewOrder";
 import Contacts from "../containers/Contacts/Contacts";
-import About from "../containers/About/About";
 import ReviewForm from "../components/ReviewForm/ReviewForm";
 import NotFound from "../containers/NotFound/NotFound";
 import FAQ from "../containers/FAQ/FAQ";
