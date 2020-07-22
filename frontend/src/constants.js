@@ -8,11 +8,11 @@ export const links = [
 
 export const admLinks = [
   {path: '/orders/created', name: 'Заказы', role: ['admin', 'super_admin', 'operator']},
-  {path: '/orders/published', name: 'Курьерская', role: ['admin', 'super_admin','courier']},
+  {path: '/orders/published', name: 'Опубликованные', role: ['admin', 'super_admin','courier']},
   {path: '/orders/accepted', name: 'В процессе', role: ['admin', 'super_admin', 'operator']},
   {path: '/orders/courier/accepted', name: 'Мои заказы', role: ['courier']},
-  {path: '/trecking', name: 'Трекинг', role: ['admin', 'super_admin', 'operator']},
-  {path: '/users', name: 'Пользователи', role: ['admin', 'super_admin']}
+  {path: '/trecking', name: 'Трэкинг', role: ['admin', 'super_admin', 'operator']},
+  {path: '/users', name: 'Сотрудники', role: ['admin', 'super_admin']}
 ];
 
 export const timeUnit = [
@@ -56,4 +56,40 @@ export const scales = {
   week: getTimeUnitArr(2,9, {weekday: 'long', timeZone: 'UTC'}),
   month: getTimeUnitArr(1, daysInMonth, {day: 'numeric'}),
   year: getTimeUnitArr(0, 12, {month: 'long'}),
+}
+
+export const staff = {
+  all: ['admin', 'operator', 'super_admin', 'courier'],
+  adm: ['admin', 'super_admin'],
+  admAndOper: ['operator', 'admin', 'super_admin'],
+  onlyOper: ['operator'],
+  onlyCourier: ['courier']
+}
+
+export const localization = {
+  header: {
+    actions: 'Действия'
+  },
+  pagination: {
+    labelRowsSelect: 'записей на странице',
+    firstTooltip: 'К первой странице',
+    previousTooltip: 'Предыдущая',
+    nextTooltip: 'Следующая',
+    lastTooltip: 'К последней странице',
+  },
+  body: {
+    emptyDataSourceMessage: 'Нет данных',
+    addTooltip: 'Добавить',
+    deleteTooltip: 'Удалить',
+    editTooltip: 'Редактировать',
+    editRow: {
+      deleteText: 'Вы уверены что хотите удалить эту запись?',
+      cancelTooltip: 'Отмена',
+      saveTooltip: 'Сохранить' 
+    }
+  },
+  toolbar: {
+    searchTooltip: 'Поиск',
+    searchPlaceholder: 'Введите текст для начала поиска'
+  }
 }

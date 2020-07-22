@@ -7,8 +7,6 @@ import App from './App';
 import './index.css';
 import 'react-toastify/dist/ReactToastify.css';
 
-
-
 const app = (
 	<Provider store={store}>
 		<ConnectedRouter history={history}>

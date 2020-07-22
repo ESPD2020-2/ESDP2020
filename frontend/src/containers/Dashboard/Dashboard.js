@@ -12,11 +12,12 @@ import TextField from "@material-ui/core/TextField";
 import IconButton from "@material-ui/core/IconButton";
 import NavigateBeforeIcon from '@material-ui/icons/NavigateBefore';
 import NavigateNextIcon from '@material-ui/icons/NavigateNext';
+import Typography from "@material-ui/core/Typography";
 import MenuItem from "@material-ui/core/MenuItem";
 import { getOrdersByPeriod } from "../../store/actions/ordersActions";
-import { timeUnit, scales, revenueStatus } from "../../constants";
+import { timeUnit, scales, revenueStatus, staff } from "../../constants";
 import "../../bootstrap.min.css";
-import { Typography } from "@material-ui/core";
+
 
 const useStyles = makeStyles((theme) => ({
   select: {
@@ -60,7 +61,8 @@ const Dashboard = () => {
   const totalOrders = useSelector((state) => state.ord.totalOrders);
   const deliveredOrders = useSelector((state) => state.ord.deliveredOrders);
   const canceledOrders = useSelector((state) => state.ord.canceledOrders);
-  
+  const user = useSelector((state) => state.users.user);
+
   let totalAmount;
   let amountByPeriod;
 
@@ -142,187 +144,195 @@ const Dashboard = () => {
 
   return (
     <>
-      {canceledOrders && deliveredOrders && totalOrders && (
-        <Grid container spacing={4}>
-           <Grid item xs className={classes.titleWrap}>
-            <Typography className={classes.title} component="h1" variant="h4">Статистические данные по заказам</Typography>
-          </Grid>
-          <Grid item xs={11}>
-            <TextField
-              select
-              className={classes.select}
-              value={period}
-              onChange={(e) => setPeriod(e.target.value)}
-              InputProps={{
-                startAdornment: (
-                  <InputAdornment position="start">
-                    <SortIcon />
-                  </InputAdornment>
-                ),
-              }}
-            >
-              {timeUnit.map((option) => (
-                <MenuItem key={option.id} value={option.value}>
-                  {option.title}
-                </MenuItem>
-              ))}
-            </TextField>
-          </Grid>
-          <Grid item xs={12} sm={6} md={3}>
-            <Card className="card-box bg-green">
-              <div className="card-header-alt px-2 pt-2 pb-0 d-flex align-items-start justify-content-between">
-                <div>
-                  <h3 className="font-weight-bold display-4 mb-0 text-black">
-                    <CountUp
-                      start={0}
-                      end={totalOrders&&totalOrders.totalOrders}
-                      duration={6}
-                      deplay={2}
-                      separator=""
-                      decimals={0}
-                      decimal=","
-                    />
-                  </h3>
-                  <p className="font-size-lg text-black-50 mb-0">Создано</p>
+      {staff.adm.includes(user.role) ? (
+      <div>
+        {canceledOrders && deliveredOrders && totalOrders && (
+          <Grid container spacing={4}>
+            <Grid item xs className={classes.titleWrap}>
+              <Typography className={classes.title} component="h1" variant="h4">Статистические данные по заказам</Typography>
+            </Grid>
+            <Grid item xs={11}>
+              <TextField
+                select
+                className={classes.select}
+                value={period}
+                onChange={(e) => setPeriod(e.target.value)}
+                InputProps={{
+                  startAdornment: (
+                    <InputAdornment position="start">
+                      <SortIcon />
+                    </InputAdornment>
+                  ),
+                }}
+              >
+                {timeUnit.map((option) => (
+                  <MenuItem key={option.id} value={option.value}>
+                    {option.title}
+                  </MenuItem>
+                ))}
+              </TextField>
+            </Grid>
+            <Grid item xs={12} sm={6} md={3}>
+              <Card className="card-box bg-green">
+                <div className="card-header-alt px-2 pt-2 pb-0 d-flex align-items-start justify-content-between">
+                  <div>
+                    <h3 className="font-weight-bold display-4 mb-0 text-black">
+                      <CountUp
+                        start={0}
+                        end={totalOrders&&totalOrders.totalOrders}
+                        duration={6}
+                        deplay={2}
+                        separator=""
+                        decimals={0}
+                        decimal=","
+                      />
+                    </h3>
+                    <p className="font-size-lg text-black-50 mb-0">Создано</p>
+                  </div>
                 </div>
-              </div>
-              <div className="pr-5 pb-2">
-                <Trend
-                  data={totalOrders&&totalOrders.statistics.ordersByPeriod}
-                  autoDraw
-                  autoDrawDuration={3000}
-                  autoDrawEasing="ease-in"
-                  height={120}
-                  radius={15}
-                  smooth
-                  stroke="#007bff"
-                  strokeLinecap="round"
-                  strokeWidth={4}
-                />
-              </div>
-            </Card>
-          </Grid>
-          <Grid item xs={12} sm={6} md={3}>
-            <Card className="card-box"
-            style={{ backgroundImage: "linear-gradient(-20deg,#2b5876,#4e4376)" }}
-            >
-              <div className="card-header-alt px-2 pt-2 pb-0">
-                <h3 className="font-weight-bold display-4 mb-0 text-white">
-                  <CountUp
-                    start={0}
-                    end={deliveredOrders&&deliveredOrders.totalOrders}
-                    duration={6}
-                    deplay={2}
-                    separator=" - "
-                    decimals={0}
-                    decimal=","
+                <div className="pr-5 pb-2">
+                  <Trend
+                    data={totalOrders&&totalOrders.statistics.ordersByPeriod}
+                    autoDraw
+                    autoDrawDuration={3000}
+                    autoDrawEasing="ease-in"
+                    height={120}
+                    radius={15}
+                    smooth
+                    stroke="#007bff"
+                    strokeLinecap="round"
+                    strokeWidth={4}
                   />
-                </h3>
-                <p className="font-size-lg text-white-50 mb-0">Доставлено</p>
-              </div>
-              <div className="pr-5 pb-2">
-                <Trend
-                  data={deliveredOrders&&deliveredOrders.statistics.ordersByPeriod}
-                  autoDraw
-                  autoDrawDuration={3000}
-                  autoDrawEasing="ease-in"
-                  height={120}
-                  radius={15}
-                  smooth
-                  stroke="#fff"
-                  strokeLinecap="round"
-                  strokeWidth={4}
-                />
-              </div>
-            </Card>
-          </Grid>
-          <Grid item xs={12} sm={6} md={3}>
-            <Card className="card-box bg-danger">
-              <div className="card-header-alt px-2 pt-2 pb-0">
-                <h3 className="font-weight-bold display-4 mb-0 text-white">
-                  <CountUp
-                    start={0}
-                    end={canceledOrders&&canceledOrders.totalOrders}
-                    duration={6}
-                    deplay={2}
-                    separator=" - "
-                    decimals={0}
-                    decimal=","
-                  />
-                </h3>
-                <p className="font-size-lg text-white-50 mb-0">Отменено</p>
-              </div>
-              <div className="pr-5 pb-2">
-                <Trend
-                  data={canceledOrders&&canceledOrders.statistics.ordersByPeriod}
-                  autoDraw
-                  autoDrawDuration={3000}
-                  autoDrawEasing="ease-in"
-                  height={120}
-                  radius={15}
-                  smooth
-                  stroke="#fff"
-                  strokeLinecap="round"
-                  strokeWidth={4}
-                />
-              </div>
-            </Card>
-          </Grid>
-          <Grid item xs={12} sm={6} md={3}>
-            <Card
-              className="card-box"
-              style={{ backgroundImage: "linear-gradient(0deg,#1e3c72 0,#1e3c72 1%,#2a5298)" }}
-            >
-              <div className="card-header-alt px-2 pt-2 pb-0 d-flex align-items-center justify-content-between">
-                <div>
+                </div>
+              </Card>
+            </Grid>
+            <Grid item xs={12} sm={6} md={3}>
+              <Card className="card-box"
+              style={{ backgroundImage: "linear-gradient(-20deg,#2b5876,#4e4376)" }}
+              >
+                <div className="card-header-alt px-2 pt-2 pb-0">
                   <h3 className="font-weight-bold display-4 mb-0 text-white">
                     <CountUp
                       start={0}
-                      end={totalAmount}
-                      duration={2}
+                      end={deliveredOrders&&deliveredOrders.totalOrders}
+                      duration={6}
                       deplay={2}
-                      separator=""
+                      separator=" - "
                       decimals={0}
                       decimal=","
                     />
                   </h3>
-                  
+                  <p className="font-size-lg text-white-50 mb-0">Доставлено</p>
                 </div>
-                <div>
-                  <IconButton onClick={()=> showRevenueStatus('back')}><NavigateBeforeIcon htmlColor='#fafafa'/></IconButton>
-                  <IconButton onClick={()=> showRevenueStatus('forward')}><NavigateNextIcon htmlColor='#fafafa'/></IconButton>
+                <div className="pr-5 pb-2">
+                  <Trend
+                    data={deliveredOrders&&deliveredOrders.statistics.ordersByPeriod}
+                    autoDraw
+                    autoDrawDuration={3000}
+                    autoDrawEasing="ease-in"
+                    height={120}
+                    radius={15}
+                    smooth
+                    stroke="#fff"
+                    strokeLinecap="round"
+                    strokeWidth={4}
+                  />
                 </div>
-              </div>
-              <p className="font-size-lg text-white-50 px-2 mb-0">{revenue}</p>
-              <div className="pr-5 pb-2">
-                <Trend
-                  data={amountByPeriod}
-                  autoDraw
-                  autoDrawDuration={3000}
-                  autoDrawEasing="ease-in"
-                  height={120}
-                  radius={15}
-                  smooth
-                  stroke="#fff"
-                  strokeLinecap="round"
-                  strokeWidth={4}
+              </Card>
+            </Grid>
+            <Grid item xs={12} sm={6} md={3}>
+              <Card className="card-box bg-danger">
+                <div className="card-header-alt px-2 pt-2 pb-0">
+                  <h3 className="font-weight-bold display-4 mb-0 text-white">
+                    <CountUp
+                      start={0}
+                      end={canceledOrders&&canceledOrders.totalOrders}
+                      duration={6}
+                      deplay={2}
+                      separator=" - "
+                      decimals={0}
+                      decimal=","
+                    />
+                  </h3>
+                  <p className="font-size-lg text-white-50 mb-0">Отменено</p>
+                </div>
+                <div className="pr-5 pb-2">
+                  <Trend
+                    data={canceledOrders&&canceledOrders.statistics.ordersByPeriod}
+                    autoDraw
+                    autoDrawDuration={3000}
+                    autoDrawEasing="ease-in"
+                    height={120}
+                    radius={15}
+                    smooth
+                    stroke="#fff"
+                    strokeLinecap="round"
+                    strokeWidth={4}
+                  />
+                </div>
+              </Card>
+            </Grid>
+            <Grid item xs={12} sm={6} md={3}>
+              <Card
+                className="card-box"
+                style={{ backgroundImage: "linear-gradient(0deg,#1e3c72 0,#1e3c72 1%,#2a5298)" }}
+              >
+                <div className="card-header-alt px-2 pt-2 pb-0 d-flex align-items-center justify-content-between">
+                  <div>
+                    <h3 className="font-weight-bold display-4 mb-0 text-white">
+                      <CountUp
+                        start={0}
+                        end={totalAmount}
+                        duration={2}
+                        deplay={2}
+                        separator=""
+                        decimals={0}
+                        decimal=","
+                      />
+                    </h3>
+                    
+                  </div>
+                  <div>
+                    <IconButton onClick={()=> showRevenueStatus('back')}><NavigateBeforeIcon htmlColor='#fafafa'/></IconButton>
+                    <IconButton onClick={()=> showRevenueStatus('forward')}><NavigateNextIcon htmlColor='#fafafa'/></IconButton>
+                  </div>
+                </div>
+                <p className="font-size-lg text-white-50 px-2 mb-0">{revenue}</p>
+                <div className="pr-5 pb-2">
+                  <Trend
+                    data={amountByPeriod}
+                    autoDraw
+                    autoDrawDuration={3000}
+                    autoDrawEasing="ease-in"
+                    height={120}
+                    radius={15}
+                    smooth
+                    stroke="#fff"
+                    strokeLinecap="round"
+                    strokeWidth={4}
+                  />
+                </div>
+              </Card>
+            </Grid>
+            <Grid item xs={12}>
+              <Card className="card-box">
+                <Chart
+                  className={classes.chart}
+                  options={chartOptions}
+                  series={chartData}
+                  type="area"
+                  height={420}
+                  width={'97%'}
                 />
-              </div>
-            </Card>
+              </Card>
+            </Grid>
           </Grid>
-          <Grid item xs={12}>
-            <Card className="card-box">
-              <Chart
-                className={classes.chart}
-                options={chartOptions}
-                series={chartData}
-                type="area"
-                height={420}
-                width={'97%'}
-              />
-            </Card>
-          </Grid>
-        </Grid>
+        )}
+      </div>
+      ) : (
+        <Typography variant='h5' align='center'>
+          Здравствуйте, {user.displayName || user.username}, можете приступать к работе!
+        </Typography>
       )}
     </>
   );

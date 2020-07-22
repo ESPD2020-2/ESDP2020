@@ -19,6 +19,7 @@ const CustomerSchema = new Schema(
     },
     phone: {
       type: String,
+      unique: true,
       validate: {
         validator: function(value) {
           const phoneRegex = /\d{4} \d{2}-\d{2}-\d{2}/;
@@ -50,6 +51,10 @@ const CustomerSchema = new Schema(
       type: Boolean,
       default: false,
     },
+    blacklistingReason: mongoose.Schema.Types.Mixed,
+    historicalData: {
+      type: [mongoose.Schema.Types.Mixed],
+    },
   },
   {
     versionKey: false,
@@ -57,8 +62,12 @@ const CustomerSchema = new Schema(
 );
 
 CustomerSchema.plugin(uniqueValidator, {
-  type: 'mongoose-unique-validator',
+  type: 'email',
   message: 'Введенный e-mail уже существует'
+});
+CustomerSchema.plugin(uniqueValidator, {
+  type: 'phone',
+  message: `Введенный номер телефона уже существует`
 });
 
 const Customer = mongoose.model("Customer", CustomerSchema);

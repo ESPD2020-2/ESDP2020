@@ -10,6 +10,7 @@ import streetsReducer from "./reducers/streetsReducer";
 import customersReducer from "./reducers/customersReducer";
 import pharmacyReducer from "./reducers/pharmacyReducer";
 import reviewsReducer from "./reducers/reviewsReducer";
+import notificationsReducer from "./reducers/notificationsReducer";
 
 export const history = createBrowserHistory();
 
@@ -24,6 +25,7 @@ const rootReducer = combineReducers({
   street: streetsReducer,
   pharmacy: pharmacyReducer,
   reviews: reviewsReducer,
+  notifications: notificationsReducer
 });
 
 const middleware = [

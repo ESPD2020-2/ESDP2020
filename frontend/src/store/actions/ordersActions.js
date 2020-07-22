@@ -157,7 +157,6 @@ export const getOrder = id => {
     } catch (error) {
       dispatch(getOrderFailure(error));
     }
-    
   }
 };
 
@@ -166,7 +165,9 @@ export const createOrder = data => {
     try {
       dispatch(createOrderRequest());
       const response = await axiosApi.post(`/orders`, data);
-      toast.success(response.data.message);
+      toast.success(response.data.message, {
+        position: toast.POSITION.BOTTOM_LEFT,
+      });
       dispatch(push('/adm/orders/created'));
     } catch (error) {
       dispatch(createOrderFailure(error));
@@ -179,8 +180,9 @@ export const publishOrder = id=> {
     try {
       dispatch(publishOrderRequest());
       const response = await axiosApi.patch(`/orders/${id}/publish`);
-      toast.success(response.data.message);
-      dispatch(getOrders('created,rejected'));
+      toast.success(response.data.message, {
+        position: toast.POSITION.BOTTOM_LEFT,
+      });
     } catch (error) {
       dispatch(publishOrderFailure(error));
       toast.error(error.response.data.error);
@@ -189,16 +191,19 @@ export const publishOrder = id=> {
 };
 
 export const addInfoOrder = (id, info) => {
-  console.log(id, info)
   return async dispatch => {
     try {
       dispatch(addInfoOrderRequest());
       const response = await axiosApi.patch(`/orders/${id}/addInfo`, {info});
-      toast.success(response.data.message);
+      toast.success(response.data.message, {
+        position: toast.POSITION.BOTTOM_LEFT,
+      });
       dispatch(getOrders('created,rejected'));
     } catch (error) {
       dispatch(addInfoOrderFailure(error));
-      toast.error(error.response.data.error);
+      toast.error(error.response.data.error, {
+        position: toast.POSITION.BOTTOM_LEFT,
+      });
     }
   }
 };
@@ -208,11 +213,14 @@ export const acceptOrder = (id) => {
     try {
       dispatch(acceptOrderRequest());
       const response = await axiosApi.patch(`/orders/${id}/accept`);
-      toast.success(response.data.message);
-      dispatch(getOrders('published'));
+      toast.success(response.data.message, {
+        position: toast.POSITION.BOTTOM_LEFT,
+      });
     } catch (error) {
       dispatch(acceptOrderFailure(error));
-      toast.error(error.response.data.error);
+      toast.error(error.response.data.error, {
+        position: toast.POSITION.BOTTOM_LEFT,
+      });
     }
   }
 };
@@ -222,7 +230,9 @@ export const editOrder = (id, data) => {
     try {
       dispatch(editOrderRequest());
       const response = await axiosApi.patch(`/orders/${id}/edit`, data);
-      toast.success(response.data.message);
+      toast.success(response.data.message, {
+        position: toast.POSITION.BOTTOM_LEFT,
+      });
       dispatch(push('/adm/orders/created'));
     } catch (error) {
       dispatch(editOrderFailure(error));
@@ -235,11 +245,14 @@ export const removeOrder = id => {
     try {
       dispatch(removeOrderRequest());
       const response = await axiosApi.delete(`/orders/${id}`);
-      toast.success(response.data.message);
-      dispatch(getOrders('created,rejected'));
+      toast.success(response.data.message, {
+        position: toast.POSITION.BOTTOM_LEFT,
+      });
     } catch (error) {
       dispatch(removeOrderFailure(error));
-      toast.error(error.response.data.error);
+      toast.error(error.response.data.error, {
+        position: toast.POSITION.BOTTOM_LEFT,
+      });
     }
   }
 };
@@ -249,24 +262,30 @@ export const transferToCourier = (id, courierId) => {
     try {
       dispatch(transferToCourierRequest());
       const response = await axiosApi.patch(`/orders/${id}/transfer`, {courierId});
-      toast.success(response.data.message);
-      dispatch(getOrders('created,rejected'));
+      toast.success(response.data.message, {
+        position: toast.POSITION.BOTTOM_LEFT,
+      });
     } catch (error) {
-      toast.error(error.response.data.error);
+      toast.error(error.response.data.error, {
+        position: toast.POSITION.BOTTOM_LEFT,
+      });
       dispatch(transferToCourierFailure(error));
     }
   }
 };
 
-export const rejectOrder = (id, reason) => {
+export const rejectOrder = (id, reason, userId) => {
   return async dispatch => {
     try {
       dispatch(rejectOrderRequest());
       const response = await axiosApi.patch(`/orders/${id}/reject`, {reason});
-      toast.success(response.data.message);
-      dispatch(getOrders('accepted')); 
+      toast.success(response.data.message, {
+        position: toast.POSITION.BOTTOM_LEFT,
+      });
     } catch (error) {
-      toast.error(error.response.data.error);
+      toast.error(error.response.data.error, {
+        position: toast.POSITION.BOTTOM_LEFT,
+      });
       dispatch(rejectOrderFailure(error));
     }
   }
@@ -277,10 +296,13 @@ export const cancelOrder = (id, reason) => {
     try {
       dispatch(cancelOrderRequest());
       const response = await axiosApi.patch(`/orders/${id}/cancel`, {reason});
-      toast.success(response.data.message);
-      dispatch(getOrders('created,rejected'));
+      toast.success(response.data.message, {
+        position: toast.POSITION.BOTTOM_LEFT,
+      });
     } catch (error) {
-      toast.error(error.response.data.error);
+      toast.error(error.response.data.error, {
+        position: toast.POSITION.BOTTOM_LEFT,
+      });
       dispatch(cancelOrderFailure(error));
     }
   }
@@ -291,7 +313,9 @@ export const deliveredOrder = (id, comment, courierId) => {
     try {
       dispatch(cancelOrderRequest());
       const response = await axiosApi.patch(`/orders/${id}/delivered`, {comment});
-      toast.success(response.data.message);
+      toast.success(response.data.message, {
+        position: toast.POSITION.BOTTOM_LEFT,
+      });
       dispatch(getOrders('accepted', courierId));
     } catch (error) {
       dispatch(cancelOrderFailure(error));
